@@ -1,61 +1,19 @@
-# https://docs.travis-ci.com/user/languages/dart/
 language: dart
 dart:
-  - stable
-
+- stable
 install:
-  # https://flutter.dev/docs/get-started/web
-  - echo "Configure Flutter"
-  - git clone https://github.com/flutter/flutter.git -b beta
-  - export PATH="$PATH:`pwd`/flutter/bin"
-  - flutter upgrade
-  - flutter config --enable-web
-  - flutter doctor
-
+- echo "Configure Flutter"
+- git clone https://github.com/flutter/flutter.git -b beta
+- export PATH="$PATH:`pwd`/flutter/bin"
+- flutter upgrade
+- flutter config --enable-web
+- flutter doctor
 script:
-  - echo "Building..."
- # - cd client
-  - flutter build web
-  #- cd ..
-  - mkdir ./public
-  - cp -R ./build/web/* ./public
-
-before_deploy:
-  - echo "Clean up files that aren't used in hosting"
-  - rm -rf ./android ./ios ./lib ./test ./web ./.gitignore ./metadata ./README.md ./pubspec.lock ./pubspec.yaml
-  - rm -rf ./.idea
-  - ls -la ./public
-
-# Deploy configuration
-# Use the Flutter console to configure your web app.
-# https://docs.travis-ci.com/user/deployment/firebase/
+- echo "Building..."
+- flutter build web
 deploy:
   provider: firebase
-  token:
-    secure: "1//03xdbP5SCxGIMCgYIARAAGAMSNwF-L9Ir-hbY8v3UJ2Z0pnhBkdtP1PdAZMyplp9YBSd9RtPeN9AJWSEcxGI_UuaaBxYVUQK5ep4"
-  project: "MyFridge"
+  token: "$FIREBASE_TOKEN"
   skip_cleanup: true
-
-
-
-
-# Run Travis CLI in this repo
-# gem install travis
-
-# Delete Travis Cache
-# travis cache --com
-# travis cache --com --delete
-
-# Firebase tools
-# https://github.com/firebase/firebase-tools#installation - Use this to get your token($FIREBASE_TOKEN)
-
-# Encrypt Secure Variables
-# gem install travis
-# travis login --github-token replace_with_github_personal_token
-# cd to/this/repo
-# travis encrypt "$FIREBASE_TOKEN"
-
-# Deploy
-# firebase deploy --token "$FIREBASE_TOKEN"
-
-
+  on:
+    all_branches: true

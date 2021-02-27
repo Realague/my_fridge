@@ -48,3 +48,9 @@ app.*.map.json
 # Project
 ios
 android
+.firebase
+server
+sonar-flutter-plugin-0.3.1.jar
+sonar-project.properties
+.scannerwork
+Dockerfile
