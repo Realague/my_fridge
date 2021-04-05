@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SomethingWentWrong extends StatelessWidget {
-  SomethingWentWrong({Key key, this.errorMessage});
+  //SomethingWentWrong({Key? key, required this.errorMessage});
 
-  final String errorMessage;
+  final String errorMessage = "";
 
   @override
   Widget build(BuildContext context) {

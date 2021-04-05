@@ -16,15 +16,13 @@ class AuthenticationService {
 
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithPopup(googleProvider);
-
-    // Or use signInWithRedirect
-    // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
   }
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }
 
-  Stream<User> get authStateChanges => _firebaseAuth.authStateChanges();
+  User? get currentUser => _firebaseAuth.currentUser;
 
+  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 }

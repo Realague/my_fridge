@@ -1,5 +1,5 @@
 name: my_fridge
-description: Fluuter PWA to manage fridge and much more...
+description: Flutter PWA to manage fridge and much more...
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -18,20 +18,18 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: "^0.7.0"
-  firebase_auth: "^0.20.1"
-  google_sign_in: "^4.5.1"
-  provider: "^4.3.2+1"
+  firebase_core: ^1.0.2
+  firebase_auth: ^1.0.1
+  cloud_firestore: ^1.0.3
+  google_sign_in: ^5.0.1
+  provider: 5.0.0
   loading: ^1.0.2
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  dropdown_search: ^0.5.0
 
 dev_dependencies:
   flutter_test:
@@ -47,6 +45,11 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  fonts:
+    - family:  CustomIcons
+      fonts:
+        - asset: fonts/CustomIcons.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
