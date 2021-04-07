@@ -10,7 +10,7 @@ install:
 - flutter doctor
 script:
 - echo "Building..."
-- flutter build web
+- flutter build web --no-sound-null-safety
 deploy:
   provider: firebase
   token: "$FIREBASE_TOKEN"
