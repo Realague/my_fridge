@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_fridge/services/article_service.dart';
 import 'package:my_fridge/services/shopping_list.dart';
 import 'package:my_fridge/utils/validators.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../article.dart';
 import '../quantity_unit.dart';
 
@@ -39,9 +39,9 @@ class _FormShoppingListState extends State<FormShoppingList> {
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                labelText: "Name",
+                labelText: AppLocalizations.of(context)!.form_article_name_label,
               ),
-              validator: (name) => Validators.notNull(name!),
+              validator: (name) => Validators.notNull(context, name!),
               controller: _nameController,
             ),
           ),
@@ -54,9 +54,9 @@ class _FormShoppingListState extends State<FormShoppingList> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText: "Quantity",
+                      labelText: AppLocalizations.of(context)!.form_quantity_label,
                     ),
-                    validator: (quantity) => Validators.number(quantity!),
+                    validator: (quantity) => Validators.number(context, quantity!),
                     controller: _quantityController,
                   ),
                 ),
@@ -66,11 +66,11 @@ class _FormShoppingListState extends State<FormShoppingList> {
                   mode: Mode.MENU,
                   items: QuantityUnit.values,
                   itemAsString: (quantityUnit) =>
-                  quantityUnit.displayForDropDown,
-                  label: "Quantity unit",
+                  quantityUnit.displayForDropDown(context),
+                  label: AppLocalizations.of(context)!.form_quantity_unit_label,
                   selectedItem: _quantityUnit,
                   validator: (quantityUnit) =>
-                      Validators.notNull(quantityUnit),
+                      Validators.notNull(context, quantityUnit),
                   onChanged: (quantityUnit) => _quantityUnit = quantityUnit,
                 ),
               ),
@@ -88,7 +88,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
                 Navigator.pop(context);
               }
             },
-            label: Text("Add to shopping list"),
+            label: Text(AppLocalizations.of(context)!.button_add_article_to_shopping_list),
           ),
         ],
       ),

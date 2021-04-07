@@ -3,29 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_fridge/authentication_page.dart';
 import 'package:my_fridge/bottom_navigation_bar.dart';
+import 'package:my_fridge/loader.dart';
 import 'package:my_fridge/services/user.dart';
 import 'package:provider/provider.dart';
 import 'services/authentication_service.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
-  /*await Firebase.initializeApp(
-  name: "my_fridge",
-  options: const FirebaseOptions(
-  apiKey: "AIzaSyCOHzywyUXiibHAAZa-yoZODkyMg-zss00",
-  appId: "1:265628210515:web:0e79960c7ab5ae375afda6",
-  messagingSenderId: "265628210515",
-  projectId: "myfridge-e530e",
-  authDomain: "myfridge-e530e.firebaseapp.com",
-  measurementId: "G-5BTWZSMGE9",
-  storageBucket: "myfridge-e530e.appspot.com",
-  ));ù*/
   // Create the initialization Future outside of `build`:
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
@@ -39,32 +29,48 @@ class MyApp extends StatelessWidget {
         if (snapshot.hasError) {
           return Text(snapshot.error.toString());
         }
-
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          return MultiProvider(
-            providers: [
-              Provider<AuthenticationService>(
-                create: (_) => AuthenticationService(FirebaseAuth.instance),
-              ),
-              StreamProvider(
-                create: (context) => context.read<AuthenticationService>().authStateChanges,
-                initialData: null,
-              ),
-            ],
-            child: MaterialApp(
-              title: 'My Fridge',
-              theme: ThemeData(
-                primarySwatch: Colors.blue,
-                visualDensity: VisualDensity.adaptivePlatformDensity,
-              ),
-              home: AuthenticationWrapper(),
-            ),
-          );;
+          return InitializeProviders();
         }
         // Otherwise, show something whilst waiting for initialization to complete
-        return Text("loading...");
+        return Loader();
       },
+    );
+  }
+}
+
+class InitializeProviders extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        Provider<AuthenticationService>(
+          create: (_) => AuthenticationService(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) => context.read<AuthenticationService>().authStateChanges,
+          initialData: null,
+        ),
+      ],
+      child: MaterialApp(
+        title: 'My Fridge',
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en', ''),
+          const Locale('fr', ''),
+        ],
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: AuthenticationWrapper(),
+      ),
     );
   }
 }

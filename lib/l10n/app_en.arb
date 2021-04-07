@@ -1,0 +1,18 @@
+{
+  "button_google_authentication": "Sign in with Google",
+  "button_sign_out": "Sign out",
+  "shopping_list_popup_title": "Add an article",
+  "menu_shopping_list": "Shopping list",
+  "menu_fridge": "Fridge",
+  "menu_recipes": "Recipes",
+  "button_add_article_to_shopping_list": "Add to shopping list",
+  "form_quantity_label": "Quantity",
+  "form_quantity_unit_label": "Quantity unit",
+  "form_article_label": "Article",
+  "form_article_name_label": "Name",
+  "error_empty": "Required field",
+  "error_wrong_quantity": "Please select a valid quantity",
+  "quantity_unit_gram_display_for_dropdown": "Gram",
+  "quantity_unit_liter_display_for_dropdown": "Liter",
+  "quantity_unit_piece_display_for_dropdown": "Piece"
+}

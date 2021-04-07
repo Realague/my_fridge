@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'services/authentication_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthenticationPage extends StatelessWidget {
   @override
@@ -32,7 +33,7 @@ class AuthenticationPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text(
-                    'Sign in with Google',
+                    AppLocalizations.of(context)!.button_google_authentication,
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.black54,

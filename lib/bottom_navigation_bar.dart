@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_fridge/custom_icons_icons.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
 import 'package:my_fridge/signout_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({Key? key}) : super (key: key);
@@ -34,20 +35,20 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(CustomIcons.shopping_list),
-            label: 'Shopping list',
+            label: AppLocalizations.of(context)!.menu_shopping_list,
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
             icon: Icon(CustomIcons.fridge),
-            label: 'Fridge',
+            label: AppLocalizations.of(context)!.menu_fridge,
             backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
             icon: Icon(CustomIcons.recipe_book),
-            label: 'Recipes',
+            label: AppLocalizations.of(context)!.menu_recipes,
             backgroundColor: Colors.pink,
           ),
           BottomNavigationBarItem(

@@ -4,7 +4,7 @@ import 'package:my_fridge/forms/shopping_list_form.dart';
 import 'package:my_fridge/forms/shopping_list_form_from_existing_article.dart';
 import 'package:my_fridge/services/shopping_list.dart';
 import 'package:my_fridge/quantity_unit.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../article.dart';
 
 class ShoppingList extends StatelessWidget {
@@ -45,7 +45,7 @@ class ShoppingList extends StatelessWidget {
               child: Text(article.name),
             ),
             Expanded(
-              child: Text(document.data()!['quantity'].toString() + " " + article.quantityUnit.displayForDropDown),
+              child: Text(document.data()!['quantity'].toString() + " " + article.quantityUnit.displayForDropDown(context)),
             ),
           ],
         ),
@@ -91,8 +91,8 @@ class CustomPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Add an article'),
-      insetPadding: EdgeInsets.symmetric(horizontal: 100),
+      title: Text(AppLocalizations.of(context)!.shopping_list_popup_title),
+      insetPadding: EdgeInsets.all(16.0),
       content: Builder(
         builder: (context) {
           // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -100,8 +100,8 @@ class CustomPopup extends StatelessWidget {
           var width = MediaQuery.of(context).size.width;
 
           return Container(
-            height: height - 400,
-            width: width - 800,
+            height: height,
+            width: width,
             child: Column(
               children: [
                 FormShoppingListFromExistingArticle(),

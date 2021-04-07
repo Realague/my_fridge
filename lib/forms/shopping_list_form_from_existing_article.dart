@@ -5,6 +5,7 @@ import 'package:my_fridge/quantity_unit.dart';
 import 'package:my_fridge/services/article_service.dart';
 import 'package:my_fridge/services/shopping_list.dart';
 import 'package:my_fridge/utils/validators.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../article.dart';
 
@@ -50,15 +51,15 @@ class _FormShoppingListFromExistingArticleState
                     itemAsString: (article) =>
                         article.name +
                         ", " +
-                        article.quantityUnit.displayForDropDown,
-                    label: "Article",
+                        article.quantityUnit.displayForDropDown(context),
+                    label: AppLocalizations.of(context)!.form_article_label,
                     dropdownSearchDecoration: InputDecoration(
                       contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
                       border: const OutlineInputBorder(),
                     ),
                     onChanged: (article) => _selectedArticle = article,
                     selectedItem: _selectedArticle,
-                    validator: (article) => Validators.notNull(article),
+                    validator: (article) => Validators.notNull(context, article),
                   ),
                 ),
               ),
@@ -69,9 +70,9 @@ class _FormShoppingListFromExistingArticleState
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText: "Quantity",
+                      labelText: AppLocalizations.of(context)!.form_quantity_label,
                     ),
-                    validator: (value) => Validators.number(value!),
+                    validator: (value) => Validators.number(context, value!),
                     controller: _quantityController,
                   ),
                 ),
@@ -88,7 +89,7 @@ class _FormShoppingListFromExistingArticleState
                 Navigator.pop(context);
               }
             },
-            label: Text("Add to shopping list"),
+            label: Text(AppLocalizations.of(context)!.button_add_article_to_shopping_list),
           ),
         ],
       ),

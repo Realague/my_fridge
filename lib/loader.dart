@@ -8,7 +8,7 @@ class Loader extends StatelessWidget {
     return Container(
       color: Colors.lightBlue,
       child: Center(
-        child: Loading(indicator: BallPulseIndicator(), size: 100.0,color: Colors.white),
+        //child: Loading(indicator: BallPulseIndicator(), size: 100.0,color: Colors.white),
       ),
     );
   }
