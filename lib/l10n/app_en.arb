@@ -13,6 +13,6 @@
   "error_empty": "Required field",
   "error_wrong_quantity": "Please select a valid quantity",
   "quantity_unit_gram_display_for_dropdown": "Gram",
-  "quantity_unit_liter_display_for_dropdown": "Liter",
+  "quantity_unit_liter_display_for_dropdown": "Centilitre",
   "quantity_unit_piece_display_for_dropdown": "Piece"
 }

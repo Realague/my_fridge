@@ -10,17 +10,31 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../article.dart';
 
 class FormShoppingListFromExistingArticle extends StatefulWidget {
-  const FormShoppingListFromExistingArticle({Key? key}) : super(key: key);
+  const FormShoppingListFromExistingArticle({Key? key, this.article, this.quantity, this.id}) : super(key: key);
+
+  final Article? article;
+  final int? quantity;
+  final String? id;
 
   @override
   State<StatefulWidget> createState() =>
-      _FormShoppingListFromExistingArticleState();
+      _FormShoppingListFromExistingArticleState(article, quantity, id);
 }
 
 class _FormShoppingListFromExistingArticleState
     extends State<FormShoppingListFromExistingArticle> {
+  _FormShoppingListFromExistingArticleState(Article? article, int? quantity, this.id) {
+    if (article != null) {
+      _selectedArticle = article;
+    }
+    if (quantity != null) {
+      _quantityController.text = quantity.toString();
+    }
+  }
+
   Article? _selectedArticle;
   final _quantityController = TextEditingController();
+  final String? id;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -84,8 +98,13 @@ class _FormShoppingListFromExistingArticleState
             icon: const Icon(Icons.add),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                ShoppingListService.create(_selectedArticle!,
-                    int.tryParse(_quantityController.text)!, context);
+                if (id != null) {
+                  ShoppingListService.update(id!, _selectedArticle!,
+                      int.tryParse(_quantityController.text)!, context);
+                } else {
+                  ShoppingListService.create(_selectedArticle!,
+                      int.tryParse(_quantityController.text)!, context);
+                }
                 Navigator.pop(context);
               }
             },

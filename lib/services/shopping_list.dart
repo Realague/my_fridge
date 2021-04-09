@@ -19,6 +19,16 @@ class ShoppingListService {
     DatabaseService.create(null, data, getCollectionInstance(context));
   }
 
+  static update(String id, Article article, int quantity, BuildContext context) {
+    Map<String, Object> data = {
+      "name": article.name,
+      "unit": article.unit,
+      "quantity": quantity,
+    };
+
+    DatabaseService.update(id, data, getCollectionInstance(context));
+  }
+
   static CollectionReference getCollectionInstance(BuildContext context) {
     return UserService
         .collectionInstance

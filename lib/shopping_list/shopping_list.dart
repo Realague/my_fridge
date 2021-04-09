@@ -5,6 +5,8 @@ import 'package:my_fridge/forms/shopping_list_form_from_existing_article.dart';
 import 'package:my_fridge/services/shopping_list.dart';
 import 'package:my_fridge/quantity_unit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_fridge/widget/dialog.dart';
+import 'package:my_fridge/widget/dismissible.dart';
 import '../article.dart';
 
 class ShoppingList extends StatelessWidget {
@@ -12,32 +14,29 @@ class ShoppingList extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return CustomPopup();
+        return DialogFullScreen(
+            title: "",
+            child: Column(
+              children: [
+                FormShoppingListFromExistingArticle(),
+                const Divider(
+                  color: Colors.grey,
+                  height: 50,
+                  thickness: 1,
+                  indent: 10,
+                  endIndent: 10,
+                ),
+                FormShoppingList(),
+              ],
+            ));
       },
     );
   }
 
   Widget _buildShoppingListItem(BuildContext context, DocumentSnapshot document) {
     Article article = Article(document.data()!['name'], document.data()!['unit']);
-    return Dismissible(
+    return DismissibleBothWay(
       key: Key(document.id),
-      direction: DismissDirection.endToStart,
-      onDismissed: (direction) {
-        if (direction == DismissDirection.endToStart) {
-          ShoppingListService.delete(document.id, context);
-        }
-      },
-      background: Container(
-        alignment: AlignmentDirectional.centerEnd,
-        color: Colors.red,
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Icon(
-            Icons.delete,
-            color: Colors.white,
-          ),
-        ),
-      ),
       child: ListTile(
         title: Row(
           children: [
@@ -50,6 +49,28 @@ class ShoppingList extends StatelessWidget {
           ],
         ),
       ),
+      onDismissed: (direction) {
+        if (direction == DismissDirection.endToStart) {
+          ShoppingListService.delete(document.id, context);
+        }
+      },
+      confirmDismiss: (direction) async {
+        if (direction == DismissDirection.startToEnd) {
+          await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return DialogFullScreen(
+                title: AppLocalizations.of(context)!.shopping_list_popup_title,
+                child: Column(
+                  children: [
+                    FormShoppingListFromExistingArticle(article: article, quantity: document.data()!['quantity'], id: document.id),
+                  ],
+                ),
+              );
+            },
+          );
+        }
+      },
     );
   }
 
@@ -82,41 +103,6 @@ class ShoppingList extends StatelessWidget {
             child: Icon(Icons.add),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class CustomPopup extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(AppLocalizations.of(context)!.shopping_list_popup_title),
-      insetPadding: EdgeInsets.all(16.0),
-      content: Builder(
-        builder: (context) {
-          // Get available height and width of the build area of this widget. Make a choice depending on the size.
-          var height = MediaQuery.of(context).size.height;
-          var width = MediaQuery.of(context).size.width;
-
-          return Container(
-            height: height,
-            width: width,
-            child: Column(
-              children: [
-                FormShoppingListFromExistingArticle(),
-                const Divider(
-                  color: Colors.grey,
-                  height: 50,
-                  thickness: 1,
-                  indent: 10,
-                  endIndent: 10,
-                ),
-                FormShoppingList(),
-              ],
-            ),
-          );
-        },
       ),
     );
   }

@@ -1,4 +1,6 @@
 {
+  "swipe_to_edit": "Modifier",
+  "swipe_to_delete": "Supprimer",
   "button_google_authentication": "Se connecter avec Google",
   "button_sign_out": "Se déconnceter",
   "shopping_list_popup_title": "Ajouter un article",
@@ -13,6 +15,6 @@
   "error_empty": "Champ obligatoire",
   "error_wrong_quantity": "Veuillez selectionner une quantité valide",
   "quantity_unit_gram_display_for_dropdown": "Gramme",
-  "quantity_unit_liter_display_for_dropdown": "Litre",
+  "quantity_unit_liter_display_for_dropdown": "Centilitre",
   "quantity_unit_piece_display_for_dropdown": "Pièce"
 }
