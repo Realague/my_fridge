@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_fridge/forms/shopping_list_form.dart';
@@ -10,7 +12,7 @@ import 'package:my_fridge/widget/dismissible.dart';
 import '../article.dart';
 
 class ShoppingList extends StatelessWidget {
-  _addArticle(BuildContext context) {
+  void _addArticle(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -49,11 +51,6 @@ class ShoppingList extends StatelessWidget {
           ],
         ),
       ),
-      onDismissed: (direction) {
-        if (direction == DismissDirection.endToStart) {
-          ShoppingListService.delete(document.id, context);
-        }
-      },
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.startToEnd) {
           await showDialog(
@@ -69,6 +66,8 @@ class ShoppingList extends StatelessWidget {
               );
             },
           );
+        } else {
+          ShoppingListService.delete(document.id, context);
         }
       },
     );
@@ -97,10 +96,6 @@ class ShoppingList extends StatelessWidget {
                 ),
               );
             },
-          ),
-          FloatingActionButton(
-            onPressed: () => _addArticle(context),
-            child: Icon(Icons.add),
           ),
         ],
       ),

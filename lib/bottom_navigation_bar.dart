@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:my_fridge/custom_icons_icons.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
 import 'package:my_fridge/signout_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_fridge/widget/dialog.dart';
+
+import 'forms/shopping_list_form.dart';
+import 'forms/shopping_list_form_from_existing_article.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
-  const CustomBottomNavigationBar({Key? key}) : super (key: key);
+  const CustomBottomNavigationBar({Key? key}) : super(key: key);
 
   @override
   _BottomNavigationBarState createState() => _BottomNavigationBarState();
@@ -13,15 +19,46 @@ class CustomBottomNavigationBar extends StatefulWidget {
 
 class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
   int _selectedIndex = 0;
-  static List<Widget> _widgetOptions = [
-    ShoppingList(),
-    Center(child: Text("Coming soon"))
-  ];
+  static List<Widget> _widgetOptions = [ShoppingList(), Center(child: Text("Coming soon"))];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void _addArticle(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DialogFullScreen(
+            title: "",
+            child: Column(
+              children: [
+                FormShoppingListFromExistingArticle(),
+                const Divider(
+                  color: Colors.grey,
+                  height: 50,
+                  thickness: 1,
+                  indent: 10,
+                  endIndent: 10,
+                ),
+                FormShoppingList(),
+              ],
+            ));
+      },
+    );
+  }
+
+  Widget? _floatingActionButton() {
+    if (_selectedIndex == 0) {
+      return FloatingActionButton(
+        onPressed: () => _addArticle(context),
+        child: Icon(Icons.add),
+      );
+    } else {
+      return null;
+    }
   }
 
   @override
@@ -61,6 +98,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
+      floatingActionButton: _floatingActionButton(),
     );
   }
 }

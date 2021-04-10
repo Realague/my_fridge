@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DismissibleBothWay extends StatelessWidget {
   DismissibleBothWay({required this.key, required this.child, this.onDismissed, this.confirmDismiss});
@@ -27,8 +28,11 @@ class DismissibleBothWay extends StatelessWidget {
               Icons.edit,
               color: Colors.white,
             ),
+            SizedBox(
+              width: 5,
+            ),
             Text(
-              "Edit",
+              AppLocalizations.of(context)!.swipe_to_edit,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 17,
@@ -48,7 +52,7 @@ class DismissibleBothWay extends StatelessWidget {
               color: Colors.white,
             ),
             Text(
-              "Delete",
+              AppLocalizations.of(context)!.swipe_to_delete,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 17,
@@ -56,7 +60,7 @@ class DismissibleBothWay extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 15,
+              width: 20,
             ),
           ],
         ),

@@ -1,4 +1,6 @@
 {
+  "swipe_to_edit": "Edit",
+  "swipe_to_delete": "Delete",
   "button_google_authentication": "Sign in with Google",
   "button_sign_out": "Sign out",
   "shopping_list_popup_title": "Add an article",
