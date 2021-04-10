@@ -1,9 +1,10 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/services/article_service.dart';
 import 'package:my_fridge/services/shopping_list.dart';
 import 'package:my_fridge/utils/validators.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../article.dart';
 import '../quantity_unit.dart';
 
@@ -19,6 +20,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
   final _quantityController = TextEditingController();
   final _nameController = TextEditingController();
   QuantityUnit? _quantityUnit;
+  bool _perishable = false;
 
   @override
   void dispose() {
@@ -39,7 +41,8 @@ class _FormShoppingListState extends State<FormShoppingList> {
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                labelText: AppLocalizations.of(context)!.form_article_name_label,
+                labelText:
+                    AppLocalizations.of(context)!.form_article_name_label,
               ),
               validator: (name) => Validators.notNull(context, name!),
               controller: _nameController,
@@ -54,9 +57,11 @@ class _FormShoppingListState extends State<FormShoppingList> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText: AppLocalizations.of(context)!.form_quantity_label,
+                      labelText:
+                          AppLocalizations.of(context)!.form_quantity_label,
                     ),
-                    validator: (quantity) => Validators.number(context, quantity!),
+                    validator: (quantity) =>
+                        Validators.number(context, quantity!),
                     controller: _quantityController,
                   ),
                 ),
@@ -66,7 +71,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
                   mode: Mode.MENU,
                   items: QuantityUnit.values,
                   itemAsString: (quantityUnit) =>
-                  quantityUnit.displayForDropDown(context),
+                      quantityUnit.displayForDropDown(context),
                   label: AppLocalizations.of(context)!.form_quantity_unit_label,
                   selectedItem: _quantityUnit,
                   validator: (quantityUnit) =>
@@ -76,19 +81,32 @@ class _FormShoppingListState extends State<FormShoppingList> {
               ),
             ],
           ),
+          SwitchListTile(
+            title: const Text('Perishable'),
+            value: _perishable,
+            subtitle:
+                Text('Whether this article will have a date limit consumption'),
+            onChanged: (bool value) {
+              setState(() {
+                _perishable = value;
+              });
+            },
+            secondary: const Icon(Icons.fastfood_outlined),
+          ),
           ElevatedButton.icon(
             icon: const Icon(Icons.add),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                Article article =
-                Article(_nameController.text, _quantityUnit!.index);
+                Article article = Article(
+                    _nameController.text, _quantityUnit!.index, _perishable);
                 ArticleService.create(article);
-                ShoppingListService.create(article,
-                    int.tryParse(_quantityController.text)!, context);
+                ShoppingListService.create(
+                    article, int.tryParse(_quantityController.text)!, context);
                 Navigator.pop(context);
               }
             },
-            label: Text(AppLocalizations.of(context)!.button_add_article_to_shopping_list),
+            label: Text(AppLocalizations.of(context)!
+                .button_add_article_to_shopping_list),
           ),
         ],
       ),

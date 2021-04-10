@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:loading/indicator/ball_pulse_indicator.dart';
-import 'package:loading/loading.dart';
+//import 'package:loading/indicator/ball_pulse_indicator.dart';
+//import 'package:loading/loading.dart';
 
 class Loader extends StatelessWidget {
   @override

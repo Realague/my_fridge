@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/custom_icons_icons.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
 import 'package:my_fridge/signout_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/widget/dialog.dart';
 
 import 'forms/shopping_list_form.dart';
@@ -19,7 +17,10 @@ class CustomBottomNavigationBar extends StatefulWidget {
 
 class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
   int _selectedIndex = 0;
-  static List<Widget> _widgetOptions = [ShoppingList(), Center(child: Text("Coming soon"))];
+  static List<Widget> _widgetOptions = [
+    ShoppingList(),
+    Center(child: Text("Coming soon"))
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -32,7 +33,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
       context: context,
       builder: (BuildContext context) {
         return DialogFullScreen(
-            title: "",
+            title: AppLocalizations.of(context)!.shopping_list_popup_title,
             child: Column(
               children: [
                 FormShoppingListFromExistingArticle(),

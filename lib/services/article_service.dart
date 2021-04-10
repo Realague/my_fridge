@@ -11,6 +11,7 @@ class ArticleService {
     Map<String, Object> data = {
       "name": article.name,
       "unit": article.unit,
+      "perishable": article.perishable
     };
 
     DatabaseService.create(null, data, collectionInstance);
@@ -25,14 +26,20 @@ class ArticleService {
     if (searchFilter == null || searchFilter == "") {
       return collectionInstance.get().then((querySnapshot) {
         querySnapshot.docs.forEach((article) {
-          articles.add(Article(article.data()!["name"], article.data()!["unit"]));
+          articles.add(Article(article.data()["name"], article.data()["unit"],
+              article.data()["perishable"]));
         });
         return articles;
       });
     }
-    return collectionInstance.where('name', isGreaterThanOrEqualTo: searchFilter).where('name', isLessThan: searchFilter).get().then((querySnapshot) {
+    return collectionInstance
+        .where('name', isGreaterThanOrEqualTo: searchFilter)
+        .where('name', isLessThan: searchFilter)
+        .get()
+        .then((querySnapshot) {
       querySnapshot.docs.forEach((article) {
-        articles.add(Article(article.data()!["name"], article.data()!["unit"]));
+        articles.add(Article(article.data()["name"], article.data()["unit"],
+            article.data()["perishable"]));
       });
       return articles;
     });
