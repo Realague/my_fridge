@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
-
-  static create(String? id, Map<String, Object> data, CollectionReference collection) {
+  static create({String? id, required Map<String, Object> data, required CollectionReference collection}) {
     collection.doc(id).set(data).catchError((e) {
       print(e.toString());
     });
@@ -19,5 +18,4 @@ class DatabaseService {
       print(e.toString());
     });
   }
-
 }

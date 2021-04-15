@@ -2,33 +2,40 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/forms/shopping_list_form_from_existing_article.dart';
-import 'package:my_fridge/quantity_unit.dart';
-import 'package:my_fridge/services/shopping_list.dart';
+import 'package:my_fridge/model/category.dart';
+import 'package:my_fridge/model/shopping_article.dart';
+import 'package:my_fridge/services/category_service.dart';
+import 'package:my_fridge/services/shopping_list_service.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/dismissible.dart';
+import 'package:my_fridge/widget/shopping_list_item.dart';
 
-import '../article.dart';
+import '../widget/loader.dart';
 
-class ShoppingList extends StatelessWidget {
-  Widget _buildShoppingListItem(
-      BuildContext context, DocumentSnapshot document) {
-    Article article = Article(document.data()!['name'],
-        document.data()!['unit'], document.data()!["perishable"]);
+class ShoppingList extends StatefulWidget {
+  const ShoppingList() : super();
+
+  @override
+  State<StatefulWidget> createState() => _ShoppingListState();
+}
+
+class _ShoppingListState extends State<ShoppingList> {
+  late List<Category> categories;
+
+  Widget _buildShoppingListItem(BuildContext context, DocumentSnapshot document) {
+    ShoppingArticle article = ShoppingArticle.fromDocument(document);
     return DismissibleBothWay(
-      key: Key(document.id),
-      child: ListTile(
-        title: Row(
-          children: [
-            Expanded(
-              child: Text(article.name),
-            ),
-            Expanded(
-              child: Text(document.data()!['quantity'].toString() +
-                  " " +
-                  article.quantityUnit.displayForDropDown(context)),
-            ),
-          ],
-        ),
+      key: Key(article.id!),
+      child: CheckboxListTile(
+        controlAffinity: ListTileControlAffinity.leading,
+        title: ShoppingListItem(article: article),
+        onChanged: (value) {
+          if (value != null) {
+            article.checked = value;
+            ShoppingListService.update(article.id!, article, context);
+          }
+        },
+        value: article.checked,
       ),
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.startToEnd) {
@@ -37,52 +44,60 @@ class ShoppingList extends StatelessWidget {
             builder: (BuildContext context) {
               return DialogFullScreen(
                 title: AppLocalizations.of(context)!.shopping_list_popup_title,
-                child: Column(
-                  children: [
-                    FormShoppingListFromExistingArticle(
-                        article: article,
-                        quantity: document.data()!['quantity'],
-                        id: document.id),
-                  ],
-                ),
+                child: FormShoppingListFromExistingArticle(article: article, id: article.id),
               );
             },
           );
         } else {
-          ShoppingListService.delete(document.id, context);
+          ShoppingListService.delete(article.id!, context);
         }
       },
     );
   }
 
+  ExpansionPanel _buildCategoryListItem(BuildContext context, Category category) {
+    return ExpansionPanel(
+      isExpanded: category.isExpanded,
+      headerBuilder: (context, isExpanded) {
+        return ListTile(title: Text(category.category));
+      },
+      body: StreamBuilder(
+          stream: ShoppingListService.getCollectionInstance(context).orderBy('checked').snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Loader();
+            }
+            return ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: (snapshot.data as QuerySnapshot).docs.length,
+              itemBuilder: (context, index) => _buildShoppingListItem(context, (snapshot.data as QuerySnapshot).docs[index]),
+            );
+          }),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: double.infinity,
-      child: Column(
-        children: [
-          StreamBuilder(
-            stream:
-                ShoppingListService.getCollectionInstance(context).snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Text("Loading");
-              }
-              return SingleChildScrollView(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemExtent: 80,
-                  itemCount: (snapshot.data as QuerySnapshot).docs.length,
-                  itemBuilder: (context, index) => _buildShoppingListItem(
-                      context, (snapshot.data as QuerySnapshot).docs[index]),
-                ),
-              );
+    return FutureBuilder(
+      future: CategoryService.get(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Loader();
+        }
+        categories = (snapshot.data as List<Category>);
+        return SingleChildScrollView(
+          //scrollDirection: Axis.vertical,
+          child: ExpansionPanelList(
+            children: categories.map<ExpansionPanel>((category) => _buildCategoryListItem(context, category)).toList(),
+            expansionCallback: (index, isExpanded) {
+              setState(() {
+                categories[index].isExpanded = !isExpanded;
+              });
             },
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

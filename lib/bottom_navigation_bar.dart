@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/custom_icons_icons.dart';
+import 'package:my_fridge/fridge/fridge.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
-import 'package:my_fridge/signout_button.dart';
 import 'package:my_fridge/widget/dialog.dart';
+import 'package:my_fridge/widget/signout_button.dart';
 
+import 'article_management/article_management.dart';
 import 'forms/shopping_list_form.dart';
 import 'forms/shopping_list_form_from_existing_article.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
-  const CustomBottomNavigationBar({Key? key}) : super(key: key);
-
   @override
   _BottomNavigationBarState createState() => _BottomNavigationBarState();
 }
 
 class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
   int _selectedIndex = 0;
-  static List<Widget> _widgetOptions = [
-    ShoppingList(),
-    Center(child: Text("Coming soon"))
-  ];
+  static List<Widget> _widgetOptions = [ShoppingList(), Fridge(), Center(child: Text("Coming soon")), ArticleManagement()];
 
   void _onItemTapped(int index) {
     setState(() {

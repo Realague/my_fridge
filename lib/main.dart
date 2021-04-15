@@ -1,14 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_fridge/authentication_page.dart';
 import 'package:my_fridge/bottom_navigation_bar.dart';
-import 'package:my_fridge/loader.dart';
-import 'package:my_fridge/services/user.dart';
+import 'package:my_fridge/services/user_service.dart';
+import 'package:my_fridge/widget/loader.dart';
 import 'package:provider/provider.dart';
+
 import 'services/authentication_service.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

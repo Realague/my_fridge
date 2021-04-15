@@ -1,4 +1,8 @@
 {
+  "category_label": "Catégorie",
+  "category_other": "Autres",
+  "perishable_label": "Périssable",
+  "perishable_description": "Si se produit aura une date limite de consomation",
   "swipe_to_edit": "Modifier",
   "swipe_to_delete": "Supprimer",
   "button_google_authentication": "Se connecter avec Google",

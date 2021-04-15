@@ -1,4 +1,8 @@
 {
+  "category_label": "Category",
+  "category_other": "Other",
+  "perishable_label": "Perishable",
+  "perishable_description": "Whether this article will have a date limit consumption",
   "swipe_to_edit": "Edit",
   "swipe_to_delete": "Delete",
   "button_google_authentication": "Sign in with Google",

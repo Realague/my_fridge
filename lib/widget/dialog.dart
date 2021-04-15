@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DialogFullScreen extends StatelessWidget {
-  DialogFullScreen({ required this.title, required this.child});
+  DialogFullScreen({required this.title, required this.child}) : super();
 
   final String title;
 
@@ -35,5 +35,4 @@ class DialogFullScreen extends StatelessWidget {
       ),
     );
   }
-
 }
