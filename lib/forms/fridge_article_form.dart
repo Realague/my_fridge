@@ -52,6 +52,29 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticleArticle> {
     }
   }
 
+  Widget _dateSelection() {
+    if (_selectedArticle != null && _selectedArticle!.perishable) {
+      return Expanded(
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: TextFormField(
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: AppLocalizations.of(context)!.form_quantity_label,
+            ),
+            controller: _dateController,
+            onTap: () {
+              _selectDate(context);
+              FocusScope.of(context).requestFocus(new FocusNode());
+            },
+            readOnly: true,
+          ),
+        ),
+      );
+    }
+    return SizedBox();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -76,7 +99,11 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticleArticle> {
                       contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
                       border: const OutlineInputBorder(),
                     ),
-                    onChanged: (Article? article) => _selectedArticle = article,
+                    onChanged: (Article? article) {
+                      setState(() {
+                        _selectedArticle = article;
+                      });
+                    },
                     selectedItem: _selectedArticle,
                     validator: (article) => Validators.notNull(context, article),
                   ),
@@ -96,24 +123,8 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticleArticle> {
                   ),
                 ),
               ),
+              _dateSelection(),
             ],
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: AppLocalizations.of(context)!.form_quantity_label,
-                ),
-                controller: _dateController,
-                onTap: () {
-                  _selectDate(context);
-                  FocusScope.of(context).requestFocus(new FocusNode());
-                },
-                readOnly: true,
-              ),
-            ),
           ),
           SizedBox(height: 20),
           ElevatedButton.icon(

@@ -1,5 +1,5 @@
 class Category {
-  Category({this.id, required this.category, this.isExpanded: false});
+  Category({this.id, required this.category, this.isExpanded: true});
 
   String? id;
 
