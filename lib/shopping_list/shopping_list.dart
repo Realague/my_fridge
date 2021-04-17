@@ -59,6 +59,9 @@ class _ShoppingListState extends State<ShoppingList> {
     return ExpansionPanel(
       isExpanded: category.isExpanded,
       headerBuilder: (context, isExpanded) {
+        if (category.category == " ") {
+          return ListTile(title: Text(AppLocalizations.of(context)!.category_other));
+        }
         return ListTile(title: Text(category.category));
       },
       body: StreamBuilder(

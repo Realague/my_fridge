@@ -7,6 +7,7 @@ import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/signout_button.dart';
 
 import 'article_management/article_management.dart';
+import 'forms/fridge_article_form.dart';
 import 'forms/shopping_list_form.dart';
 import 'forms/shopping_list_form_from_existing_article.dart';
 
@@ -48,10 +49,27 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     );
   }
 
+  void _addFridgeArticle(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DialogFullScreen(
+          title: AppLocalizations.of(context)!.fridge_popup_title,
+          child: FormFridgeArticleArticle(),
+        );
+      },
+    );
+  }
+
   Widget? _floatingActionButton() {
     if (_selectedIndex == 0) {
       return FloatingActionButton(
         onPressed: () => _addArticle(context),
+        child: Icon(Icons.add),
+      );
+    } else if (_selectedIndex == 1) {
+      return FloatingActionButton(
+        onPressed: () => _addFridgeArticle(context),
         child: Icon(Icons.add),
       );
     } else {
