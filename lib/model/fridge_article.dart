@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:my_fridge/model/quantity_unit.dart';
 
 class FridgeArticle {
@@ -20,6 +21,8 @@ class FridgeArticle {
   QuantityUnit get quantityUnit => QuantityUnit.values[unit];
 
   int expiryDate;
+
+  String get expiryDateDisplay => expiryDate == 0 ? "" : DateFormat('dd/MM/yyyy').format(DateTime(expiryDate));
 
   static FridgeArticle fromDocument(DocumentSnapshot document) {
     Timestamp.now();

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/category.dart';
@@ -9,6 +8,7 @@ import 'package:my_fridge/services/fridge_service.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/dismissible.dart';
 
+import '../forms/fridge_article_form.dart';
 import '../widget/loader.dart';
 import 'fridge_article_list_tile.dart';
 
@@ -85,7 +85,7 @@ class _FridgeState extends State<Fridge> {
                 title: AppLocalizations.of(context)!.shopping_list_popup_title,
                 child: Column(
                   children: [
-                    //FormShoppingListFromExistingArticle(article: article, id: article.id),
+                    FormFridgeArticle(article: article, id: article.id),
                   ],
                 ),
               );

@@ -55,7 +55,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
       builder: (BuildContext context) {
         return DialogFullScreen(
           title: AppLocalizations.of(context)!.fridge_popup_title,
-          child: FormFridgeArticleArticle(),
+          child: FormFridgeArticle(),
         );
       },
     );

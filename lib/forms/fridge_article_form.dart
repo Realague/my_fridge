@@ -9,8 +9,8 @@ import 'package:my_fridge/services/article_service.dart';
 import 'package:my_fridge/services/fridge_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 
-class FormFridgeArticleArticle extends StatefulWidget {
-  const FormFridgeArticleArticle({this.article, this.id}) : super();
+class FormFridgeArticle extends StatefulWidget {
+  const FormFridgeArticle({this.article, this.id}) : super();
 
   final FridgeArticle? article;
   final String? id;
@@ -19,7 +19,7 @@ class FormFridgeArticleArticle extends StatefulWidget {
   State<StatefulWidget> createState() => _FormFridgeArticleArticleState(article, id);
 }
 
-class _FormFridgeArticleArticleState extends State<FormFridgeArticleArticle> {
+class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
   _FormFridgeArticleArticleState(FridgeArticle? article, this.id) {
     if (article != null) {
       _selectedArticle = Article(name: article.name, unit: article.unit, perishable: article.perishable, category: article.category);
