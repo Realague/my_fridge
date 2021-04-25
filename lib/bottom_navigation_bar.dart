@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/custom_icons_icons.dart';
+import 'package:my_fridge/forms/article_form.dart';
 import 'package:my_fridge/fridge/fridge.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
 import 'package:my_fridge/widget/dialog.dart';
+import 'package:my_fridge/widget/expandable_fab.dart';
 import 'package:my_fridge/widget/signout_button.dart';
 
 import 'article_management/article_management.dart';
+import 'forms/category_form.dart';
 import 'forms/fridge_article_form.dart';
 import 'forms/shopping_list_form.dart';
 import 'forms/shopping_list_form_from_existing_article.dart';
@@ -26,7 +29,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     });
   }
 
-  void _addArticle(BuildContext context) {
+  void _addShoppingListArticle(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -61,16 +64,63 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     );
   }
 
+  void _addArticle(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DialogFullScreen(
+          title: AppLocalizations.of(context)!.add_article_popup_title,
+          child: FormArticle(),
+        );
+      },
+    );
+  }
+
+  void _addCategory(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DialogFullScreen(
+          title: AppLocalizations.of(context)!.add_category_popup_title,
+          child: CategoryForm(),
+        );
+      },
+    );
+  }
+
   Widget? _floatingActionButton() {
     if (_selectedIndex == 0) {
       return FloatingActionButton(
-        onPressed: () => _addArticle(context),
+        onPressed: () => _addShoppingListArticle(context),
         child: Icon(Icons.add),
       );
     } else if (_selectedIndex == 1) {
-      return FloatingActionButton(
-        onPressed: () => _addFridgeArticle(context),
-        child: Icon(Icons.add),
+      return ExpandableFab(
+        distance: 70.0,
+        children: [
+          ActionButton(
+            onPressed: () => _addFridgeArticle(context),
+            icon: const Icon(Icons.article),
+          ),
+          ActionButton(
+            onPressed: () => _addCategory(context),
+            icon: const Icon(Icons.category),
+          ),
+        ],
+      );
+    } else if (_selectedIndex == 3) {
+      return ExpandableFab(
+        distance: 70.0,
+        children: [
+          ActionButton(
+            onPressed: () => _addArticle(context),
+            icon: const Icon(Icons.article),
+          ),
+          ActionButton(
+            onPressed: () => _addCategory(context),
+            icon: const Icon(Icons.category),
+          ),
+        ],
       );
     } else {
       return null;

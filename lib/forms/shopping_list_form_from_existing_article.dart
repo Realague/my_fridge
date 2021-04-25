@@ -9,28 +9,28 @@ import 'package:my_fridge/services/shopping_list_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 
 class FormShoppingListFromExistingArticle extends StatefulWidget {
-  const FormShoppingListFromExistingArticle({this.article, this.id}) : super();
+  const FormShoppingListFromExistingArticle({this.article}) : super();
 
   final ShoppingArticle? article;
-  final String? id;
 
   @override
-  State<StatefulWidget> createState() => _FormShoppingListFromExistingArticleState(article, id);
+  State<StatefulWidget> createState() => _FormShoppingListFromExistingArticleState();
 }
 
 class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFromExistingArticle> {
-  _FormShoppingListFromExistingArticleState(ShoppingArticle? article, this.id) {
-    if (article != null) {
-      _selectedArticle = Article(name: article.name, unit: article.unit, perishable: article.perishable, category: article.category);
-      _quantityController.text = article.quantity.toString();
-    }
-  }
-
-  Article? _selectedArticle;
   final _quantityController = TextEditingController();
-  final String? id;
-
   final _formKey = GlobalKey<FormState>();
+  Article? _selectedArticle;
+
+  @override
+  void initState() {
+    if (widget.article != null) {
+      _selectedArticle =
+          Article(name: widget.article!.name, unit: widget.article!.unit, perishable: widget.article!.perishable, category: widget.article!.category);
+    }
+    _quantityController.text = widget.article?.quantity.toString() ?? "";
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -90,13 +90,14 @@ class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFr
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 ShoppingArticle shoppingArticle = ShoppingArticle(
+                    id: widget.article?.id ?? null,
                     name: _selectedArticle!.name,
                     unit: _selectedArticle!.unit,
                     category: _selectedArticle!.category,
                     quantity: int.tryParse(_quantityController.text)!,
                     perishable: _selectedArticle!.perishable);
-                if (id != null) {
-                  ShoppingListService.update(id!, shoppingArticle, context);
+                if (shoppingArticle.id != null) {
+                  ShoppingListService.update(shoppingArticle, context);
                 } else {
                   ShoppingListService.create(shoppingArticle, context);
                 }

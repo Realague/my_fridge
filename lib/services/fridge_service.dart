@@ -7,29 +7,39 @@ import 'database.dart';
 
 class FridgeService {
   static create(FridgeArticle article, BuildContext context) {
-    Map<String, Object> data = {
-      "name": article.name,
-      "unit": article.unit,
-      "quantity": article.quantity,
-      "perishable": article.perishable,
-      "category": article.category,
-      "expiry_date": article.expiryDate
-    };
+    Map<String, Object> data;
+    if (article.expiryDate != null) {
+      data = {
+        "name": article.name,
+        "unit": article.unit,
+        "quantity": article.quantity,
+        "perishable": article.perishable,
+        "category": article.category,
+        "expiry_date": article.expiryDate!
+      };
+    } else {
+      data = {"name": article.name, "unit": article.unit, "quantity": article.quantity, "perishable": article.perishable, "category": article.category};
+    }
 
     DatabaseService.create(data: data, collection: getCollectionInstance(context));
   }
 
-  static update(String id, FridgeArticle article, BuildContext context) {
-    Map<String, Object> data = {
-      "name": article.name,
-      "unit": article.unit,
-      "quantity": article.quantity,
-      "perishable": article.perishable,
-      "category": article.category,
-      "expiry_date": article.expiryDate
-    };
+  static update(FridgeArticle article, BuildContext context) {
+    Map<String, Object> data;
+    if (article.expiryDate != null) {
+      data = {
+        "name": article.name,
+        "unit": article.unit,
+        "quantity": article.quantity,
+        "perishable": article.perishable,
+        "category": article.category,
+        "expiry_date": article.expiryDate!
+      };
+    } else {
+      data = {"name": article.name, "unit": article.unit, "quantity": article.quantity, "perishable": article.perishable, "category": article.category};
+    }
 
-    DatabaseService.update(id, data, getCollectionInstance(context));
+    DatabaseService.update(article.id!, data, getCollectionInstance(context));
   }
 
   static CollectionReference getCollectionInstance(BuildContext context) {

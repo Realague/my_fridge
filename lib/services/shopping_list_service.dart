@@ -19,7 +19,7 @@ class ShoppingListService {
     DatabaseService.create(data: data, collection: getCollectionInstance(context));
   }
 
-  static update(String id, ShoppingArticle article, BuildContext context) {
+  static update(ShoppingArticle article, BuildContext context) {
     Map<String, Object> data = {
       "name": article.name,
       "unit": article.unit,
@@ -29,7 +29,7 @@ class ShoppingListService {
       "category": article.category
     };
 
-    DatabaseService.update(id, data, getCollectionInstance(context));
+    DatabaseService.update(article.id!, data, getCollectionInstance(context));
   }
 
   static CollectionReference getCollectionInstance(BuildContext context) {

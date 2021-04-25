@@ -6,8 +6,8 @@ import 'database.dart';
 class CategoryService {
   static final CollectionReference collectionInstance = FirebaseFirestore.instance.collection('category');
 
-  static create(String category) {
-    Map<String, Object> data = {"category": category};
+  static create(Category category) {
+    Map<String, Object> data = {"category": category.category};
 
     DatabaseService.create(data: data, collection: collectionInstance);
   }
@@ -16,10 +16,19 @@ class CategoryService {
     List<Category> categories = [];
     return collectionInstance.get().then((querySnapshot) {
       querySnapshot.docs.forEach((category) {
-        categories.add(Category(id: category.id, category: category.data()['category']));
+        categories.add(Category(id: category.id, category: category.data()['category'], isExpanded: false));
       });
       return categories;
     });
+  }
+
+  static update(Category category) {
+    Map<String, Object> data;
+    data = {
+      "category": category.category,
+    };
+
+    DatabaseService.update(category.id!, data, collectionInstance);
   }
 
   static delete(String userId) {

@@ -1,15 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:my_fridge/model/category.dart';
 import 'package:my_fridge/model/fridge_article.dart';
-import 'package:my_fridge/services/category_service.dart';
 import 'package:my_fridge/services/fridge_service.dart';
+import 'package:my_fridge/widget/category_list.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/dismissible.dart';
 
 import '../forms/fridge_article_form.dart';
-import '../widget/loader.dart';
 import 'fridge_article_list_tile.dart';
 
 class Fridge extends StatefulWidget {
@@ -18,57 +16,9 @@ class Fridge extends StatefulWidget {
 }
 
 class _FridgeState extends State<Fridge> {
-  late List<Category> categories;
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: CategoryService.get(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return Loader();
-        }
-        categories = (snapshot.data as List<Category>);
-        return SingleChildScrollView(
-          child: ExpansionPanelList(
-            children: categories.map<ExpansionPanel>((category) => _buildCategoryListItem(context, category)).toList(),
-            expansionCallback: (index, isExpanded) {
-              setState(
-                () {
-                  categories[index].isExpanded = !isExpanded;
-                },
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  ExpansionPanel _buildCategoryListItem(BuildContext context, Category category) {
-    return ExpansionPanel(
-      isExpanded: category.isExpanded,
-      headerBuilder: (context, isExpanded) {
-        if (category.category == " ") {
-          return ListTile(title: Text(AppLocalizations.of(context)!.category_other));
-        }
-        return ListTile(title: Text(category.category));
-      },
-      body: StreamBuilder(
-        stream: FridgeService.getCollectionInstance(context).orderBy('expiry_date').snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Loader();
-          }
-          return ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: (snapshot.data as QuerySnapshot).docs.length,
-            itemBuilder: (context, index) => _buildFridgeItem(context, (snapshot.data as QuerySnapshot).docs[index]),
-          );
-        },
-      ),
-    );
+    return CategoryList(FridgeService.getCollectionInstance(context).orderBy('expiry_date').snapshots(), _buildFridgeItem, false);
   }
 
   Widget _buildFridgeItem(BuildContext context, DocumentSnapshot document) {

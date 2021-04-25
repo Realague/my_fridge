@@ -3,8 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:my_fridge/model/quantity_unit.dart';
 
 class FridgeArticle {
-  FridgeArticle(
-      {this.id, required this.name, required this.unit, required this.quantity, required this.perishable, required this.category, this.expiryDate = 0});
+  FridgeArticle({this.id, required this.name, required this.unit, required this.quantity, required this.perishable, required this.category, this.expiryDate});
 
   String? id;
 
@@ -20,9 +19,9 @@ class FridgeArticle {
 
   QuantityUnit get quantityUnit => QuantityUnit.values[unit];
 
-  int expiryDate;
+  DateTime? expiryDate;
 
-  String get expiryDateDisplay => expiryDate == 0 ? "" : DateFormat('dd/MM/yyyy').format(DateTime(expiryDate));
+  String get expiryDateDisplay => expiryDate == null ? "" : DateFormat('dd/MM/yyyy').format(expiryDate!);
 
   static FridgeArticle fromDocument(DocumentSnapshot document) {
     Timestamp.now();
@@ -33,6 +32,6 @@ class FridgeArticle {
         quantity: document.data()!['quantity'],
         perishable: document.data()!["perishable"],
         category: document.data()!['category'],
-        expiryDate: document.data()!['expiry_date']);
+        expiryDate: DateTime.fromMicrosecondsSinceEpoch((document.data()!['expiry_date'] as Timestamp).microsecondsSinceEpoch));
   }
 }
