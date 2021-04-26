@@ -21,7 +21,11 @@ class Article {
         id: document.id,
         name: document.data()!['name'],
         unit: document.data()!['unit'],
-        perishable: document.data()!["perishable"],
+        perishable: document.data()!['perishable'],
         category: document.data()!['category']);
+  }
+
+  Map<String, Object> get asMap {
+    return {'name': this.name, 'unit': this.unit, 'perishable': this.perishable, 'category': this.category};
   }
 }

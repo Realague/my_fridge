@@ -24,7 +24,6 @@ class FridgeArticle {
   String get expiryDateDisplay => expiryDate == null ? "" : DateFormat('dd/MM/yyyy').format(expiryDate!);
 
   static FridgeArticle fromDocument(DocumentSnapshot document) {
-    Timestamp.now();
     return FridgeArticle(
         id: document.id,
         name: document.data()!['name'],
@@ -33,5 +32,20 @@ class FridgeArticle {
         perishable: document.data()!["perishable"],
         category: document.data()!['category'],
         expiryDate: DateTime.fromMicrosecondsSinceEpoch((document.data()!['expiry_date'] as Timestamp).microsecondsSinceEpoch));
+  }
+
+  Map<String, Object> get asMap {
+    var map = {
+      "name": this.name,
+      "unit": this.unit,
+      "quantity": this.quantity,
+      "perishable": this.perishable,
+      "category": this.category,
+    };
+
+    if (this.expiryDate != null) {
+      map['expiry_date'] = this.expiryDate!;
+    }
+    return map;
   }
 }

@@ -7,15 +7,11 @@ class ArticleService {
   static final CollectionReference collectionInstance = FirebaseFirestore.instance.collection('articles');
 
   static create(Article article) {
-    Map<String, Object> data = {'name': article.name, 'unit': article.unit, 'perishable': article.perishable, 'category': article.category};
-
-    DatabaseService.create(data: data, collection: collectionInstance);
+    DatabaseService.create(data: article.asMap, collection: collectionInstance);
   }
 
   static update(String id, Article article) {
-    Map<String, Object> data = {'name': article.name, 'unit': article.unit, 'perishable': article.perishable, 'category': article.category};
-
-    DatabaseService.update(id, data, collectionInstance);
+    DatabaseService.update(article.id!, article.asMap, collectionInstance);
   }
 
   static delete(String userId) {
@@ -26,18 +22,12 @@ class ArticleService {
     List<Article> articles = [];
     if (searchFilter == null || searchFilter == '') {
       return collectionInstance.get().then((querySnapshot) {
-        querySnapshot.docs.forEach((article) {
-          articles.add(Article(
-              name: article.data()['name'], unit: article.data()['unit'], perishable: article.data()['perishable'], category: article.data()['category']));
-        });
+        querySnapshot.docs.forEach((document) => articles.add(Article.fromDocument(document)));
         return articles;
       });
     }
     return collectionInstance.where('name', isGreaterThanOrEqualTo: searchFilter).where('name', isLessThan: searchFilter).get().then((querySnapshot) {
-      querySnapshot.docs.forEach((article) {
-        articles.add(Article(
-            name: article.data()['name'], unit: article.data()['unit'], perishable: article.data()['perishable'], category: article.data()['category']));
-      });
+      querySnapshot.docs.forEach((document) => articles.add(Article.fromDocument(document)));
       return articles;
     });
   }

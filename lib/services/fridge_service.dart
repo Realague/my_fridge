@@ -7,37 +7,13 @@ import 'database.dart';
 
 class FridgeService {
   static create(FridgeArticle article, BuildContext context) {
-    Map<String, Object> data;
-    if (article.expiryDate != null) {
-      data = {
-        "name": article.name,
-        "unit": article.unit,
-        "quantity": article.quantity,
-        "perishable": article.perishable,
-        "category": article.category,
-        "expiry_date": article.expiryDate!
-      };
-    } else {
-      data = {"name": article.name, "unit": article.unit, "quantity": article.quantity, "perishable": article.perishable, "category": article.category};
-    }
+    var data = article.asMap;
 
     DatabaseService.create(data: data, collection: getCollectionInstance(context));
   }
 
   static update(FridgeArticle article, BuildContext context) {
-    Map<String, Object> data;
-    if (article.expiryDate != null) {
-      data = {
-        "name": article.name,
-        "unit": article.unit,
-        "quantity": article.quantity,
-        "perishable": article.perishable,
-        "category": article.category,
-        "expiry_date": article.expiryDate!
-      };
-    } else {
-      data = {"name": article.name, "unit": article.unit, "quantity": article.quantity, "perishable": article.perishable, "category": article.category};
-    }
+    var data = article.asMap;
 
     DatabaseService.update(article.id!, data, getCollectionInstance(context));
   }
@@ -53,16 +29,7 @@ class FridgeService {
   static Future<List<FridgeArticle>> getOrderBy(String field, BuildContext context) async {
     List<FridgeArticle> articles = [];
     return getCollectionInstance(context).orderBy(field).get().then((querySnapshot) {
-      querySnapshot.docs.forEach((article) {
-        articles.add(FridgeArticle(
-            id: article.id,
-            name: article.data()['name'],
-            unit: article.data()['unit'],
-            quantity: article.data()['quantity'],
-            perishable: article.data()['perishable'],
-            category: article.data()['category'],
-            expiryDate: article.data()['expiry_date']));
-      });
+      querySnapshot.docs.forEach((document) => articles.add(FridgeArticle.fromDocument(document)));
       return articles;
     });
   }

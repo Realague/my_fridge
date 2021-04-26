@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/custom_icons_icons.dart';
 import 'package:my_fridge/forms/article_form.dart';
 import 'package:my_fridge/fridge/fridge.dart';
+import 'package:my_fridge/services/shopping_list_service.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/expandable_fab.dart';
@@ -86,6 +87,16 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
         );
       },
     );
+  }
+
+  void _addCheckedShoppingArticles(BuildContext context) async {
+    var articles = ShoppingListService.getOnlyCheckedArticle(context);
+    articles.then((articles) => {
+          articles.forEach((article) {
+            if (article.perishable) {
+            } else {}
+          })
+        });
   }
 
   Widget? _floatingActionButton() {

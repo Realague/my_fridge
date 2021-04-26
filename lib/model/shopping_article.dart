@@ -32,4 +32,8 @@ class ShoppingArticle {
         checked: document.data()!['checked'],
         category: document.data()!['category']);
   }
+
+  Map<String, Object> get asMap {
+    return {"name": this.name, "unit": this.unit, "quantity": this.quantity, "perishable": this.perishable, "checked": this.checked, "category": this.category};
+  }
 }
