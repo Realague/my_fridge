@@ -23,7 +23,12 @@ class CustomBottomNavigationBar extends StatefulWidget {
 
 class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
   int _selectedIndex = 0;
-  static List<Widget> _widgetOptions = [ShoppingList(), Fridge(), Center(child: Text("Coming soon")), ArticleManagement()];
+  static List<Widget> _widgetOptions = [
+    ShoppingList(),
+    Fridge(),
+    Center(child: Text("Coming soon")),
+    ArticleManagement()
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -92,16 +97,28 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   void _addCheckedShoppingArticles(BuildContext context) async {
     var articles = ShoppingListService.getOnlyCheckedArticle(context);
-    articles.then((articles) => {
-          articles.forEach((article) {
+    articles.then(
+      (articles) => {
+        articles.forEach(
+          (article) async {
             if (article.perishable) {
-              
+              DateTime? expiryDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2025),
+              );
+              FridgeService.createFromShoppingArticle(article, context,
+                  expiryDate: expiryDate);
+              ShoppingListService.delete(article.id!, context);
             } else {
               FridgeService.createFromShoppingArticle(article, context);
               ShoppingListService.delete(article.id!, context);
             }
-          })
-        });
+          },
+        )
+      },
+    );
   }
 
   Widget? _floatingActionButton() {
