@@ -7,11 +7,27 @@ import 'package:my_fridge/services/user_service.dart';
 import 'database.dart';
 
 class FridgeService {
-  static create(FridgeArticle article, BuildContext context) {
-    DatabaseService.create(data: article.asMap, collection: getCollectionInstance(context));
+  static create(FridgeArticle article, BuildContext context) async {
+    if (article.perishable) {
+      DatabaseService.create(
+          data: article.asMap, collection: getCollectionInstance(context));
+    } else {
+      DocumentSnapshot? articleInFridge = await getByArticle(article, context);
+      if (articleInFridge != null) {
+        FridgeArticle existingArticle =
+            FridgeArticle.fromDocument(articleInFridge);
+        existingArticle.quantity += article.quantity;
+        update(existingArticle, context);
+      } else {
+        DatabaseService.create(
+            data: article.asMap, collection: getCollectionInstance(context));
+      }
+    }
   }
 
-  static createFromShoppingArticle(ShoppingArticle article, BuildContext context, {DateTime? expiryDate}) {
+  static createFromShoppingArticle(
+      ShoppingArticle article, BuildContext context,
+      {DateTime? expiryDate}) {
     Map<String, Object> map = {
       'name': article.name,
       'unit': article.unit,
@@ -24,7 +40,8 @@ class FridgeService {
       map['expiry_date'] = expiryDate;
     }
 
-    DatabaseService.create(data: map, collection: getCollectionInstance(context));
+    DatabaseService.create(
+        data: map, collection: getCollectionInstance(context));
   }
 
   static update(FridgeArticle article, BuildContext context) {
@@ -41,11 +58,31 @@ class FridgeService {
     DatabaseService.delete(articleId, getCollectionInstance(context));
   }
 
-  static Future<List<FridgeArticle>> getOrderBy(String field, BuildContext context) async {
+  static Future<List<FridgeArticle>> getOrderBy(
+      String field, BuildContext context) async {
     List<FridgeArticle> articles = [];
-    return getCollectionInstance(context).orderBy(field).get().then((querySnapshot) {
-      querySnapshot.docs.forEach((document) => articles.add(FridgeArticle.fromDocument(document)));
+    return getCollectionInstance(context)
+        .orderBy(field)
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach(
+          (document) => articles.add(FridgeArticle.fromDocument(document)));
       return articles;
+    });
+  }
+
+  static Future<QueryDocumentSnapshot?> getByArticle(
+      FridgeArticle article, BuildContext context) {
+    return getCollectionInstance(context)
+        .where('name', isEqualTo: article.name)
+        .where('unit', isEqualTo: article.unit)
+        .get()
+        .then((querySnapshot) {
+      if (querySnapshot.size > 0) {
+        return querySnapshot.docs[0];
+      } else {
+        return null;
+      }
     });
   }
 }
