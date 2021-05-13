@@ -9,32 +9,27 @@ import 'dialog.dart';
 import 'loader.dart';
 
 class CategoryList extends StatefulWidget {
-  CategoryList(
-      this.collectionReference, this.itemsBuilder, this.editableCategory);
+  CategoryList(this.query, this.itemsBuilder, this.editableCategory);
 
   final bool editableCategory;
-  final CollectionReference collectionReference;
-  final Stream<QuerySnapshot> stream;
+  final Query query;
   final Widget Function(BuildContext context, QueryDocumentSnapshot document)
       itemsBuilder;
 
   @override
   State<StatefulWidget> createState() => _CategoryListState(
-      collectionReference: collectionReference,
-      stream: stream,
+      query: query,
       itemsBuilder: itemsBuilder,
       editableCategory: editableCategory);
 }
 
 class _CategoryListState extends State<CategoryList> {
   _CategoryListState(
-      {required this.collectionReference,
-      required this.stream,
+      {required this.query,
       required this.itemsBuilder,
       required this.editableCategory});
 
-  final CollectionReference collectionReference;
-  final Stream<QuerySnapshot> stream;
+  final Query query;
   final Widget Function(BuildContext context, QueryDocumentSnapshot document)
       itemsBuilder;
   final editableCategory;
@@ -123,9 +118,8 @@ class _CategoryListState extends State<CategoryList> {
         return ListTile(title: Text(category.categoryForDisplay(context)));
       },
       body: StreamBuilder(
-        stream: collectionReference
-            .where('category', isEqualTo: category.category)
-            .snapshots(),
+        stream:
+            query.where('category', isEqualTo: category.category).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Loader();
