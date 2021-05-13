@@ -9,21 +9,34 @@ import 'dialog.dart';
 import 'loader.dart';
 
 class CategoryList extends StatefulWidget {
-  CategoryList(this.stream, this.itemsBuilder, this.editableCategory);
+  CategoryList(
+      this.collectionReference, this.itemsBuilder, this.editableCategory);
 
   final bool editableCategory;
+  final CollectionReference collectionReference;
   final Stream<QuerySnapshot> stream;
-  final Widget Function(BuildContext context, QueryDocumentSnapshot document) itemsBuilder;
+  final Widget Function(BuildContext context, QueryDocumentSnapshot document)
+      itemsBuilder;
 
   @override
-  State<StatefulWidget> createState() => _CategoryListState(stream: stream, itemsBuilder: itemsBuilder, editableCategory: editableCategory);
+  State<StatefulWidget> createState() => _CategoryListState(
+      collectionReference: collectionReference,
+      stream: stream,
+      itemsBuilder: itemsBuilder,
+      editableCategory: editableCategory);
 }
 
 class _CategoryListState extends State<CategoryList> {
-  _CategoryListState({required this.stream, required this.itemsBuilder, required this.editableCategory});
+  _CategoryListState(
+      {required this.collectionReference,
+      required this.stream,
+      required this.itemsBuilder,
+      required this.editableCategory});
 
+  final CollectionReference collectionReference;
   final Stream<QuerySnapshot> stream;
-  final Widget Function(BuildContext context, QueryDocumentSnapshot document) itemsBuilder;
+  final Widget Function(BuildContext context, QueryDocumentSnapshot document)
+      itemsBuilder;
   final editableCategory;
   late Future _future;
   late List<Category> categories;
@@ -48,7 +61,10 @@ class _CategoryListState extends State<CategoryList> {
 
         return SingleChildScrollView(
           child: ExpansionPanelList(
-            children: categories.map<ExpansionPanel>((category) => _buildCategoryListItem(context, category)).toList(),
+            children: categories
+                .map<ExpansionPanel>(
+                    (category) => _buildCategoryListItem(context, category))
+                .toList(),
             expansionCallback: (index, isExpanded) {
               setState(
                 () {
@@ -62,7 +78,8 @@ class _CategoryListState extends State<CategoryList> {
     );
   }
 
-  ExpansionPanel _buildCategoryListItem(BuildContext context, Category category) {
+  ExpansionPanel _buildCategoryListItem(
+      BuildContext context, Category category) {
     return ExpansionPanel(
       isExpanded: category.isExpanded,
       headerBuilder: (context, isExpanded) {
@@ -81,7 +98,8 @@ class _CategoryListState extends State<CategoryList> {
                         context: context,
                         builder: (BuildContext context) {
                           return DialogFullScreen(
-                            title: AppLocalizations.of(context)!.shopping_list_popup_title,
+                            title: AppLocalizations.of(context)!
+                                .shopping_list_popup_title,
                             child: Column(
                               children: [
                                 CategoryForm(category: category),
@@ -105,7 +123,9 @@ class _CategoryListState extends State<CategoryList> {
         return ListTile(title: Text(category.categoryForDisplay(context)));
       },
       body: StreamBuilder(
-        stream: stream,
+        stream: collectionReference
+            .where('category', isEqualTo: category.category)
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Loader();
@@ -114,7 +134,8 @@ class _CategoryListState extends State<CategoryList> {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: (snapshot.data as QuerySnapshot).docs.length,
-            itemBuilder: (context, index) => itemsBuilder(context, (snapshot.data as QuerySnapshot).docs[index]),
+            itemBuilder: (context, index) => itemsBuilder(
+                context, (snapshot.data as QuerySnapshot).docs[index]),
           );
         },
       ),

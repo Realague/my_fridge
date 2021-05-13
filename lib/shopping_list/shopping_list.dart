@@ -19,7 +19,7 @@ class ShoppingList extends StatefulWidget {
 class _ShoppingListState extends State<ShoppingList> {
   @override
   Widget build(BuildContext context) {
-    return CategoryList(ShoppingListService.getCollectionInstance(context).orderBy('checked').snapshots(), _buildShoppingListItem, false);
+    return CategoryList(/*ShoppingListService.getCollectionInstance(context).orderBy('checked').snapshots()*/, _buildShoppingListItem, false);
   }
 
   Widget _buildShoppingListItem(BuildContext context, DocumentSnapshot document) {
