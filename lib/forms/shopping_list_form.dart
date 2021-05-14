@@ -45,7 +45,8 @@ class _FormShoppingListState extends State<FormShoppingList> {
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                labelText: AppLocalizations.of(context)!.form_article_name_label,
+                labelText:
+                    AppLocalizations.of(context)!.form_article_name_label,
               ),
               validator: (name) => Validators.notEmpty(context, name),
               controller: _nameController,
@@ -60,9 +61,11 @@ class _FormShoppingListState extends State<FormShoppingList> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText: AppLocalizations.of(context)!.form_quantity_label,
+                      labelText:
+                          AppLocalizations.of(context)!.form_quantity_label,
                     ),
-                    validator: (quantity) => Validators.number(context, quantity),
+                    validator: (quantity) =>
+                        Validators.number(context, quantity),
                     controller: _quantityController,
                   ),
                 ),
@@ -73,11 +76,15 @@ class _FormShoppingListState extends State<FormShoppingList> {
                   child: DropdownSearch<QuantityUnit>(
                     mode: Mode.MENU,
                     items: QuantityUnit.values,
-                    itemAsString: (QuantityUnit? quantityUnit) => quantityUnit!.displayForDropDown(context),
-                    label: AppLocalizations.of(context)!.form_quantity_unit_label,
+                    itemAsString: (QuantityUnit? quantityUnit) =>
+                        quantityUnit!.displayForDropDown(context),
+                    label:
+                        AppLocalizations.of(context)!.form_quantity_unit_label,
                     selectedItem: _quantityUnit,
-                    validator: (quantityUnit) => Validators.notNull(context, quantityUnit),
-                    onChanged: (QuantityUnit? quantityUnit) => _quantityUnit = quantityUnit,
+                    validator: (quantityUnit) =>
+                        Validators.notNull(context, quantityUnit),
+                    onChanged: (QuantityUnit? quantityUnit) =>
+                        _quantityUnit = quantityUnit,
                   ),
                 ),
               ),
@@ -106,7 +113,8 @@ class _FormShoppingListState extends State<FormShoppingList> {
                     border: const OutlineInputBorder(),
                   ),
                   selectedItem: _category,
-                  validator: (category) => Validators.notNull(context, category),
+                  validator: (category) =>
+                      Validators.notNull(context, category),
                   onChanged: (Category? category) => _category = category,
                 ),
               );
@@ -115,7 +123,8 @@ class _FormShoppingListState extends State<FormShoppingList> {
           SwitchListTile(
             title: Text(AppLocalizations.of(context)!.perishable_label),
             value: _perishable,
-            subtitle: Text(AppLocalizations.of(context)!.perishable_description),
+            subtitle:
+                Text(AppLocalizations.of(context)!.perishable_description),
             onChanged: (bool value) {
               setState(() {
                 _perishable = value;
@@ -127,7 +136,11 @@ class _FormShoppingListState extends State<FormShoppingList> {
             icon: const Icon(Icons.add),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                Article article = Article(name: _nameController.text, unit: _quantityUnit!.index, perishable: _perishable);
+                Article article = Article(
+                    name: _nameController.text,
+                    unit: _quantityUnit!.index,
+                    perishable: _perishable,
+                    category: _category!.category);
                 ArticleService.create(article);
                 ShoppingArticle shoppingArticle = ShoppingArticle(
                     name: _nameController.text,
@@ -139,7 +152,8 @@ class _FormShoppingListState extends State<FormShoppingList> {
                 Navigator.pop(context);
               }
             },
-            label: Text(AppLocalizations.of(context)!.button_add_article_to_shopping_list),
+            label: Text(AppLocalizations.of(context)!
+                .button_add_article_to_shopping_list),
           ),
         ],
       ),
