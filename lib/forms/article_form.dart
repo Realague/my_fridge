@@ -52,7 +52,8 @@ class _FormArticleState extends State<FormArticle> {
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                labelText: AppLocalizations.of(context)!.form_article_name_label,
+                labelText:
+                    AppLocalizations.of(context)!.form_article_name_label,
               ),
               validator: (name) => Validators.notEmpty(context, name),
               controller: _nameController,
@@ -66,11 +67,15 @@ class _FormArticleState extends State<FormArticle> {
                   child: DropdownSearch<QuantityUnit>(
                     mode: Mode.MENU,
                     items: QuantityUnit.values,
-                    itemAsString: (QuantityUnit? quantityUnit) => quantityUnit!.displayForDropDown(context),
-                    label: AppLocalizations.of(context)!.form_quantity_unit_label,
+                    itemAsString: (QuantityUnit? quantityUnit) =>
+                        quantityUnit!.displayForDropDown(context),
+                    label:
+                        AppLocalizations.of(context)!.form_quantity_unit_label,
                     selectedItem: _quantityUnit,
-                    validator: (quantityUnit) => Validators.notNull(context, quantityUnit),
-                    onChanged: (QuantityUnit? quantityUnit) => _quantityUnit = quantityUnit,
+                    validator: (quantityUnit) =>
+                        Validators.notNull(context, quantityUnit),
+                    onChanged: (QuantityUnit? quantityUnit) =>
+                        _quantityUnit = quantityUnit,
                   ),
                 ),
               ),
@@ -99,8 +104,9 @@ class _FormArticleState extends State<FormArticle> {
                     border: const OutlineInputBorder(),
                   ),
                   selectedItem: _category,
-                  validator: (category) => Validators.notNull(context, category),
-                  onChanged: (Category category) => _category = category,
+                  validator: (category) =>
+                      Validators.notNull(context, category),
+                  onChanged: (Category? category) => _category = category!,
                 ),
               );
             },
@@ -108,7 +114,8 @@ class _FormArticleState extends State<FormArticle> {
           SwitchListTile(
             title: Text(AppLocalizations.of(context)!.perishable_label),
             value: _perishable,
-            subtitle: Text(AppLocalizations.of(context)!.perishable_description),
+            subtitle:
+                Text(AppLocalizations.of(context)!.perishable_description),
             onChanged: (bool value) {
               setState(() {
                 _perishable = value;
@@ -120,15 +127,19 @@ class _FormArticleState extends State<FormArticle> {
             icon: const Icon(Icons.add),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                Article article = Article(name: _nameController.text, unit: _quantityUnit!.index, perishable: _perishable);
+                Article article = Article(
+                    id: widget.article!.id,
+                    name: _nameController.text,
+                    unit: _quantityUnit!.index,
+                    perishable: _perishable,
+                    category: _category.category);
                 if (widget.article != null) {
-                  ArticleService.update(widget.article!.id!, article);
+                  ArticleService.update(article);
                 } else {
                   ArticleService.create(article);
                 }
-
-                Navigator.pop(context);
               }
+              Navigator.pop(context);
             },
             label: Text(AppLocalizations.of(context)!.button_add_article),
           ),
