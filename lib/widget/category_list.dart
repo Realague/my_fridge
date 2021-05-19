@@ -9,30 +9,20 @@ import 'dialog.dart';
 import 'loader.dart';
 
 class CategoryList extends StatefulWidget {
-  CategoryList(this.query, this.itemsBuilder, this.editableCategory);
+  CategoryList(this.stream, this.itemsBuilder, this.editableCategory);
 
   final bool editableCategory;
-  final Query query;
+  final Query Function(BuildContext context, Category category) stream;
   final Widget Function(BuildContext context, QueryDocumentSnapshot document)
       itemsBuilder;
 
   @override
-  State<StatefulWidget> createState() => _CategoryListState(
-      query: query,
-      itemsBuilder: itemsBuilder,
-      editableCategory: editableCategory);
+  State<StatefulWidget> createState() => _CategoryListState();
 }
 
 class _CategoryListState extends State<CategoryList> {
-  _CategoryListState(
-      {required this.query,
-      required this.itemsBuilder,
-      required this.editableCategory});
+  _CategoryListState();
 
-  final Query query;
-  final Widget Function(BuildContext context, QueryDocumentSnapshot document)
-      itemsBuilder;
-  final editableCategory;
   late Future _future;
   late List<Category> categories;
 
