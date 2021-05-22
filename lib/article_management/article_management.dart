@@ -12,8 +12,7 @@ import 'package:my_fridge/widget/dismissible.dart';
 class ArticleManagement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CategoryList(
-        ArticleService.collectionInstance, _buildArticleItem, true);
+    return CategoryList(ArticleService.getByCategory, _buildArticleItem, true);
   }
 
   Widget _buildArticleItem(BuildContext context, DocumentSnapshot document) {

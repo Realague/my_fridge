@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:my_fridge/model/article.dart';
+import 'package:my_fridge/model/category.dart';
 
 import 'database.dart';
 
@@ -37,5 +39,9 @@ class ArticleService {
           .forEach((document) => articles.add(Article.fromDocument(document)));
       return articles;
     });
+  }
+
+  static Query getByCategory(BuildContext context, Category category) {
+    return collectionInstance.where('category', isEqualTo: category.category);
   }
 }

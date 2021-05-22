@@ -9,10 +9,10 @@ import 'dialog.dart';
 import 'loader.dart';
 
 class CategoryList extends StatefulWidget {
-  CategoryList(this.stream, this.itemsBuilder, this.editableCategory);
+  CategoryList(this.query, this.itemsBuilder, this.editableCategory);
 
   final bool editableCategory;
-  final Query Function(BuildContext context, Category category) stream;
+  final Query Function(BuildContext context, Category category) query;
   final Widget Function(BuildContext context, QueryDocumentSnapshot document)
       itemsBuilder;
 
@@ -68,7 +68,7 @@ class _CategoryListState extends State<CategoryList> {
     return ExpansionPanel(
       isExpanded: category.isExpanded,
       headerBuilder: (context, isExpanded) {
-        if (editableCategory && category.category != " ") {
+        if (widget.editableCategory && category.category != " ") {
           return ListTile(
             title: Text(category.categoryForDisplay(context)),
             trailing: SizedBox(
@@ -108,8 +108,7 @@ class _CategoryListState extends State<CategoryList> {
         return ListTile(title: Text(category.categoryForDisplay(context)));
       },
       body: StreamBuilder(
-        stream:
-            query.where('category', isEqualTo: category.category).snapshots(),
+        stream: widget.query.call(context, category).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Loader();
@@ -118,7 +117,7 @@ class _CategoryListState extends State<CategoryList> {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: (snapshot.data as QuerySnapshot).docs.length,
-            itemBuilder: (context, index) => itemsBuilder(
+            itemBuilder: (context, index) => widget.itemsBuilder(
                 context, (snapshot.data as QuerySnapshot).docs[index]),
           );
         },

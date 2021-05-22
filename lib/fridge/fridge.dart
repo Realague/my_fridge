@@ -18,8 +18,7 @@ class Fridge extends StatefulWidget {
 class _FridgeState extends State<Fridge> {
   @override
   Widget build(BuildContext context) {
-    return CategoryList(
-        FridgeService.getCollectionInstance(context), _buildFridgeItem, false);
+    return CategoryList(FridgeService.getByCategory, _buildFridgeItem, false);
   }
 
   Widget _buildFridgeItem(BuildContext context, DocumentSnapshot document) {
