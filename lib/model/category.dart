@@ -14,7 +14,8 @@ class Category {
   bool isExpanded;
 
   static Category fromDocument(DocumentSnapshot document) {
-    return Category(id: document.id, category: document.data()!['category'], isExpanded: false);
+    Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+    return Category(id: document.id, category: data['category'], isExpanded: false);
   }
 
   Map<String, Object> get asMap {

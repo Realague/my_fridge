@@ -24,14 +24,15 @@ class FridgeArticle {
   String get expiryDateDisplay => expiryDate == null ? "" : DateFormat('dd/MM/yyyy').format(expiryDate!);
 
   static FridgeArticle fromDocument(DocumentSnapshot document) {
+    Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     return FridgeArticle(
         id: document.id,
-        name: document.data()!['name'],
-        unit: document.data()!['unit'],
-        quantity: document.data()!['quantity'],
-        perishable: document.data()!["perishable"],
-        category: document.data()!['category'],
-        expiryDate: DateTime.fromMicrosecondsSinceEpoch((document.data()!['expiry_date'] as Timestamp).microsecondsSinceEpoch));
+        name: data['name'],
+        unit: data['unit'],
+        quantity: data['quantity'],
+        perishable: data["perishable"],
+        category: data['category'],
+        expiryDate: DateTime.fromMicrosecondsSinceEpoch((data['expiry_date'] as Timestamp).microsecondsSinceEpoch));
   }
 
   Map<String, Object> get asMap {

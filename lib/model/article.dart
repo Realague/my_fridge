@@ -17,12 +17,13 @@ class Article {
   QuantityUnit get quantityUnit => QuantityUnit.values[unit];
 
   static Article fromDocument(DocumentSnapshot document) {
+    Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     return Article(
         id: document.id,
-        name: document.data()!['name'],
-        unit: document.data()!['unit'],
-        perishable: document.data()!['perishable'],
-        category: document.data()!['category']);
+        name: data['name'],
+        unit: data['unit'],
+        perishable: data['perishable'],
+        category: data['category']);
   }
 
   Map<String, Object> get asMap {
