@@ -9,31 +9,34 @@ import 'package:my_fridge/services/article_service.dart';
 import 'package:my_fridge/services/fridge_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 
-class FormFridgeArticleArticle extends StatefulWidget {
-  const FormFridgeArticleArticle({this.article, this.id}) : super();
+class FormFridgeArticle extends StatefulWidget {
+  const FormFridgeArticle({this.article, this.id}) : super();
 
   final FridgeArticle? article;
   final String? id;
 
   @override
-  State<StatefulWidget> createState() => _FormFridgeArticleArticleState(article, id);
+  State<StatefulWidget> createState() => _FormFridgeArticleArticleState();
 }
 
-class _FormFridgeArticleArticleState extends State<FormFridgeArticleArticle> {
-  _FormFridgeArticleArticleState(FridgeArticle? article, this.id) {
-    if (article != null) {
-      _selectedArticle = Article(name: article.name, unit: article.unit, perishable: article.perishable, category: article.category);
-      _quantityController.text = article.quantity.toString();
-    }
-  }
-
-  Article? _selectedArticle;
+class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
   final _quantityController = TextEditingController();
-  final String? id;
-  int _selectedDate = 0;
+  Article? _selectedArticle;
+  DateTime? _selectedDate;
   TextEditingController _dateController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    if (widget.article != null) {
+      _selectedArticle =
+          Article(name: widget.article!.name, unit: widget.article!.unit, perishable: widget.article!.perishable, category: widget.article!.category);
+    }
+    _quantityController.text = widget.article?.quantity.toString() ?? "";
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -43,13 +46,35 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticleArticle> {
 
   Future _selectDate(BuildContext context) async {
     final DateTime? pickedDate = (await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2015), lastDate: DateTime(2050)));
-    if (pickedDate != null /*&& pickedDate.microsecond != _selectedDate*/) {
+    if (pickedDate != null && pickedDate != _selectedDate) {
       setState(() {
-        _selectedDate = pickedDate.microsecond;
+        _selectedDate = pickedDate;
         _dateController.text = DateFormat('dd/MM/yyyy').format(pickedDate);
-        pickedDate.toString();
       });
     }
+  }
+
+  Widget _dateSelection() {
+    if (_selectedArticle != null && _selectedArticle!.perishable) {
+      return Expanded(
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: TextFormField(
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: AppLocalizations.of(context)!.form_quantity_label,
+            ),
+            controller: _dateController,
+            onTap: () {
+              _selectDate(context);
+              FocusScope.of(context).requestFocus(new FocusNode());
+            },
+            readOnly: true,
+          ),
+        ),
+      );
+    }
+    return SizedBox();
   }
 
   @override
@@ -76,7 +101,11 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticleArticle> {
                       contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
                       border: const OutlineInputBorder(),
                     ),
-                    onChanged: (Article? article) => _selectedArticle = article,
+                    onChanged: (Article? article) {
+                      setState(() {
+                        _selectedArticle = article;
+                      });
+                    },
                     selectedItem: _selectedArticle,
                     validator: (article) => Validators.notNull(context, article),
                   ),
@@ -96,24 +125,8 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticleArticle> {
                   ),
                 ),
               ),
+              _dateSelection(),
             ],
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: AppLocalizations.of(context)!.form_quantity_label,
-                ),
-                controller: _dateController,
-                onTap: () {
-                  _selectDate(context);
-                  FocusScope.of(context).requestFocus(new FocusNode());
-                },
-                readOnly: true,
-              ),
-            ),
           ),
           SizedBox(height: 20),
           ElevatedButton.icon(
@@ -121,14 +134,15 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticleArticle> {
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 FridgeArticle fridgeArticle = FridgeArticle(
+                    id: widget.article?.id ?? null,
                     name: _selectedArticle!.name,
                     unit: _selectedArticle!.unit,
                     category: _selectedArticle!.category,
                     quantity: int.tryParse(_quantityController.text)!,
                     perishable: _selectedArticle!.perishable,
                     expiryDate: _selectedDate);
-                if (id != null) {
-                  FridgeService.update(id!, fridgeArticle, context);
+                if (fridgeArticle.id != null) {
+                  FridgeService.update(fridgeArticle, context);
                 } else {
                   FridgeService.create(fridgeArticle, context);
                 }
