@@ -30,6 +30,7 @@ before_deploy:
 # Use the Flutter console to configure your web app.
 # https://docs.travis-ci.com/user/deployment/firebase/
 deploy:
+  if: tag IS present
   provider: firebase
   token:
     secure: "1//03xdbP5SCxGIMCgYIARAAGAMSNwF-L9Ir-hbY8v3UJ2Z0pnhBkdtP1PdAZMyplp9YBSd9RtPeN9AJWSEcxGI_UuaaBxYVUQK5ep4"
