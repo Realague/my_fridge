@@ -30,8 +30,11 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
   @override
   void initState() {
     if (widget.article != null) {
-      _selectedArticle =
-          Article(name: widget.article!.name, unit: widget.article!.unit, perishable: widget.article!.perishable, category: widget.article!.category);
+      _selectedArticle = Article(
+          name: widget.article!.name,
+          unit: widget.article!.unit,
+          perishable: widget.article!.perishable,
+          category: widget.article!.category);
     }
     _quantityController.text = widget.article?.quantity.toString() ?? "";
 
@@ -45,7 +48,11 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
   }
 
   Future _selectDate(BuildContext context) async {
-    final DateTime? pickedDate = (await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2015), lastDate: DateTime(2050)));
+    final DateTime? pickedDate = (await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2015),
+        lastDate: DateTime(2050)));
     if (pickedDate != null && pickedDate != _selectedDate) {
       setState(() {
         _selectedDate = pickedDate;

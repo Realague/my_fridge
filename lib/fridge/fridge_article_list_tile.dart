@@ -11,8 +11,21 @@ class FridgeArticleListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text('${article.name} ${article.quantity} ${article.quantityUnit.displayForDropDown(context)}'),
-      subtitle: Text('${Utils.nullDateTime != article.expiryDate ? article.expiryDateDisplay : ""}'),
+      tileColor: Utils.nullDateTime == article.expiryDate ||
+              article.expiryDate == null ||
+              DateTime.now()
+                  .add(const Duration(days: 3))
+                  .isBefore(article.expiryDate!)
+          ? Colors.white
+          : DateTime.now()
+                  .add(const Duration(days: 1))
+                  .isAfter(article.expiryDate!)
+              ? Colors.red
+              : Colors.amber,
+      title: Text(
+          '${article.name} ${article.quantity} ${article.quantityUnit.displayForDropDown(context)}'),
+      subtitle: Text(
+          '${Utils.nullDateTime != article.expiryDate ? article.expiryDateDisplay : ""}'),
     );
   }
 }

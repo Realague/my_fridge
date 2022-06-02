@@ -3,7 +3,14 @@ import 'package:intl/intl.dart';
 import 'package:my_fridge/model/quantity_unit.dart';
 
 class FridgeArticle {
-  FridgeArticle({this.id, required this.name, required this.unit, required this.quantity, required this.perishable, required this.category, this.expiryDate});
+  FridgeArticle(
+      {this.id,
+      required this.name,
+      required this.unit,
+      required this.quantity,
+      required this.perishable,
+      required this.category,
+      this.expiryDate});
 
   String? id;
 
@@ -21,10 +28,17 @@ class FridgeArticle {
 
   DateTime? expiryDate;
 
-  String get expiryDateDisplay => expiryDate == null ? "" : DateFormat('dd/MM/yyyy').format(expiryDate!);
+  String get expiryDateDisplay =>
+      expiryDate == null ? "" : DateFormat('dd/MM/yyyy').format(expiryDate!);
 
   static FridgeArticle fromDocument(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+    DateTime expiryDate = DateTime(2050);
+    if (data['expiry_date'] != null) {
+      expiryDate = DateTime.fromMicrosecondsSinceEpoch(
+          (data['expiry_date'] as Timestamp).microsecondsSinceEpoch);
+    }
+
     return FridgeArticle(
         id: document.id,
         name: data['name'],
@@ -32,7 +46,7 @@ class FridgeArticle {
         quantity: data['quantity'],
         perishable: data["perishable"],
         category: data['category'],
-        expiryDate: DateTime.fromMicrosecondsSinceEpoch((data['expiry_date'] as Timestamp).microsecondsSinceEpoch));
+        expiryDate: expiryDate);
   }
 
   Map<String, Object> get asMap {

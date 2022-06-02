@@ -26,5 +26,12 @@
   "error_wrong_quantity": "Veuillez selectionner une quantité valide",
   "quantity_unit_gram_display_for_dropdown": "Gramme",
   "quantity_unit_liter_display_for_dropdown": "Centilitre",
-  "quantity_unit_piece_display_for_dropdown": "Pièce"
+  "quantity_unit_piece_display_for_dropdown": "Pièce",
+  "monday": "Lundi",
+  "tuesday": "Mardi",
+  "wednesday": "Mercredi",
+  "thursday": "Jeudi",
+  "friday": "Vendredi",
+  "saturday": "Samedi",
+  "sunday": "Dimanche"
 }
