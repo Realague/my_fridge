@@ -16,5 +16,3 @@ deploy:
   provider: firebase
   token: "$FIREBASE_TOKEN"
   skip_cleanup: true
-  on:
-    all_branches: true
