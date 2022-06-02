@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/fridge_article.dart';
+import 'package:my_fridge/services/category_type.dart';
 import 'package:my_fridge/services/fridge_service.dart';
+import 'package:my_fridge/utils/utils.dart';
 import 'package:my_fridge/widget/category_list.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/dismissible.dart';
@@ -18,7 +20,8 @@ class Fridge extends StatefulWidget {
 class _FridgeState extends State<Fridge> {
   @override
   Widget build(BuildContext context) {
-    return CategoryList(FridgeService.getByCategory, _buildFridgeItem, false);
+    return CategoryList(FridgeService.getByCategory, _buildFridgeItem, false,
+        CategoryType.ARTICLE);
   }
 
   Widget _buildFridgeItem(BuildContext context, DocumentSnapshot document) {
@@ -33,16 +36,16 @@ class _FridgeState extends State<Fridge> {
             builder: (BuildContext context) {
               return DialogFullScreen(
                 title: AppLocalizations.of(context)!.shopping_list_popup_title,
-                child: Column(
-                  children: [
-                    FormFridgeArticle(article: article, id: article.id),
-                  ],
-                ),
+                child: FormFridgeArticle(article: article, id: article.id),
               );
             },
           );
         } else {
-          FridgeService.delete(article.id!, context);
+          await Utils.showConfirmDialog(
+              context,
+              AppLocalizations.of(context)!.confirm_delete_fridge_article,
+              FridgeService.delete,
+              article.id!);
         }
       },
     );

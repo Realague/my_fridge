@@ -50,7 +50,8 @@ class InitializeProviders extends StatelessWidget {
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
         StreamProvider(
-          create: (context) => context.read<AuthenticationService>().authStateChanges,
+          create: (context) =>
+              context.read<AuthenticationService>().authStateChanges,
           initialData: null,
         ),
       ],
@@ -82,7 +83,8 @@ class AuthenticationWrapper extends StatelessWidget {
     final fireBaseUser = context.watch<User?>();
 
     if (fireBaseUser != null) {
-      UserService.create(fireBaseUser.uid, fireBaseUser.displayName!, fireBaseUser.email!);
+      UserService.create(
+          fireBaseUser.uid, fireBaseUser.displayName!, fireBaseUser.email!);
       return CustomBottomNavigationBar();
     } else {
       return AuthenticationPage();

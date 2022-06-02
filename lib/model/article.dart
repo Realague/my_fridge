@@ -1,8 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_fridge/model/quantity_unit.dart';
+import 'package:my_fridge/model/shopping_article.dart';
 
 class Article {
-  Article({this.id, required this.name, required this.unit, required this.perishable, this.category: " "});
+  Article(
+      {this.id,
+      required this.name,
+      required this.unit,
+      required this.perishable,
+      this.category: " "});
+
+  static Article fromShoppingArticle(ShoppingArticle article) {
+    return Article(
+        name: article.name,
+        unit: article.unit,
+        perishable: article.perishable,
+        category: article.category);
+  }
 
   String? id;
 
@@ -27,6 +41,11 @@ class Article {
   }
 
   Map<String, Object> get asMap {
-    return {'name': this.name, 'unit': this.unit, 'perishable': this.perishable, 'category': this.category};
+    return {
+      'name': this.name,
+      'unit': this.unit,
+      'perishable': this.perishable,
+      'category': this.category
+    };
   }
 }

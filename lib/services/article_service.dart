@@ -10,15 +10,25 @@ class ArticleService {
       FirebaseFirestore.instance.collection('articles');
 
   static create(Article article) {
-    DatabaseService.create(data: article.asMap, collection: collectionInstance);
+    collectionInstance
+        .doc(article.name)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (!documentSnapshot.exists) {
+        DatabaseService.create(
+            id: article.name,
+            data: article.asMap,
+            collection: collectionInstance);
+      }
+    });
   }
 
   static update(Article article) {
     DatabaseService.update(article.id!, article.asMap, collectionInstance);
   }
 
-  static delete(String userId) {
-    DatabaseService.delete(userId, collectionInstance);
+  static delete(String articleId) {
+    DatabaseService.delete(articleId, collectionInstance);
   }
 
   static Future<List<Article>> get(String? searchFilter) async {

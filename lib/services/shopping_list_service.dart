@@ -59,6 +59,6 @@ class ShoppingListService {
   static Query getByCategory(BuildContext context, Category category) {
     return getCollectionInstance(context)
         .where('category', isEqualTo: category.category);
-        //.orderBy('checked');
+    //.orderBy('checked');
   }
 }

@@ -9,30 +9,19 @@ import 'package:my_fridge/services/article_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 import 'package:my_fridge/widget/loader.dart';
 
-class FormArticle extends StatefulWidget {
-  const FormArticle({this.article}) : super();
-
-  final Article? article;
+class FormAddArticle extends StatefulWidget {
+  const FormAddArticle() : super();
 
   @override
-  State<StatefulWidget> createState() => _FormArticleState();
+  State<StatefulWidget> createState() => _FormAddArticleState();
 }
 
-class _FormArticleState extends State<FormArticle> {
+class _FormAddArticleState extends State<FormAddArticle> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   QuantityUnit? _quantityUnit;
-  late bool _perishable;
-  late Category _category;
-
-  @override
-  void initState() {
-    _perishable = widget.article?.perishable ?? false;
-    _nameController.text = widget.article?.name ?? "";
-    _category = Category(category: widget.article?.category ?? " ");
-    _quantityUnit = widget.article?.quantityUnit ?? null;
-    super.initState();
-  }
+  bool _perishable = false;
+  Category? _category;
 
   @override
   void dispose() {
@@ -106,7 +95,7 @@ class _FormArticleState extends State<FormArticle> {
                   selectedItem: _category,
                   validator: (category) =>
                       Validators.notNull(context, category),
-                  onChanged: (Category? category) => _category = category!,
+                  onChanged: (Category? category) => _category = category,
                 ),
               );
             },
@@ -128,20 +117,16 @@ class _FormArticleState extends State<FormArticle> {
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 Article article = Article(
-                    id: widget.article!.id,
                     name: _nameController.text,
                     unit: _quantityUnit!.index,
                     perishable: _perishable,
-                    category: _category.category);
-                if (widget.article != null) {
-                  ArticleService.update(article);
-                } else {
-                  ArticleService.create(article);
-                }
+                    category: _category!.category);
+                ArticleService.create(article);
+                Navigator.pop(context);
               }
-              Navigator.pop(context);
             },
-            label: Text(AppLocalizations.of(context)!.button_add_article),
+            label: Text(AppLocalizations.of(context)!
+                .button_add_article_to_shopping_list),
           ),
         ],
       ),
