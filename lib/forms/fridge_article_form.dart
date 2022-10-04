@@ -5,9 +5,10 @@ import 'package:intl/intl.dart';
 import 'package:my_fridge/model/article.dart';
 import 'package:my_fridge/model/fridge_article.dart';
 import 'package:my_fridge/model/quantity_unit.dart';
-import 'package:my_fridge/services/article_service.dart';
 import 'package:my_fridge/services/fridge_service.dart';
 import 'package:my_fridge/utils/validators.dart';
+
+import '../services/article_service.dart';
 
 class FormFridgeArticle extends StatefulWidget {
   const FormFridgeArticle({this.article, this.id}) : super();
@@ -97,24 +98,28 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<Article>(
-                    mode: Mode.MENU,
-                    showSearchBox: true,
-                    onFind: (filter) async {
-                      return await ArticleService.get(filter);
-                    },
-                    itemAsString: (Article? article) => article!.name + ", " + article.quantityUnit.displayForDropDown(context),
-                    label: AppLocalizations.of(context)!.form_article_label,
-                    dropdownSearchDecoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
-                      border: const OutlineInputBorder(),
+                    asyncItems: (String filter) => ArticleService.get(filter),
+                    popupProps: PopupProps.menu(showSearchBox: true),
+                    dropdownDecoratorProps: DropDownDecoratorProps(
+                      dropdownSearchDecoration: InputDecoration(
+                        labelText:
+                            AppLocalizations.of(context)!.form_article_label,
+                        contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                        border: const OutlineInputBorder(),
+                      ),
                     ),
+                    itemAsString: (Article? article) =>
+                        article!.name +
+                        ", " +
+                        article.quantityUnit.displayForDropDown(context),
                     onChanged: (Article? article) {
                       setState(() {
                         _selectedArticle = article;
                       });
                     },
                     selectedItem: _selectedArticle,
-                    validator: (article) => Validators.notNull(context, article),
+                    validator: (article) =>
+                        Validators.notNull(context, article),
                   ),
                 ),
               ),
@@ -125,7 +130,8 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText: AppLocalizations.of(context)!.form_quantity_label,
+                      labelText:
+                          AppLocalizations.of(context)!.form_quantity_label,
                     ),
                     validator: (value) => Validators.number(context, value!),
                     controller: _quantityController,

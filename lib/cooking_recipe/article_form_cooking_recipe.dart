@@ -5,8 +5,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/article.dart';
 import 'package:my_fridge/model/quantity_unit.dart';
 import 'package:my_fridge/model/shopping_article.dart';
-import 'package:my_fridge/services/article_service.dart';
 import 'package:my_fridge/utils/validators.dart';
+
+import '../services/article_service.dart';
 
 typedef void RemoveIngredientCallback();
 typedef void EditIngredientCallback(ShoppingArticle shoppingArticle);
@@ -62,19 +63,18 @@ class _IngredientFormState extends State<IngredientForm> {
           child: Padding(
             padding: EdgeInsets.all(8.0),
             child: DropdownSearch<Article>(
-              mode: Mode.MENU,
-              showSearchBox: true,
-              onFind: (filter) async {
-                return await ArticleService.get(filter);
-              },
+              asyncItems: (String filter) => ArticleService.get(filter),
+              popupProps: PopupProps.menu(showSearchBox: true),
               itemAsString: (Article? article) =>
                   article!.name +
                   ", " +
                   article.quantityUnit.displayForDropDown(context),
-              label: AppLocalizations.of(context)!.form_article_label,
-              dropdownSearchDecoration: InputDecoration(
-                contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
-                border: const OutlineInputBorder(),
+              dropdownDecoratorProps: DropDownDecoratorProps(
+                dropdownSearchDecoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.form_article_label,
+                  contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                  border: const OutlineInputBorder(),
+                ),
               ),
               onChanged: (Article? article) {
                 setState(() {

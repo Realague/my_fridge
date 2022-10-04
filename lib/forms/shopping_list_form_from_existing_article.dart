@@ -14,10 +14,12 @@ class FormShoppingListFromExistingArticle extends StatefulWidget {
   final ShoppingArticle? article;
 
   @override
-  State<StatefulWidget> createState() => _FormShoppingListFromExistingArticleState();
+  State<StatefulWidget> createState() =>
+      _FormShoppingListFromExistingArticleState();
 }
 
-class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFromExistingArticle> {
+class _FormShoppingListFromExistingArticleState
+    extends State<FormShoppingListFromExistingArticle> {
   final _quantityController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   Article? _selectedArticle;
@@ -25,8 +27,11 @@ class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFr
   @override
   void initState() {
     if (widget.article != null) {
-      _selectedArticle =
-          Article(name: widget.article!.name, unit: widget.article!.unit, perishable: widget.article!.perishable, category: widget.article!.category);
+      _selectedArticle = Article(
+          name: widget.article!.name,
+          unit: widget.article!.unit,
+          perishable: widget.article!.perishable,
+          category: widget.article!.category);
     }
     _quantityController.text = widget.article?.quantity.toString() ?? "";
     super.initState();
@@ -51,20 +56,24 @@ class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFr
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<Article>(
-                    mode: Mode.MENU,
-                    showSearchBox: true,
-                    onFind: (filter) async {
-                      return await ArticleService.get(filter);
-                    },
-                    itemAsString: (Article? article) => article!.name + ", " + article.quantityUnit.displayForDropDown(context),
-                    label: AppLocalizations.of(context)!.form_article_label,
-                    dropdownSearchDecoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
-                      border: const OutlineInputBorder(),
+                    asyncItems: (String filter) => ArticleService.get(filter),
+                    popupProps: PopupProps.menu(showSearchBox: true),
+                    itemAsString: (Article? article) =>
+                        article!.name +
+                        ", " +
+                        article.quantityUnit.displayForDropDown(context),
+                    dropdownDecoratorProps: DropDownDecoratorProps(
+                      dropdownSearchDecoration: InputDecoration(
+                        labelText:
+                            AppLocalizations.of(context)!.form_article_label,
+                        contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                        border: const OutlineInputBorder(),
+                      ),
                     ),
                     onChanged: (Article? article) => _selectedArticle = article,
                     selectedItem: _selectedArticle,
-                    validator: (article) => Validators.notNull(context, article),
+                    validator: (article) =>
+                        Validators.notNull(context, article),
                   ),
                 ),
               ),
@@ -75,7 +84,8 @@ class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFr
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText: AppLocalizations.of(context)!.form_quantity_label,
+                      labelText:
+                          AppLocalizations.of(context)!.form_quantity_label,
                     ),
                     validator: (value) => Validators.number(context, value!),
                     controller: _quantityController,
@@ -104,7 +114,8 @@ class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFr
                 Navigator.pop(context);
               }
             },
-            label: Text(AppLocalizations.of(context)!.button_add_article_to_shopping_list),
+            label: Text(AppLocalizations.of(context)!
+                .button_add_article_to_shopping_list),
           ),
         ],
       ),

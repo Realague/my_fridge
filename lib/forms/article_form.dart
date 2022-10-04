@@ -65,12 +65,15 @@ class _FormArticleState extends State<FormArticle> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<QuantityUnit>(
-                    mode: Mode.MENU,
                     items: QuantityUnit.values,
                     itemAsString: (QuantityUnit? quantityUnit) =>
                         quantityUnit!.displayForDropDown(context),
-                    label:
-                        AppLocalizations.of(context)!.form_quantity_unit_label,
+                    dropdownDecoratorProps: DropDownDecoratorProps(
+                      dropdownSearchDecoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!
+                            .form_quantity_unit_label,
+                      ),
+                    ),
                     selectedItem: _quantityUnit,
                     validator: (quantityUnit) =>
                         Validators.notNull(context, quantityUnit),
@@ -90,7 +93,6 @@ class _FormArticleState extends State<FormArticle> {
               return Padding(
                 padding: EdgeInsets.all(8.0),
                 child: DropdownSearch<Category>(
-                  mode: Mode.MENU,
                   items: snapshot.data as List<Category>,
                   itemAsString: (Category? category) {
                     if (category != null && category.category == " ") {
@@ -98,10 +100,12 @@ class _FormArticleState extends State<FormArticle> {
                     }
                     return category!.category;
                   },
-                  label: AppLocalizations.of(context)!.category_label,
-                  dropdownSearchDecoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
-                    border: const OutlineInputBorder(),
+                  dropdownDecoratorProps: DropDownDecoratorProps(
+                    dropdownSearchDecoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.category_label,
+                      contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                      border: const OutlineInputBorder(),
+                    ),
                   ),
                   selectedItem: _category,
                   validator: (category) =>

@@ -62,20 +62,20 @@ class _SelectArticleFormState extends State<SelectArticleForm> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<Article>(
-                    mode: Mode.MENU,
-                    showSearchBox: true,
-                    onFind: (filter) async {
-                      return await ArticleService.get(filter);
-                    },
+                    asyncItems: (String filter) => ArticleService.get(filter),
+                    popupProps: PopupProps.menu(showSearchBox: true),
+                    dropdownDecoratorProps: DropDownDecoratorProps(
+                      dropdownSearchDecoration: InputDecoration(
+                        labelText:
+                            AppLocalizations.of(context)!.form_article_label,
+                        contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                        border: const OutlineInputBorder(),
+                      ),
+                    ),
                     itemAsString: (Article? article) =>
                         article!.name +
                         ", " +
                         article.quantityUnit.displayForDropDown(context),
-                    label: AppLocalizations.of(context)!.form_article_label,
-                    dropdownSearchDecoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
-                      border: const OutlineInputBorder(),
-                    ),
                     onChanged: (Article? article) {
                       setState(() {
                         _selectedArticle = article;
