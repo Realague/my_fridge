@@ -12,12 +12,7 @@ import 'package:my_fridge/widget/dismissible.dart';
 import '../forms/fridge_article_form.dart';
 import 'fridge_article_list_tile.dart';
 
-class Fridge extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _FridgeState();
-}
-
-class _FridgeState extends State<Fridge> {
+class Fridge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CategoryList(FridgeService.getByCategory, _buildFridgeItem, false,
