@@ -7,7 +7,7 @@ class CategoryService {
   static final CollectionReference collectionInstance =
       FirebaseFirestore.instance.collection('category');
 
-  static create(Category category) {
+  static create(final Category category) {
     DatabaseService.create(
         data: category.asMap, collection: collectionInstance);
   }
@@ -21,11 +21,11 @@ class CategoryService {
     });
   }
 
-  static update(Category category) {
+  static update(final Category category) {
     DatabaseService.update(category.id!, category.asMap, collectionInstance);
   }
 
-  static delete(String userId) {
+  static delete(final String userId) {
     DatabaseService.delete(userId, collectionInstance);
   }
 }

@@ -48,7 +48,7 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
     super.dispose();
   }
 
-  Future _selectDate(BuildContext context) async {
+  Future _selectDate(final BuildContext context) async {
     final DateTime? pickedDate = (await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -86,7 +86,7 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -98,7 +98,8 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<Article>(
-                    asyncItems: (String filter) => ArticleService.get(filter),
+                    asyncItems: (final String filter) =>
+                        ArticleService.get(filter),
                     popupProps: PopupProps.menu(showSearchBox: true),
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       dropdownSearchDecoration: InputDecoration(
@@ -112,13 +113,13 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
                         article!.name +
                         ", " +
                         article.quantityUnit.displayForDropDown(context),
-                    onChanged: (Article? article) {
+                    onChanged: (final Article? article) {
                       setState(() {
                         _selectedArticle = article;
                       });
                     },
                     selectedItem: _selectedArticle,
-                    validator: (article) =>
+                    validator: (final article) =>
                         Validators.notNull(context, article),
                   ),
                 ),
@@ -133,7 +134,7 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
                       labelText:
                           AppLocalizations.of(context)!.form_quantity_label,
                     ),
-                    validator: (value) => Validators.number(context, value!),
+                    validator: (final value) =>
                     controller: _quantityController,
                   ),
                 ),

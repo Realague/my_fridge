@@ -10,7 +10,7 @@ class Article {
       required this.perishable,
       this.category: " "});
 
-  static Article fromShoppingArticle(ShoppingArticle article) {
+  static Article fromShoppingArticle(final ShoppingArticle article) {
     return Article(
         name: article.name,
         unit: article.unit,
@@ -30,7 +30,7 @@ class Article {
 
   QuantityUnit get quantityUnit => QuantityUnit.values[unit];
 
-  static Article fromDocument(DocumentSnapshot document) {
+  static Article fromDocument(final DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     return Article(
         id: document.id,

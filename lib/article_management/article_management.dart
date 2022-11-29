@@ -5,19 +5,18 @@ import 'package:my_fridge/article_management/article_list_tile.dart';
 import 'package:my_fridge/forms/article_form.dart';
 import 'package:my_fridge/model/article.dart';
 import 'package:my_fridge/services/article_service.dart';
-import 'package:my_fridge/services/category_type.dart';
 import 'package:my_fridge/widget/category_list.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/dismissible.dart';
 
 class ArticleManagement extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return CategoryList(ArticleService.getByCategory, _buildArticleItem, true,
-        CategoryType.ARTICLE);
+  Widget build(final BuildContext context) {
+    return CategoryList(ArticleService.getByCategory, _buildArticleItem, true);
   }
 
-  Widget _buildArticleItem(BuildContext context, DocumentSnapshot document) {
+  Widget _buildArticleItem(
+      final BuildContext context, final DocumentSnapshot document) {
     Article article = Article.fromDocument(document);
     return DismissibleBothWay(
       key: Key(article.id!),
@@ -26,7 +25,7 @@ class ArticleManagement extends StatelessWidget {
         if (direction == DismissDirection.startToEnd) {
           await showDialog(
             context: context,
-            builder: (BuildContext context) {
+            builder: (final BuildContext context) {
               return DialogFullScreen(
                 title: AppLocalizations.of(context)!.add_article_popup_title,
                 child: FormArticle(article: article),

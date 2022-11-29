@@ -2,36 +2,38 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_fridge/model/category.dart';
 import 'package:my_fridge/model/shopping_article.dart';
-import 'package:my_fridge/services/user_service.dart';
+import 'package:my_fridge/services/household_service.dart';
 
 import 'database.dart';
 
 class ShoppingListService {
-  static create(ShoppingArticle article, BuildContext context) {
+  static create(final ShoppingArticle article, final BuildContext context) {
     DatabaseService.create(
         data: article.asMap, collection: getCollectionInstance(context));
   }
 
-  static createFromFridge(ShoppingArticle article, BuildContext context) {
+  static createFromFridge(
+      final ShoppingArticle article, final BuildContext context) {
     DatabaseService.create(
         data: article.asMap, collection: getCollectionInstance(context));
   }
 
-  static update(ShoppingArticle article, BuildContext context) {
+  static update(final ShoppingArticle article, final BuildContext context) {
     DatabaseService.update(
         article.id!, article.asMap, getCollectionInstance(context));
   }
 
-  static CollectionReference getCollectionInstance(BuildContext context) {
-    return UserService.currentUserDocument(context).collection("shopping_list");
+  static CollectionReference getCollectionInstance(final BuildContext context) {
+    return HouseholdService.getSelectedHousehold(context)
+        .collection("shopping_list");
   }
 
-  static delete(String articleId, BuildContext context) {
+  static delete(final String articleId, final BuildContext context) {
     DatabaseService.delete(articleId, getCollectionInstance(context));
   }
 
   static Future<List<ShoppingArticle>> getOrderBy(
-      String field, BuildContext context) async {
+      final String field, final BuildContext context) async {
     List<ShoppingArticle> articles = [];
     return getCollectionInstance(context)
         .orderBy(field)
@@ -56,7 +58,8 @@ class ShoppingListService {
     });
   }
 
-  static Query getByCategory(BuildContext context, Category category) {
+  static Query getByCategory(
+      final BuildContext context, final Category category) {
     return getCollectionInstance(context)
         .where('category', isEqualTo: category.category);
     //.orderBy('checked');

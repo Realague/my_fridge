@@ -40,10 +40,10 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     });
   }
 
-  void _addShoppingListArticle(BuildContext context) {
+  void _addShoppingListArticle(final BuildContext context) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (final BuildContext context) {
         return DialogFullScreen(
           title: AppLocalizations.of(context)!.shopping_list_popup_title,
           child: SelectArticleForm(confirmCallback: (article, quantity) {
@@ -56,10 +56,10 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     );
   }
 
-  void _addFridgeArticle(BuildContext context) {
+  void _addFridgeArticle(final BuildContext context) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (final BuildContext context) {
         return DialogFullScreen(
           title: AppLocalizations.of(context)!.fridge_popup_title,
           child: FormFridgeArticle(),
@@ -68,10 +68,10 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     );
   }
 
-  void _addCookingRecipe(BuildContext context) {
+  void _addCookingRecipe(final BuildContext context) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (final BuildContext context) {
         return DialogFullScreen(
           title: AppLocalizations.of(context)!.add_article_popup_title,
           child: CookingRecipeView(insertMode: true),
@@ -80,10 +80,10 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     );
   }
 
-  void _addArticle(BuildContext context) {
+  void _addArticle(final BuildContext context) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (final BuildContext context) {
         return DialogFullScreen(
           title: AppLocalizations.of(context)!.add_article_popup_title,
           child: FormArticle(),
@@ -92,10 +92,10 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     );
   }
 
-  void _addCategory(BuildContext context) {
+  void _addCategory(final BuildContext context) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (final BuildContext context) {
         return DialogFullScreen(
           title: AppLocalizations.of(context)!.add_category_popup_title,
           child: CategoryForm(),
@@ -104,14 +104,15 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     );
   }
 
-  void _addCheckedShoppingArticles(BuildContext context) async {
+  void _addCheckedShoppingArticles(final BuildContext context) async {
     var articles = ShoppingListService.getOnlyCheckedArticle(context);
     articles.then(
-      (articles) => {
+      (final articles) => {
         articles.forEach(
-          (article) async {
+          (final article) async {
             if (article.perishable) {
               DateTime? expiryDate = article.expiryDate;
+              //TODO if cancel set to null
               if (expiryDate == null) {
                 expiryDate = await showDatePicker(
                   context: context,
@@ -186,7 +187,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MyFridge'),

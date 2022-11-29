@@ -7,7 +7,7 @@ enum WeekDay { MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY }
 extension WeekDayExtension on WeekDay {
   String get name => describeEnum(this);
 
-  String display(BuildContext context) {
+  String display(final BuildContext context) {
     switch (this) {
       case WeekDay.MONDAY:
         return AppLocalizations.of(context)!.monday;

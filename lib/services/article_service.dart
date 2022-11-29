@@ -9,7 +9,7 @@ class ArticleService {
   static final CollectionReference collectionInstance =
       FirebaseFirestore.instance.collection('articles');
 
-  static create(Article article) {
+  static create(final Article article) {
     collectionInstance
         .doc(article.name)
         .get()
@@ -23,15 +23,15 @@ class ArticleService {
     });
   }
 
-  static update(Article article) {
+  static update(final Article article) {
     DatabaseService.update(article.id!, article.asMap, collectionInstance);
   }
 
-  static delete(String articleId) {
+  static delete(final String articleId) {
     DatabaseService.delete(articleId, collectionInstance);
   }
 
-  static Future<List<Article>> get(String? searchFilter) async {
+  static Future<List<Article>> get(final String? searchFilter) async {
     List<Article> articles = [];
     if (searchFilter == null || searchFilter == '') {
       return collectionInstance.get().then((querySnapshot) {
@@ -51,7 +51,8 @@ class ArticleService {
     });
   }
 
-  static Query getByCategory(BuildContext context, Category category) {
+  static Query getByCategory(
+      final BuildContext context, final Category category) {
     return collectionInstance.where('category', isEqualTo: category.category);
   }
 }

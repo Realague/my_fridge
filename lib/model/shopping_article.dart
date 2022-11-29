@@ -34,7 +34,8 @@ class ShoppingArticle {
 
   bool isEditable = false;
 
-  static ShoppingArticle fromArticle(Article article, int quantity) {
+  static ShoppingArticle fromArticle(
+      final Article article, final int quantity) {
     return ShoppingArticle(
         name: article.name,
         unit: article.unit,
@@ -43,7 +44,7 @@ class ShoppingArticle {
         category: article.category);
   }
 
-  static ShoppingArticle fromMap(Map<String, dynamic> map) {
+  static ShoppingArticle fromMap(final Map<String, dynamic> map) {
     return ShoppingArticle(
         name: map['name'],
         unit: map['unit'],
@@ -52,7 +53,7 @@ class ShoppingArticle {
         category: map['category']);
   }
 
-  static ShoppingArticle fromDocument(DocumentSnapshot document) {
+  static ShoppingArticle fromDocument(final DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     DateTime expiryDate = DateTime(2050);
     if (data['expiry_date'] != null) {

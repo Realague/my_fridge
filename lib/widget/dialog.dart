@@ -8,7 +8,7 @@ class DialogFullScreen extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return AlertDialog(
       title: Row(
         children: [
@@ -21,7 +21,7 @@ class DialogFullScreen extends StatelessWidget {
       ),
       insetPadding: EdgeInsets.all(16.0),
       content: Builder(
-        builder: (context) {
+        builder: (final context) {
           // Get available height and width of the build area of this widget. Make a choice depending on the size.
           var height = MediaQuery.of(context).size.height;
           var width = MediaQuery.of(context).size.width;

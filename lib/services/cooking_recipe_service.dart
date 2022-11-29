@@ -7,29 +7,29 @@ import 'package:my_fridge/services/user_service.dart';
 import 'database.dart';
 
 class CookingRecipeService {
-  static CollectionReference getCollectionInstance(BuildContext context) {
+  static CollectionReference getCollectionInstance(final BuildContext context) {
     return UserService.currentUserDocument(context)
         .collection("cooking_recipe");
   }
 
-  static create(CookingRecipe cookingRecipe, BuildContext context) {
+  static create(final CookingRecipe cookingRecipe, final BuildContext context) {
     DatabaseService.create(
         id: cookingRecipe.name,
         data: cookingRecipe.asMap,
         collection: getCollectionInstance(context));
   }
 
-  static update(CookingRecipe cookingRecipe, BuildContext context) {
+  static update(final CookingRecipe cookingRecipe, final BuildContext context) {
     DatabaseService.update(
         cookingRecipe.id!, cookingRecipe.asMap, getCollectionInstance(context));
   }
 
-  static delete(String userId, BuildContext context) {
+  static delete(final String userId, final BuildContext context) {
     DatabaseService.delete(userId, getCollectionInstance(context));
   }
 
   static Future<List<CookingRecipe>> get(
-      String? searchFilter, BuildContext context) async {
+      final String? searchFilter, final BuildContext context) async {
     List<CookingRecipe> articles = [];
     if (searchFilter == null || searchFilter == '') {
       return getCollectionInstance(context).get().then((querySnapshot) {
@@ -49,7 +49,8 @@ class CookingRecipeService {
     });
   }
 
-  static Query getByCategory(BuildContext context, Category category) {
+  static Query getByCategory(
+      final BuildContext context, final Category category) {
     return getCollectionInstance(context)
         .where('category', isEqualTo: category.category);
   }

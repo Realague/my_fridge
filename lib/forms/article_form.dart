@@ -41,7 +41,7 @@ class _FormArticleState extends State<FormArticle> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -86,7 +86,7 @@ class _FormArticleState extends State<FormArticle> {
           ),
           FutureBuilder(
             future: CategoryService.get(),
-            builder: (context, snapshot) {
+            builder: (final context, final snapshot) {
               if (!snapshot.hasData) {
                 return Loader();
               }
@@ -94,7 +94,7 @@ class _FormArticleState extends State<FormArticle> {
                 padding: EdgeInsets.all(8.0),
                 child: DropdownSearch<Category>(
                   items: snapshot.data as List<Category>,
-                  itemAsString: (Category? category) {
+                  itemAsString: (final Category? category) {
                     if (category != null && category.category == " ") {
                       return AppLocalizations.of(context)!.category_other;
                     }
@@ -110,7 +110,8 @@ class _FormArticleState extends State<FormArticle> {
                   selectedItem: _category,
                   validator: (category) =>
                       Validators.notNull(context, category),
-                  onChanged: (Category? category) => _category = category!,
+                  onChanged: (final Category? category) =>
+                      _category = category!,
                 ),
               );
             },
@@ -120,7 +121,7 @@ class _FormArticleState extends State<FormArticle> {
             value: _perishable,
             subtitle:
                 Text(AppLocalizations.of(context)!.perishable_description),
-            onChanged: (bool value) {
+            onChanged: (final bool value) {
               setState(() {
                 _perishable = value;
               });

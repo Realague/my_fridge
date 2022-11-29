@@ -14,7 +14,7 @@ class MealSchedule {
 
   WeekDay get dayValue => WeekDay.values[day];
 
-  static MealSchedule fromDocument(DocumentSnapshot document) {
+  static MealSchedule fromDocument(final DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     return MealSchedule(
         id: document.id,

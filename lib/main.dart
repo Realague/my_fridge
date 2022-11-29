@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +18,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return FutureBuilder(
       // Initialize FlutterFire:
       future: Firebase.initializeApp(
@@ -30,7 +28,7 @@ class MyApp extends StatelessWidget {
               messagingSenderId: "265628210515",
               projectId: "myfridge-e530e",
               authDomain: "myfridge-e530e.firebaseapp.com")),
-      builder: (context, snapshot) {
+      builder: (final context, final snapshot) {
         // Check for errors
         if (snapshot.hasError) {
           return Text(snapshot.error.toString());
@@ -48,14 +46,14 @@ class MyApp extends StatelessWidget {
 
 class InitializeProviders extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return MultiProvider(
       providers: [
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
         StreamProvider(
-          create: (context) =>
+          create: (final context) =>
               context.read<AuthenticationService>().authStateChanges,
           initialData: null,
         ),
@@ -84,7 +82,7 @@ class InitializeProviders extends StatelessWidget {
 
 class AuthenticationWrapper extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final fireBaseUser = context.watch<User?>();
 
     if (fireBaseUser != null) {

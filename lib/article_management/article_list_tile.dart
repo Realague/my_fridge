@@ -8,9 +8,10 @@ class ArticleListTile extends StatelessWidget {
   final Article article;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return ListTile(
-      title: Text('${article.name} ${article.quantityUnit.displayForDropDown(context)}'),
+      title: Text(
+          '${article.name} ${article.quantityUnit.displayForDropDown(context)}'),
     );
   }
 }

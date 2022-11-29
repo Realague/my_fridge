@@ -14,10 +14,10 @@ class _MealScheduleViewState extends State<MealScheduleView> {
   late List<MealSchedule> mealsSchedule;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return FutureBuilder(
       future: MealScheduleService.get(context),
-      builder: (context, snapshot) {
+      builder: (final context, final snapshot) {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
@@ -43,7 +43,8 @@ class _MealScheduleViewState extends State<MealScheduleView> {
   }
 }
 
-DataTable dataBody(List<MealSchedule> mealsSchedule, BuildContext context) {
+DataTable dataBody(
+    final List<MealSchedule> mealsSchedule, final BuildContext context) {
   return DataTable(
     sortColumnIndex: 0,
     showCheckboxColumn: false,
@@ -54,7 +55,7 @@ DataTable dataBody(List<MealSchedule> mealsSchedule, BuildContext context) {
     ],
     rows: mealsSchedule
         .map(
-          (meal) => DataRow(cells: [
+          (final meal) => DataRow(cells: [
             DataCell(Text(meal.dayValue.display(context))),
             DataCell(
               Text(meal.lunch != null ? meal.lunch! : ""),

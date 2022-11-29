@@ -9,16 +9,19 @@ class Utils {
 
   static final DateTime nullDateTime = DateTime(2050);
 
-  static bool isNumber(String str) {
+  static bool isNumber(final String str) {
     return int.tryParse(str) != null;
   }
 
-  static Future<void> showConfirmDialog(BuildContext context, String content,
-      Function(String, BuildContext) action, String id) async {
+  static Future<void> showConfirmDialog(
+      final BuildContext context,
+      final String content,
+      final Function(String, BuildContext) action,
+      final String id) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
+      builder: (final BuildContext context) {
         return AlertDialog(
           title: const Text('AlertDialog Title'),
           content: Text(content),

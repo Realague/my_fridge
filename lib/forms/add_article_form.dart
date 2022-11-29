@@ -30,7 +30,7 @@ class _FormAddArticleState extends State<FormAddArticle> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -44,7 +44,7 @@ class _FormAddArticleState extends State<FormAddArticle> {
                 labelText:
                     AppLocalizations.of(context)!.form_article_name_label,
               ),
-              validator: (name) => Validators.notEmpty(context, name),
+              validator: (final name) => Validators.notEmpty(context, name),
               controller: _nameController,
             ),
           ),
@@ -63,12 +63,12 @@ class _FormAddArticleState extends State<FormAddArticle> {
                       ),
                     ),
                     items: QuantityUnit.values,
-                    itemAsString: (QuantityUnit? quantityUnit) =>
+                    itemAsString: (final QuantityUnit? quantityUnit) =>
                         quantityUnit!.displayForDropDown(context),
                     selectedItem: _quantityUnit,
-                    validator: (quantityUnit) =>
+                    validator: (final quantityUnit) =>
                         Validators.notNull(context, quantityUnit),
-                    onChanged: (QuantityUnit? quantityUnit) =>
+                    onChanged: (final QuantityUnit? quantityUnit) =>
                         _quantityUnit = quantityUnit,
                   ),
                 ),
@@ -77,7 +77,7 @@ class _FormAddArticleState extends State<FormAddArticle> {
           ),
           FutureBuilder(
             future: CategoryService.get(),
-            builder: (context, snapshot) {
+            builder: (final context, final snapshot) {
               if (!snapshot.hasData) {
                 return Loader();
               }
@@ -85,7 +85,7 @@ class _FormAddArticleState extends State<FormAddArticle> {
                 padding: EdgeInsets.all(8.0),
                 child: DropdownSearch<Category>(
                   items: snapshot.data as List<Category>,
-                  itemAsString: (Category? category) {
+                  itemAsString: (final Category? category) {
                     if (category != null && category.category == " ") {
                       return AppLocalizations.of(context)!.category_other;
                     }
@@ -101,7 +101,7 @@ class _FormAddArticleState extends State<FormAddArticle> {
                   selectedItem: _category,
                   validator: (category) =>
                       Validators.notNull(context, category),
-                  onChanged: (Category? category) => _category = category,
+                  onChanged: (final Category? category) => _category = category,
                 ),
               );
             },
@@ -111,7 +111,7 @@ class _FormAddArticleState extends State<FormAddArticle> {
             value: _perishable,
             subtitle:
                 Text(AppLocalizations.of(context)!.perishable_description),
-            onChanged: (bool value) {
+            onChanged: (final bool value) {
               setState(() {
                 _perishable = value;
               });

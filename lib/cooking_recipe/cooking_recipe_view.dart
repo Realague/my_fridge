@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/forms/select_article_form.dart';
@@ -99,7 +98,7 @@ class _CookingRecipeState extends State<CookingRecipeView> {
           itemBuilder: (_, index) => IngredientForm(
               isEditMode: _editMode,
               shoppingArticle: _cookingRecipe!.ingredients[index],
-              onEditIngredient: (ShoppingArticle shoppingArticle) {
+              onEditIngredient: (final ShoppingArticle shoppingArticle) {
                 setState(() {
                   _cookingRecipe!.ingredients[index] = shoppingArticle;
                 });
@@ -217,7 +216,7 @@ class _CookingRecipeState extends State<CookingRecipeView> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return _editMode ? editMode() : readOnly();
   }
 }

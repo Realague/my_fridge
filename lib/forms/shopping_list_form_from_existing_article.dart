@@ -44,7 +44,7 @@ class _FormShoppingListFromExistingArticleState
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -56,9 +56,10 @@ class _FormShoppingListFromExistingArticleState
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<Article>(
-                    asyncItems: (String filter) => ArticleService.get(filter),
+                    asyncItems: (final String filter) =>
+                        ArticleService.get(filter),
                     popupProps: PopupProps.menu(showSearchBox: true),
-                    itemAsString: (Article? article) =>
+                    itemAsString: (final Article? article) =>
                         article!.name +
                         ", " +
                         article.quantityUnit.displayForDropDown(context),
@@ -70,9 +71,10 @@ class _FormShoppingListFromExistingArticleState
                         border: const OutlineInputBorder(),
                       ),
                     ),
-                    onChanged: (Article? article) => _selectedArticle = article,
+                    onChanged: (final Article? article) =>
+                        _selectedArticle = article,
                     selectedItem: _selectedArticle,
-                    validator: (article) =>
+                    validator: (final article) =>
                         Validators.notNull(context, article),
                   ),
                 ),
@@ -87,7 +89,8 @@ class _FormShoppingListFromExistingArticleState
                       labelText:
                           AppLocalizations.of(context)!.form_quantity_label,
                     ),
-                    validator: (value) => Validators.number(context, value!),
+                    validator: (final value) =>
+                        Validators.number(context, value!),
                     controller: _quantityController,
                   ),
                 ),

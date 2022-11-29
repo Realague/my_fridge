@@ -2,19 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-enum QuantityUnit {
-  GRAM, CENTILITRE, PIECE
-}
+enum QuantityUnit { GRAM, CENTILITRE, PIECE }
 
 extension QuantityUnitExtension on QuantityUnit {
-
   String get name => describeEnum(this);
 
   String get displayTitle {
     switch (this) {
       case QuantityUnit.GRAM:
         return 'Grammes';
-      case QuantityUnit.CENTILITRE :
+      case QuantityUnit.CENTILITRE:
         return 'cl';
       case QuantityUnit.PIECE:
         return 'piece';
@@ -23,17 +20,19 @@ extension QuantityUnitExtension on QuantityUnit {
     }
   }
 
-  String displayForDropDown(BuildContext context) {
+  String displayForDropDown(final BuildContext context) {
     switch (this) {
       case QuantityUnit.GRAM:
-        return AppLocalizations.of(context)!.quantity_unit_gram_display_for_dropdown;
+        return AppLocalizations.of(context)!
+            .quantity_unit_gram_display_for_dropdown;
       case QuantityUnit.CENTILITRE:
-        return AppLocalizations.of(context)!.quantity_unit_liter_display_for_dropdown;
+        return AppLocalizations.of(context)!
+            .quantity_unit_liter_display_for_dropdown;
       case QuantityUnit.PIECE:
-        return AppLocalizations.of(context)!.quantity_unit_piece_display_for_dropdown;
+        return AppLocalizations.of(context)!
+            .quantity_unit_piece_display_for_dropdown;
       default:
         return 'Unit is null';
     }
   }
-
 }

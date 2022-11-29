@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DismissibleBothWay extends StatelessWidget {
-  DismissibleBothWay({required this.key, required this.child, this.onDismissed, this.confirmDismiss}) : super();
+  DismissibleBothWay(
+      {required this.key,
+      required this.child,
+      this.onDismissed,
+      this.confirmDismiss})
+      : super();
 
   final Key key;
 
@@ -13,7 +18,7 @@ class DismissibleBothWay extends StatelessWidget {
   final ConfirmDismissCallback? confirmDismiss;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Dismissible(
       key: key,
       background: Container(

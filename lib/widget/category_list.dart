@@ -4,21 +4,17 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/forms/category_form.dart';
 import 'package:my_fridge/model/category.dart';
 import 'package:my_fridge/services/article_category_service.dart';
-import 'package:my_fridge/services/category_type.dart';
-import 'package:my_fridge/services/cooking_recipe_category_service.dart';
 
 import 'dialog.dart';
 import 'loader.dart';
 
 class CategoryList extends StatefulWidget {
-  CategoryList(
-      this.query, this.itemsBuilder, this.editableCategory, this.categoryType);
+  CategoryList(this.query, this.itemsBuilder, this.editableCategory);
 
   final bool editableCategory;
   final Query Function(BuildContext context, Category category) query;
   final Widget Function(BuildContext context, QueryDocumentSnapshot document)
       itemsBuilder;
-  final CategoryType categoryType;
 
   @override
   State<StatefulWidget> createState() => _CategoryListState();
@@ -32,20 +28,12 @@ class _CategoryListState extends State<CategoryList> {
 
   @override
   void initState() {
-    switch (widget.categoryType) {
-      case CategoryType.COOKING_RECIPE:
-        _future = CookingRecipeCategoryService.get();
-        break;
-      case CategoryType.ARTICLE:
-        _future = CategoryService.get();
-        break;
-    }
-
+    _future = CategoryService.get();
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return FutureBuilder(
       future: _future,
       builder: (context, snapshot) {
@@ -76,11 +64,11 @@ class _CategoryListState extends State<CategoryList> {
   }
 
   ExpansionPanel _buildCategoryListItem(
-      BuildContext context, Category category) {
+      final BuildContext context, final Category category) {
     return ExpansionPanel(
       canTapOnHeader: true,
       isExpanded: category.isExpanded,
-      headerBuilder: (context, isExpanded) {
+      headerBuilder: (final context, final isExpanded) {
         if (widget.editableCategory && category.category != " ") {
           return ListTile(
             title: Text(category.categoryForDisplay(context)),
@@ -94,7 +82,7 @@ class _CategoryListState extends State<CategoryList> {
                     onPressed: () async {
                       await showDialog(
                         context: context,
-                        builder: (BuildContext context) {
+                        builder: (final BuildContext context) {
                           return DialogFullScreen(
                             title: AppLocalizations.of(context)!
                                 .shopping_list_popup_title,
@@ -109,15 +97,7 @@ class _CategoryListState extends State<CategoryList> {
                     icon: Icon(Icons.delete),
                     tooltip: AppLocalizations.of(context)!.swipe_to_delete,
                     onPressed: () {
-                      switch (widget.categoryType) {
-                        case CategoryType.COOKING_RECIPE:
-                          _future =
-                              CookingRecipeCategoryService.delete(category.id!);
-                          break;
-                        case CategoryType.ARTICLE:
-                          _future = CategoryService.delete(category.id!);
-                          break;
-                      }
+                      _future = CategoryService.delete(category.id!);
                     },
                   ),
                 ],
@@ -131,7 +111,7 @@ class _CategoryListState extends State<CategoryList> {
       },
       body: StreamBuilder(
         stream: widget.query.call(context, category).snapshots(),
-        builder: (context, snapshot) {
+        builder: (final context, final snapshot) {
           if (!snapshot.hasData) {
             return Loader();
           }

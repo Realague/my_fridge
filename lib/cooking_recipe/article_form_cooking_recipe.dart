@@ -1,5 +1,4 @@
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/article.dart';
@@ -63,7 +62,7 @@ class _IngredientFormState extends State<IngredientForm> {
           child: Padding(
             padding: EdgeInsets.all(8.0),
             child: DropdownSearch<Article>(
-              asyncItems: (String filter) => ArticleService.get(filter),
+              asyncItems: (final String filter) => ArticleService.get(filter),
               popupProps: PopupProps.menu(showSearchBox: true),
               itemAsString: (Article? article) =>
                   article!.name +
@@ -76,7 +75,7 @@ class _IngredientFormState extends State<IngredientForm> {
                   border: const OutlineInputBorder(),
                 ),
               ),
-              onChanged: (Article? article) {
+              onChanged: (final Article? article) {
                 setState(() {
                   _selectedArticle = article;
                 });

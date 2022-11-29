@@ -34,7 +34,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -48,7 +48,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
                 labelText:
                     AppLocalizations.of(context)!.form_article_name_label,
               ),
-              validator: (name) => Validators.notEmpty(context, name),
+              validator: (final name) => Validators.notEmpty(context, name),
               controller: _nameController,
             ),
           ),
@@ -64,7 +64,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
                       labelText:
                           AppLocalizations.of(context)!.form_quantity_label,
                     ),
-                    validator: (quantity) =>
+                    validator: (final quantity) =>
                         Validators.number(context, quantity),
                     controller: _quantityController,
                   ),
@@ -75,7 +75,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<QuantityUnit>(
                     items: QuantityUnit.values,
-                    itemAsString: (QuantityUnit? quantityUnit) =>
+                    itemAsString: (final QuantityUnit? quantityUnit) =>
                         quantityUnit!.displayForDropDown(context),
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       dropdownSearchDecoration: InputDecoration(
@@ -86,9 +86,9 @@ class _FormShoppingListState extends State<FormShoppingList> {
                       ),
                     ),
                     selectedItem: _quantityUnit,
-                    validator: (quantityUnit) =>
+                    validator: (final quantityUnit) =>
                         Validators.notNull(context, quantityUnit),
-                    onChanged: (QuantityUnit? quantityUnit) =>
+                    onChanged: (final QuantityUnit? quantityUnit) =>
                         _quantityUnit = quantityUnit,
                   ),
                 ),
@@ -97,7 +97,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
           ),
           FutureBuilder(
             future: CategoryService.get(),
-            builder: (context, snapshot) {
+            builder: (final context, final snapshot) {
               if (!snapshot.hasData) {
                 return Loader();
               }
@@ -105,7 +105,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
                 padding: EdgeInsets.all(8.0),
                 child: DropdownSearch<Category>(
                   items: snapshot.data as List<Category>,
-                  itemAsString: (Category? category) {
+                  itemAsString: (final Category? category) {
                     if (category != null && category.category == " ") {
                       return AppLocalizations.of(context)!.category_other;
                     }
@@ -119,9 +119,9 @@ class _FormShoppingListState extends State<FormShoppingList> {
                     ),
                   ),
                   selectedItem: _category,
-                  validator: (category) =>
+                  validator: (final category) =>
                       Validators.notNull(context, category),
-                  onChanged: (Category? category) => _category = category,
+                  onChanged: (final Category? category) => _category = category,
                 ),
               );
             },
@@ -131,7 +131,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
             value: _perishable,
             subtitle:
                 Text(AppLocalizations.of(context)!.perishable_description),
-            onChanged: (bool value) {
+            onChanged: (final bool value) {
               setState(() {
                 _perishable = value;
               });
