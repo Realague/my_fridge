@@ -69,7 +69,7 @@ DataTable dataBody(
   );
 }
 
-Row readonly() {
+/*Row readonly() {
   return Row(children: [
     Expanded(
       flex: 2,
@@ -104,4 +104,4 @@ Row readonly() {
           child: const Icon(Icons.delete)),
     ),
   ]);
-}
+}*/

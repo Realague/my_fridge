@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/fridge_article.dart';
-import 'package:my_fridge/services/category_type.dart';
 import 'package:my_fridge/services/fridge_service.dart';
 import 'package:my_fridge/utils/utils.dart';
 import 'package:my_fridge/widget/category_list.dart';
@@ -15,8 +14,7 @@ import 'fridge_article_list_tile.dart';
 class Fridge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CategoryList(FridgeService.getByCategory, _buildFridgeItem, false,
-        CategoryType.ARTICLE);
+    return CategoryList(FridgeService.getByCategory, _buildFridgeItem, false);
   }
 
   Widget _buildFridgeItem(BuildContext context, DocumentSnapshot document) {

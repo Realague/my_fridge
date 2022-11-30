@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_fridge/authentication_page.dart';
 import 'package:my_fridge/bottom_navigation_bar.dart';
+import 'package:my_fridge/model/user.dart';
 import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/widget/loader.dart';
 import 'package:provider/provider.dart';
@@ -86,8 +87,13 @@ class AuthenticationWrapper extends StatelessWidget {
     final fireBaseUser = context.watch<User?>();
 
     if (fireBaseUser != null) {
-      UserService.create(
-          fireBaseUser.uid, fireBaseUser.displayName!, fireBaseUser.email!);
+      MyFridgeUser user = MyFridgeUser(
+          id: fireBaseUser.uid,
+          username: fireBaseUser.displayName!,
+          email: fireBaseUser.email!);
+      UserService.create(user, context);
+      // UserService.create(
+      //   fireBaseUser.uid, fireBaseUser.displayName!, fireBaseUser.email!);
       return CustomBottomNavigationBar();
     } else {
       return AuthenticationPage();

@@ -135,6 +135,7 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
                           AppLocalizations.of(context)!.form_quantity_label,
                     ),
                     validator: (final value) =>
+                        Validators.number(context, value!),
                     controller: _quantityController,
                   ),
                 ),
