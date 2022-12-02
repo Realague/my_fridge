@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:my_fridge/model/user.dart';
-
-import '../services/user_service.dart';
 
 class Household {
   Household(
@@ -32,13 +29,12 @@ class Household {
         createdBy: data['created_by']);
   }
 
-  Map<String, Object> asMap(final BuildContext context) {
-    MyFridgeUser user = UserService.getCurrentUser(context);
+  Map<String, Object?> asMap(final BuildContext context) {
     return {
       'name': this.name,
       'members': this.members,
       'available_storage': this.availableStorage,
-      'created_by': this.createdBy != null ? this.createdBy! : user.username
+      'created_by': this.createdBy,
     };
   }
 }

@@ -3,21 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:my_fridge/model/household.dart';
 import 'package:my_fridge/services/user_service.dart';
 
+import '../model/user.dart';
 import 'database.dart';
 
 class HouseholdService {
-  static final CollectionReference collectionInstance =
-      FirebaseFirestore.instance.collection('households');
+  static final CollectionReference collectionInstance = FirebaseFirestore.instance.collection('households');
 
-  static DocumentReference<Object?> getSelectedHousehold(
-      final BuildContext context) {
-    return collectionInstance
-        .doc(UserService.getCurrentUser(context).selectedStorage!);
+  static DocumentReference<Object?> getSelectedHousehold(final BuildContext context) {
+    MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
+    return collectionInstance.doc(user.selectedStorage);
   }
 
   static create(final Household household, final BuildContext context) async {
-    DatabaseService.create(
-        data: household.asMap(context), collection: collectionInstance);
+    MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
+    Map<String, Object?> data = household.asMap(context);
+    data['created_by'] = user.id;
+    data['members'] = [user.id];
+    DocumentReference docRef = await DatabaseService.create(data: data, collection: collectionInstance);
+    user.selectedStorage = docRef.id;
+    UserService.update(user, context);
   }
 
   static update(final Household household, final BuildContext context) {
@@ -30,15 +34,7 @@ class HouseholdService {
     DatabaseService.delete(householdId, collectionInstance);
   }
 
-  static Future<List<Household>> getUserHouseholds(final BuildContext context) {
-    List<Household> households = [];
-    return collectionInstance
-        .where('members', arrayContains: UserService.getCurrentUser(context).id)
-        .get()
-        .then((querySnapshot) {
-      querySnapshot.docs.forEach(
-          (document) => households.add(Household.fromDocument(document)));
-      return households;
-    });
+  static Query getUserHouseholds(final BuildContext context) {
+    return collectionInstance.where('members', arrayContains: UserService.getCurrentUserFromCache(context)!.id!);
   }
 }

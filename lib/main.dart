@@ -10,6 +10,7 @@ import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/widget/loader.dart';
 import 'package:provider/provider.dart';
 
+import 'household/household_form.dart';
 import 'services/authentication_service.dart';
 
 Future<void> main() async {
@@ -72,9 +73,13 @@ class InitializeProviders extends StatelessWidget {
           const Locale('fr', ''),
         ],
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
+            primarySwatch: Colors.blue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            appBarTheme: AppBarTheme(
+              shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(15))),
+            )),
         home: AuthenticationWrapper(),
       ),
     );
@@ -85,18 +90,31 @@ class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final fireBaseUser = context.watch<User?>();
-
-    if (fireBaseUser != null) {
-      MyFridgeUser user = MyFridgeUser(
-          id: fireBaseUser.uid,
-          username: fireBaseUser.displayName!,
-          email: fireBaseUser.email!);
-      UserService.create(user, context);
-      // UserService.create(
-      //   fireBaseUser.uid, fireBaseUser.displayName!, fireBaseUser.email!);
-      return CustomBottomNavigationBar();
-    } else {
+    if (fireBaseUser == null) {
       return AuthenticationPage();
     }
+
+    return FutureBuilder<MyFridgeUser?>(
+        future: UserService.getCurrentUser(context),
+        builder: (context, AsyncSnapshot<MyFridgeUser?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            MyFridgeUser? user = snapshot.data;
+            if (user == null) {
+              user = MyFridgeUser(
+                  id: fireBaseUser.uid,
+                  username: fireBaseUser.displayName!,
+                  email: fireBaseUser.email!);
+              UserService.create(user, context);
+            }
+            // Save the current connected user
+            context.read<AuthenticationService>().currentUser = user;
+            if (user.selectedStorage == null) {
+              return FormAddHousehold();
+            }
+            return CustomBottomNavigationBar();
+          } else {
+            return Loader();
+          }
+        });
   }
 }

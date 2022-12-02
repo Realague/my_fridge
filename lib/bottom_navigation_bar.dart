@@ -10,7 +10,7 @@ import 'package:my_fridge/services/shopping_list_service.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/expandable_fab.dart';
-import 'package:my_fridge/widget/signout_button.dart';
+import 'package:my_fridge/widget/navigation_drawer.dart';
 
 import 'article_management/article_management.dart';
 import 'forms/category_form.dart';
@@ -47,8 +47,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
         return DialogFullScreen(
           title: AppLocalizations.of(context)!.shopping_list_popup_title,
           child: SelectArticleForm(confirmCallback: (article, quantity) {
-            ShoppingListService.create(
-                ShoppingArticle.fromArticle(article, quantity), context);
+            ShoppingListService.create(ShoppingArticle.fromArticle(article, quantity), context);
             Navigator.pop(context);
           }),
         );
@@ -121,8 +120,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   lastDate: DateTime(2025),
                 );
               }
-              FridgeService.createFromShoppingArticle(article, context,
-                  expiryDate: expiryDate);
+              FridgeService.createFromShoppingArticle(article, context, expiryDate: expiryDate);
               ShoppingListService.delete(article.id!, context);
             } else {
               FridgeService.createFromShoppingArticle(article, context);
@@ -132,9 +130,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
         ),
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(articles.length.toString() +
-                " " +
-                AppLocalizations.of(context)!.snack_message_added_to_fridge),
+            content: Text(articles.length.toString() + " " + AppLocalizations.of(context)!.snack_message_added_to_fridge),
             backgroundColor: Colors.blue,
           ),
         ),
@@ -191,10 +187,8 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MyFridge'),
-        actions: <Widget>[
-          SignOutButton(),
-        ],
       ),
+      drawer: NavigationDrawer(),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: [

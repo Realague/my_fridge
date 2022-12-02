@@ -33,5 +33,10 @@
   "thursday": "Jeudi",
   "friday": "Vendredi",
   "saturday": "Samedi",
-  "sunday": "Dimanche"
+  "sunday": "Dimanche",
+  "household_name": "Nom du ménage",
+  "household_description": "Chaque ménage consiste en une liste de courses et un emplacement de rangement.\nPartage ta liste de courses et tes étagères en invitant d'autres personnes à ton ménage",
+  "household_create": "Créer un ménage",
+  "household_add": "Ajouter un nouveau ménage",
+  "household_join": "Rejoindre un ménage"
 }

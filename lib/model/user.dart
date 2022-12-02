@@ -22,14 +22,14 @@ class MyFridgeUser {
         id: document.id,
         username: data['username'],
         email: data['email'],
-        selectedStorage: data['selected_storage']);
+        selectedStorage: data['selectedStorage']);
   }
 
-  Map<String, Object> asMap(final BuildContext context) {
+  Map<String, Object?> asMap(final BuildContext context) {
     return {
       'username': this.username,
       'email': this.email,
-      'selectedStorage': this.selectedStorage!
+      'selectedStorage': this.selectedStorage
     };
   }
 }

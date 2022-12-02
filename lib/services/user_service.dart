@@ -12,7 +12,11 @@ class UserService {
 
   static DocumentReference currentUserDocument(final BuildContext context) {
     return UserService.collectionInstance
-        .doc(context.read<AuthenticationService>().currentUser!.uid);
+        .doc(context.read<AuthenticationService>().currentGoogleUser!.uid);
+  }
+
+  static String currentUserId(final BuildContext context) {
+    return context.read<AuthenticationService>().currentGoogleUser!.uid;
   }
 
   static create(final MyFridgeUser user, final BuildContext context) {
@@ -20,15 +24,28 @@ class UserService {
         id: user.id, data: user.asMap(context), collection: collectionInstance);
   }
 
-  static MyFridgeUser getCurrentUser(final BuildContext context) {
-    MyFridgeUser user = MyFridgeUser(username: '', email: '');
-    UserService.collectionInstance
-        .doc(context.read<AuthenticationService>().currentUser!.uid)
+  static MyFridgeUser? getCurrentUserFromCache(final BuildContext context) {
+    return context.read<AuthenticationService>().currentUser;
+  }
+
+  static void setCurrentUserFromCache(
+      final BuildContext context, final MyFridgeUser user) {
+    context.read<AuthenticationService>().currentUser = user;
+  }
+
+  static Future<MyFridgeUser?> getCurrentUser(final BuildContext context) {
+    return UserService.collectionInstance
+        .doc(context.read<AuthenticationService>().currentGoogleUser!.uid)
         .get()
         .then((documentSnapshot) {
-      user = MyFridgeUser.fromDocument(documentSnapshot);
+      return MyFridgeUser.fromDocument(documentSnapshot);
     });
-    return user;
+  }
+
+  static update(final MyFridgeUser user, final BuildContext context) {
+    var data = user.asMap(context);
+
+    DatabaseService.update(user.id!, data, collectionInstance);
   }
 
   static delete(final String userId) {
