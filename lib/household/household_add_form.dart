@@ -43,6 +43,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
+                icon: Icon(Icons.label),
                 border: const OutlineInputBorder(),
                 contentPadding: EdgeInsets.symmetric(horizontal: 12),
                 labelText: AppLocalizations.of(context)!.household_name,
@@ -53,23 +54,18 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
           ),
           Padding(
             padding: EdgeInsets.all(16.0),
-            child: Text(AppLocalizations.of(context)!.household_description,
-                style: TextStyle(color: Colors.black54)),
+            child: Text(AppLocalizations.of(context)!.household_description, style: TextStyle(color: Colors.black54)),
           ),
           Padding(
             padding: EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  Household household = Household(
-                      name: _nameController.value.text,
-                      members: [],
-                      availableStorage: []);
+                  Household household = Household(name: _nameController.value.text, members: [], availableStorage: []);
                   HouseholdService.create(household, context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => CustomBottomNavigationBar()),
+                    MaterialPageRoute(builder: (context) => CustomBottomNavigationBar()),
                   );
                 }
               },

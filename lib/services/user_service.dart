@@ -7,12 +7,10 @@ import 'authentication_service.dart';
 import 'database.dart';
 
 class UserService {
-  static final CollectionReference collectionInstance =
-      FirebaseFirestore.instance.collection("users");
+  static final CollectionReference collectionInstance = FirebaseFirestore.instance.collection("users");
 
   static DocumentReference currentUserDocument(final BuildContext context) {
-    return UserService.collectionInstance
-        .doc(context.read<AuthenticationService>().currentGoogleUser!.uid);
+    return UserService.collectionInstance.doc(context.read<AuthenticationService>().currentGoogleUser!.uid);
   }
 
   static String currentUserId(final BuildContext context) {
@@ -20,24 +18,23 @@ class UserService {
   }
 
   static create(final MyFridgeUser user, final BuildContext context) {
-    DatabaseService.create(
-        id: user.id, data: user.asMap(context), collection: collectionInstance);
+    DatabaseService.create(id: user.id, data: user.asMap(context), collection: collectionInstance);
   }
 
   static MyFridgeUser? getCurrentUserFromCache(final BuildContext context) {
     return context.read<AuthenticationService>().currentUser;
   }
 
-  static void setCurrentUserFromCache(
-      final BuildContext context, final MyFridgeUser user) {
+  static Query getHouseholdUsers(final BuildContext context, final String householdId) {
+    return collectionInstance.where('households', arrayContains: householdId);
+  }
+
+  static void setCurrentUserFromCache(final BuildContext context, final MyFridgeUser user) {
     context.read<AuthenticationService>().currentUser = user;
   }
 
   static Future<MyFridgeUser?> getCurrentUser(final BuildContext context) {
-    return UserService.collectionInstance
-        .doc(context.read<AuthenticationService>().currentGoogleUser!.uid)
-        .get()
-        .then((documentSnapshot) {
+    return UserService.collectionInstance.doc(context.read<AuthenticationService>().currentGoogleUser!.uid).get().then((documentSnapshot) {
       return MyFridgeUser.fromDocument(documentSnapshot);
     });
   }
@@ -46,6 +43,13 @@ class UserService {
     var data = user.asMap(context);
 
     DatabaseService.update(user.id!, data, collectionInstance);
+  }
+
+  static updateUserHouseholds(BuildContext context, String householdId) {
+    MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
+    user.households.add(householdId);
+    user.selectedStorage = householdId;
+    update(user, context);
   }
 
   static delete(final String userId) {

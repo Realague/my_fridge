@@ -49,5 +49,13 @@
   "household_description": "Each household is a shopping list and a storage.\n Share your shopping list and your storage by inviting other person to your household",
   "household_create": "Create a household",
   "household_add": "Add a new household",
-  "household_join": "Join a household"
+  "household_join": "Join a household",
+  "household_join_description": "A member of MyFridge can send you a link to join his household",
+  "household_only_member": "Only me",
+  "household_join_link": "Join link of the household",
+  "household_edit": "Edit a household",
+  "household_delete": "Delete a household",
+  "household_save": "Save a household",
+  "household_add_member": "Add a new member",
+  "household_members_list": "Members list"
 }
