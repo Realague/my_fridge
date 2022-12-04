@@ -55,7 +55,8 @@ class InitializeProviders extends StatelessWidget {
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
         StreamProvider(
-          create: (final context) => context.read<AuthenticationService>().authStateChanges,
+          create: (final context) =>
+              context.read<AuthenticationService>().authStateChanges,
           initialData: null,
         ),
       ],
@@ -75,7 +76,9 @@ class InitializeProviders extends StatelessWidget {
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             appBarTheme: AppBarTheme(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(15))),
+              shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(15))),
             )),
         home: AuthenticationWrapper(),
       ),
@@ -97,7 +100,12 @@ class AuthenticationWrapper extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             MyFridgeUser? user = snapshot.data;
             if (user == null) {
-              user = MyFridgeUser(id: fireBaseUser.uid, username: fireBaseUser.displayName!, email: fireBaseUser.email!);
+              user = MyFridgeUser(
+                  id: fireBaseUser.uid,
+                  username: fireBaseUser.displayName!,
+                  email: fireBaseUser.email!,
+                  imageUrl: fireBaseUser.photoURL!,
+                  households: []);
               UserService.create(user, context);
             }
             // Save the current connected user
