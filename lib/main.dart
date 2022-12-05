@@ -5,12 +5,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_fridge/authentication_page.dart';
 import 'package:my_fridge/bottom_navigation_bar.dart';
+import 'package:my_fridge/household/household_add_form.dart';
+import 'package:my_fridge/household/join_household.dart';
 import 'package:my_fridge/model/user.dart';
 import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/widget/loader.dart';
 import 'package:provider/provider.dart';
 
-import 'household/household_add_form.dart';
 import 'services/authentication_service.dart';
 
 Future<void> main() async {
@@ -55,8 +56,7 @@ class InitializeProviders extends StatelessWidget {
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
         StreamProvider(
-          create: (final context) =>
-              context.read<AuthenticationService>().authStateChanges,
+          create: (final context) => context.read<AuthenticationService>().authStateChanges,
           initialData: null,
         ),
       ],
@@ -76,9 +76,7 @@ class InitializeProviders extends StatelessWidget {
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             appBarTheme: AppBarTheme(
-              shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(15))),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(15))),
             )),
         home: AuthenticationWrapper(),
       ),
@@ -110,8 +108,26 @@ class AuthenticationWrapper extends StatelessWidget {
             }
             // Save the current connected user
             context.read<AuthenticationService>().currentUser = user;
-            if (user.selectedStorage == null) {
-              return FormAddHousehold();
+            if (user.selectedHousehold == null) {
+              return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FormAddHousehold())),
+                    child: Text(AppLocalizations.of(context)!.household_create),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => JoinHousehold())),
+                  child: Text(AppLocalizations.of(context)!.household_join),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
+                  ),
+                ),
+              ]);
             }
             return CustomBottomNavigationBar();
           } else {

@@ -3,12 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 class MyFridgeUser {
   MyFridgeUser(
-      {this.id,
-      required this.username,
-      required this.email,
-      required this.imageUrl,
-      this.selectedStorage,
-      required this.households});
+      {this.id, required this.username, required this.email, required this.imageUrl, this.selectedHousehold, required this.households});
 
   String? id;
 
@@ -18,7 +13,7 @@ class MyFridgeUser {
 
   String imageUrl;
 
-  String? selectedStorage;
+  String? selectedHousehold;
 
   List<String> households;
 
@@ -29,7 +24,7 @@ class MyFridgeUser {
       username: data['username'],
       email: data['email'],
       imageUrl: data['imageUrl'],
-      selectedStorage: data['selectedStorage'],
+      selectedHousehold: data['selectedHousehold'],
       households: List.from(data['households']),
     );
   }
@@ -39,7 +34,7 @@ class MyFridgeUser {
       'username': this.username,
       'email': this.email,
       'imageUrl': this.imageUrl,
-      'selectedStorage': this.selectedStorage,
+      'selectedHousehold': this.selectedHousehold,
       'households': this.households
     };
   }

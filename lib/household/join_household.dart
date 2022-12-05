@@ -41,7 +41,7 @@ class _JoinHouseholdState extends State<JoinHousehold> {
                   contentPadding: EdgeInsets.symmetric(horizontal: 12),
                   labelText: AppLocalizations.of(context)!.household_join_link,
                 ),
-                validator: (final link) => Validators.isValidHousehold(context, link!),
+                validator: (final link) => Validators.notEmpty(context, link!),
                 controller: _linkController,
               ),
             ),

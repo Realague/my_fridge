@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/household.dart';
 import 'package:my_fridge/services/household_service.dart';
 import 'package:my_fridge/services/user_service.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../bottom_navigation_bar.dart';
 import '../model/user.dart';
@@ -61,12 +62,9 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
               controller: _nameController,
             ),
           ),
+          buildMemberSection(context),
           Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text(AppLocalizations.of(context)!.household_description, style: TextStyle(color: Colors.black54)),
-          ),
-          Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.symmetric(vertical: 8),
             child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
@@ -79,7 +77,6 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
               },
               child: Text(AppLocalizations.of(context)!.household_save),
               style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll<Color>(Colors.red),
                 shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40),
@@ -88,25 +85,52 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                HouseholdService.delete(household.id!);
-                Navigator.pop(context);
-              },
-              child: Text(AppLocalizations.of(context)!.household_delete),
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
-                  ),
+          ElevatedButton(
+            onPressed: () {
+              HouseholdService.delete(household.id!);
+              Navigator.pop(context);
+            },
+            child: Text(AppLocalizations.of(context)!.household_delete),
+            style: ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll<Color>(Colors.red),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
                 ),
               ),
             ),
           ),
         ]),
       ),
+    );
+  }
+
+  Widget buildMemberSection(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Text(AppLocalizations.of(context)!.household_description, style: TextStyle(color: Colors.black54)),
+        ),
+        Padding(padding: EdgeInsets.all(16.0), child: Text(AppLocalizations.of(context)!.household_members_list)),
+        buildMembersList(context),
+        Padding(
+          padding: EdgeInsets.all(16.0),
+          child: ElevatedButton(
+            onPressed: () {
+              Share.share("Rejoins mon ménage sur MyFridge!\n" + household.id!);
+            },
+            child: Text(AppLocalizations.of(context)!.household_add_member),
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 
@@ -125,7 +149,17 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
           itemCount: (snapshot.data as QuerySnapshot).docs.length,
           itemBuilder: (context, index) {
             MyFridgeUser user = MyFridgeUser.fromDocument((snapshot.data as QuerySnapshot).docs[index]);
-            return;
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 10,
+                  backgroundImage: NetworkImage(user.imageUrl),
+                ),
+                SizedBox(width: 5),
+                Text(user.username)
+              ],
+            );
           },
         );
       },

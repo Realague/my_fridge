@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/household.dart';
+import 'package:my_fridge/model/user.dart';
 import 'package:my_fridge/services/household_service.dart';
 import 'package:my_fridge/services/user_service.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +37,7 @@ class NavigationDrawer extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 30,
-              backgroundImage: NetworkImage(context.read<AuthenticationService>().currentGoogleUser!.photoURL!),
+              backgroundImage: NetworkImage(UserService.getCurrentUserFromCache(context)!.imageUrl),
             ),
             SizedBox(height: 12),
             Row(
@@ -120,36 +121,45 @@ class NavigationDrawer extends StatelessWidget {
           itemCount: (snapshot.data as QuerySnapshot).docs.length,
           itemBuilder: (context, index) {
             Household household = Household.fromDocument((snapshot.data as QuerySnapshot).docs[index]);
-            return Card(
-              color: Theme.of(context).colorScheme.primary,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-              child: Container(
-                padding: EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(household.name, style: TextStyle(color: Colors.white)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(household.getMembersDisplay(context), style: TextStyle(color: Colors.white)),
-                        SizedBox(width: 6),
-                        Icon(
-                          Icons.fact_check_outlined,
-                          size: 15,
-                          color: Colors.white,
-                        ),
-                        SizedBox(width: 6),
-                        Text("0", style: TextStyle(color: Colors.white)),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    IconButton(
-                      icon: Icon(Icons.edit, color: Colors.white, size: 15),
-                      padding: EdgeInsets.all(8),
-                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FormEditHousehold(household))),
-                    )
-                  ],
+            bool isSelectedHousehold = household.id == UserService.getCurrentUserFromCache(context)!.selectedHousehold;
+            return GestureDetector(
+              onTap: () {
+                MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
+                user.selectedHousehold = household.id;
+                UserService.update(user, context);
+                Navigator.pop(context);
+              },
+              child: Card(
+                color: isSelectedHousehold ? Theme.of(context).colorScheme.primary : Colors.amber,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(household.name, style: TextStyle(color: Colors.white)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(household.getMembersDisplay(context), style: TextStyle(color: Colors.white)),
+                          SizedBox(width: 6),
+                          Icon(
+                            Icons.fact_check_outlined,
+                            size: 15,
+                            color: Colors.white,
+                          ),
+                          SizedBox(width: 6),
+                          Text("0", style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      IconButton(
+                        icon: Icon(Icons.edit, color: Colors.white, size: 15),
+                        padding: EdgeInsets.all(8),
+                        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FormEditHousehold(household))),
+                      )
+                    ],
+                  ),
                 ),
               ),
             );

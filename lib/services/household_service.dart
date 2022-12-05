@@ -11,7 +11,7 @@ class HouseholdService {
 
   static DocumentReference<Object?> getSelectedHousehold(final BuildContext context) {
     MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
-    return collectionInstance.doc(user.selectedStorage);
+    return collectionInstance.doc(user.selectedHousehold);
   }
 
   static create(final Household household, final BuildContext context) async {

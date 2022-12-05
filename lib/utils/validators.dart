@@ -28,8 +28,4 @@ class Validators {
     }
     return null;
   }
-
-  static String? isValidHousehold(final BuildContext context, final String householdId) {
-    return null;
-  }
 }

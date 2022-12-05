@@ -48,7 +48,7 @@ class UserService {
   static updateUserHouseholds(BuildContext context, String householdId) {
     MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
     user.households.add(householdId);
-    user.selectedStorage = householdId;
+    user.selectedHousehold = householdId;
     update(user, context);
   }
 
