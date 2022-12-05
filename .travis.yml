@@ -10,6 +10,8 @@ install:
   - flutter doctor
 script:
   - echo "Building..."
+  - flutter pub get
+  - flutter clean
   - flutter build web
 deploy:
   if: tag IS present
