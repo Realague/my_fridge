@@ -14,7 +14,9 @@ script:
   - flutter clean
   - flutter build web
 deploy:
-  if: tag IS present
+  on:
+    tags: true
   provider: firebase
-  token: "$FIREBASE_TOKEN"
+  token: "1//03rR7AS-BtshLCgYIARAAGAMSNwF-L9IrNRXz_ht3C_XE-BkGAgCApBe8_JbO-KZg1CjEVhzYalAWmVt3iJUwQRzbV_zkrvlGi38"
+  project: "myfridge-e530e"
   skip_cleanup: true
