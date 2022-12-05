@@ -6,17 +6,16 @@ class SomethingWentWrong extends StatelessWidget {
   final String errorMessage = "";
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.yellow,
-      ),
-      home: Container(
-        color: Colors.white,
-        child: Center(
-            child: Text(errorMessage, style: TextStyle(fontSize: 14,color: Colors.red))
+        theme: ThemeData(
+          primarySwatch: Colors.yellow,
         ),
-      )
-    );
+        home: Container(
+          color: Colors.white,
+          child: Center(
+              child: Text(errorMessage,
+                  style: TextStyle(fontSize: 14, color: Colors.red))),
+        ));
   }
 }

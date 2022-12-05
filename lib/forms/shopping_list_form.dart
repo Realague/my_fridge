@@ -5,8 +5,8 @@ import 'package:my_fridge/model/article.dart';
 import 'package:my_fridge/model/category.dart';
 import 'package:my_fridge/model/quantity_unit.dart';
 import 'package:my_fridge/model/shopping_article.dart';
+import 'package:my_fridge/services/article_category_service.dart';
 import 'package:my_fridge/services/article_service.dart';
-import 'package:my_fridge/services/category_service.dart';
 import 'package:my_fridge/services/shopping_list_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 import 'package:my_fridge/widget/loader.dart';
@@ -34,7 +34,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -48,7 +48,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
                 labelText:
                     AppLocalizations.of(context)!.form_article_name_label,
               ),
-              validator: (name) => Validators.notEmpty(context, name),
+              validator: (final name) => Validators.notEmpty(context, name),
               controller: _nameController,
             ),
           ),
@@ -64,7 +64,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
                       labelText:
                           AppLocalizations.of(context)!.form_quantity_label,
                     ),
-                    validator: (quantity) =>
+                    validator: (final quantity) =>
                         Validators.number(context, quantity),
                     controller: _quantityController,
                   ),
@@ -74,16 +74,21 @@ class _FormShoppingListState extends State<FormShoppingList> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<QuantityUnit>(
-                    mode: Mode.MENU,
                     items: QuantityUnit.values,
-                    itemAsString: (QuantityUnit? quantityUnit) =>
+                    itemAsString: (final QuantityUnit? quantityUnit) =>
                         quantityUnit!.displayForDropDown(context),
-                    label:
-                        AppLocalizations.of(context)!.form_quantity_unit_label,
+                    dropdownDecoratorProps: DropDownDecoratorProps(
+                      dropdownSearchDecoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!
+                            .form_quantity_unit_label,
+                        contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                        border: const OutlineInputBorder(),
+                      ),
+                    ),
                     selectedItem: _quantityUnit,
-                    validator: (quantityUnit) =>
+                    validator: (final quantityUnit) =>
                         Validators.notNull(context, quantityUnit),
-                    onChanged: (QuantityUnit? quantityUnit) =>
+                    onChanged: (final QuantityUnit? quantityUnit) =>
                         _quantityUnit = quantityUnit,
                   ),
                 ),
@@ -92,30 +97,31 @@ class _FormShoppingListState extends State<FormShoppingList> {
           ),
           FutureBuilder(
             future: CategoryService.get(),
-            builder: (context, snapshot) {
+            builder: (final context, final snapshot) {
               if (!snapshot.hasData) {
                 return Loader();
               }
               return Padding(
                 padding: EdgeInsets.all(8.0),
                 child: DropdownSearch<Category>(
-                  mode: Mode.MENU,
                   items: snapshot.data as List<Category>,
-                  itemAsString: (Category? category) {
+                  itemAsString: (final Category? category) {
                     if (category != null && category.category == " ") {
                       return AppLocalizations.of(context)!.category_other;
                     }
                     return category!.category;
                   },
-                  label: AppLocalizations.of(context)!.category_label,
-                  dropdownSearchDecoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
-                    border: const OutlineInputBorder(),
+                  dropdownDecoratorProps: DropDownDecoratorProps(
+                    dropdownSearchDecoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.category_label,
+                      contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                      border: const OutlineInputBorder(),
+                    ),
                   ),
                   selectedItem: _category,
-                  validator: (category) =>
+                  validator: (final category) =>
                       Validators.notNull(context, category),
-                  onChanged: (Category? category) => _category = category,
+                  onChanged: (final Category? category) => _category = category,
                 ),
               );
             },
@@ -125,7 +131,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
             value: _perishable,
             subtitle:
                 Text(AppLocalizations.of(context)!.perishable_description),
-            onChanged: (bool value) {
+            onChanged: (final bool value) {
               setState(() {
                 _perishable = value;
               });

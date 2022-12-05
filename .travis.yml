@@ -1,16 +1,18 @@
 language: dart
 dart:
-- stable
+  - stable
 install:
-- echo "Configure Flutter"
-- git clone https://github.com/flutter/flutter.git -b beta
-- export PATH="$PATH:`pwd`/flutter/bin"
-- flutter upgrade
-- flutter config --enable-web
-- flutter doctor
+  - echo "Configure Flutter"
+  - git clone https://github.com/flutter/flutter.git -b beta
+  - export PATH="$PATH:`pwd`/flutter/bin"
+  - flutter upgrade
+  - flutter config --enable-web
+  - flutter doctor
 script:
-- echo "Building..."
-- flutter build web
+  - echo "Building..."
+  - flutter pub get
+  - flutter clean
+  - flutter build web
 deploy:
   if: tag IS present
   provider: firebase

@@ -1,28 +1,33 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:my_fridge/model/article.dart';
 import 'package:my_fridge/model/quantity_unit.dart';
-import 'package:my_fridge/model/shopping_article.dart';
-import 'package:my_fridge/services/article_service.dart';
-import 'package:my_fridge/services/shopping_list_service.dart';
-import 'package:my_fridge/utils/validators.dart';
 
-class FormShoppingListFromExistingArticle extends StatefulWidget {
-  const FormShoppingListFromExistingArticle({this.article}) : super();
+import '../model/article.dart';
+import '../model/shopping_article.dart';
+import '../services/article_service.dart';
+import '../utils/validators.dart';
+import '../widget/dialog.dart';
+import 'add_article_form.dart';
+
+typedef void ConfirmCallback(final Article article, final int quantity);
+
+class SelectArticleForm extends StatefulWidget {
+  const SelectArticleForm({required this.confirmCallback, this.article})
+      : super();
 
   final ShoppingArticle? article;
+  final ConfirmCallback confirmCallback;
 
   @override
-  State<StatefulWidget> createState() =>
-      _FormShoppingListFromExistingArticleState();
+  State<StatefulWidget> createState() => _SelectArticleFormState();
 }
 
-class _FormShoppingListFromExistingArticleState
-    extends State<FormShoppingListFromExistingArticle> {
-  final _quantityController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+class _SelectArticleFormState extends State<SelectArticleForm> {
   Article? _selectedArticle;
+  final _quantityController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -59,10 +64,6 @@ class _FormShoppingListFromExistingArticleState
                     asyncItems: (final String filter) =>
                         ArticleService.get(filter),
                     popupProps: PopupProps.menu(showSearchBox: true),
-                    itemAsString: (final Article? article) =>
-                        article!.name +
-                        ", " +
-                        article.quantityUnit.displayForDropDown(context),
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       dropdownSearchDecoration: InputDecoration(
                         labelText:
@@ -71,13 +72,37 @@ class _FormShoppingListFromExistingArticleState
                         border: const OutlineInputBorder(),
                       ),
                     ),
-                    onChanged: (final Article? article) =>
-                        _selectedArticle = article,
+                    itemAsString: (final Article? article) =>
+                        article!.name +
+                        ", " +
+                        article.quantityUnit.displayForDropDown(context),
+                    onChanged: (final Article? article) {
+                      setState(() {
+                        _selectedArticle = article;
+                      });
+                    },
                     selectedItem: _selectedArticle,
                     validator: (final article) =>
                         Validators.notNull(context, article),
                   ),
                 ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (final BuildContext context) {
+                          return DialogFullScreen(
+                            title: AppLocalizations.of(context)!
+                                .shopping_list_popup_title,
+                            child: FormAddArticle(),
+                          );
+                        },
+                      );
+                    },
+                    child: const Icon(Icons.add)),
               ),
               Expanded(
                 child: Padding(
@@ -97,28 +122,14 @@ class _FormShoppingListFromExistingArticleState
               ),
             ],
           ),
-          SizedBox(height: 20),
-          ElevatedButton.icon(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                ShoppingArticle shoppingArticle = ShoppingArticle(
-                    id: widget.article?.id ?? null,
-                    name: _selectedArticle!.name,
-                    unit: _selectedArticle!.unit,
-                    category: _selectedArticle!.category,
-                    quantity: int.tryParse(_quantityController.text)!,
-                    perishable: _selectedArticle!.perishable);
-                if (shoppingArticle.id != null) {
-                  ShoppingListService.update(shoppingArticle, context);
-                } else {
-                  ShoppingListService.create(shoppingArticle, context);
-                }
-                Navigator.pop(context);
-              }
-            },
-            label: Text(AppLocalizations.of(context)!
-                .button_add_article_to_shopping_list),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: ElevatedButton(
+                onPressed: () {
+                  widget.confirmCallback(
+                      _selectedArticle!, int.parse(_quantityController.text));
+                },
+                child: const Icon(Icons.add)),
           ),
         ],
       ),

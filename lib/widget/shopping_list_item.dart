@@ -8,16 +8,24 @@ class ShoppingListItem extends StatelessWidget {
   final ShoppingArticle article;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     if (article.checked) {
       return Text(
-        article.name + " " + article.quantity.toString() + " " + article.quantityUnit.displayForDropDown(context),
+        article.name +
+            " " +
+            article.quantity.toString() +
+            " " +
+            article.quantityUnit.displayForDropDown(context),
         style: TextStyle(
           decoration: TextDecoration.lineThrough,
         ),
       );
     } else {
-      return Text(article.name + " " + article.quantity.toString() + " " + article.quantityUnit.displayForDropDown(context));
+      return Text(article.name +
+          " " +
+          article.quantity.toString() +
+          " " +
+          article.quantityUnit.displayForDropDown(context));
     }
   }
 }

@@ -6,7 +6,7 @@ import '../services/authentication_service.dart';
 
 class SignOutButton extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return IconButton(
       icon: Icon(Icons.logout),
       tooltip: AppLocalizations.of(context)!.button_sign_out,

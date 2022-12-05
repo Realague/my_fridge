@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Loader extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Container(
       child: Center(
         child: //Column(

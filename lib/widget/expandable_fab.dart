@@ -19,7 +19,8 @@ class ExpandableFab extends StatefulWidget {
   _ExpandableFabState createState() => _ExpandableFabState();
 }
 
-class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProviderStateMixin {
+class _ExpandableFabState extends State<ExpandableFab>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _expandAnimation;
   bool _open = false;
@@ -58,7 +59,7 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return SizedBox.expand(
       child: Stack(
         alignment: Alignment.bottomRight,
@@ -76,7 +77,9 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
     final children = <Widget>[];
     final count = widget.children.length;
     final step = 90.0 / (count - 1);
-    for (var i = 0, angleInDegrees = 0.0; i < count; i++, angleInDegrees += step) {
+    for (var i = 0, angleInDegrees = 0.0;
+        i < count;
+        i++, angleInDegrees += step) {
       children.add(
         _ExpandingActionButton(
           directionInDegrees: angleInDegrees,
@@ -89,7 +92,7 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
     return children;
   }
 
-  Widget _buildTapToCloseFab(BuildContext context) {
+  Widget _buildTapToCloseFab(final BuildContext context) {
     return SizedBox(
       width: 56.0,
       height: 56.0,
@@ -155,10 +158,10 @@ class _ExpandingActionButton extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return AnimatedBuilder(
       animation: progress,
-      builder: (BuildContext context, Widget? child) {
+      builder: (final BuildContext context, final Widget? child) {
         final offset = Offset.fromDirection(
           directionInDegrees * (math.pi / 180.0),
           progress.value * maxDistance,

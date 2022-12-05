@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/forms/category_form.dart';
 import 'package:my_fridge/model/category.dart';
-import 'package:my_fridge/services/category_service.dart';
+import 'package:my_fridge/services/article_category_service.dart';
 
 import 'dialog.dart';
 import 'loader.dart';
@@ -33,7 +33,7 @@ class _CategoryListState extends State<CategoryList> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return FutureBuilder(
       future: _future,
       builder: (context, snapshot) {
@@ -64,10 +64,11 @@ class _CategoryListState extends State<CategoryList> {
   }
 
   ExpansionPanel _buildCategoryListItem(
-      BuildContext context, Category category) {
+      final BuildContext context, final Category category) {
     return ExpansionPanel(
+      canTapOnHeader: true,
       isExpanded: category.isExpanded,
-      headerBuilder: (context, isExpanded) {
+      headerBuilder: (final context, final isExpanded) {
         if (widget.editableCategory && category.category != " ") {
           return ListTile(
             title: Text(category.categoryForDisplay(context)),
@@ -77,43 +78,45 @@ class _CategoryListState extends State<CategoryList> {
                 children: [
                   IconButton(
                     icon: Icon(Icons.edit),
-                    tooltip: AppLocalizations.of(context)!.button_sign_out,
+                    tooltip: AppLocalizations.of(context)!.swipe_to_edit,
                     onPressed: () async {
                       await showDialog(
                         context: context,
-                        builder: (BuildContext context) {
+                        builder: (final BuildContext context) {
                           return DialogFullScreen(
                             title: AppLocalizations.of(context)!
                                 .shopping_list_popup_title,
-                            child: Column(
-                              children: [
-                                CategoryForm(category: category),
-                              ],
-                            ),
+                            child: CategoryForm(category: category),
                           );
                         },
                       );
                     },
                   ),
+                  //TODO popup to confirm delete and update of delete visual
                   IconButton(
                     icon: Icon(Icons.delete),
-                    tooltip: AppLocalizations.of(context)!.button_sign_out,
-                    onPressed: () => CategoryService.delete(category.id!),
+                    tooltip: AppLocalizations.of(context)!.swipe_to_delete,
+                    onPressed: () {
+                      _future = CategoryService.delete(category.id!);
+                    },
                   ),
                 ],
               ),
             ),
           );
         }
-        return ListTile(title: Text(category.categoryForDisplay(context)));
+        return ListTile(
+          title: Text(category.categoryForDisplay(context)),
+        );
       },
       body: StreamBuilder(
         stream: widget.query.call(context, category).snapshots(),
-        builder: (context, snapshot) {
+        builder: (final context, final snapshot) {
           if (!snapshot.hasData) {
             return Loader();
           }
           return ListView.builder(
+            primary: false,
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: (snapshot.data as QuerySnapshot).docs.length,

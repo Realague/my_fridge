@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../model/user.dart';
+
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
+  MyFridgeUser? currentUser;
 
   AuthenticationService(this._firebaseAuth);
 
@@ -9,10 +12,9 @@ class AuthenticationService {
     // Create a new provider
     GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
-    googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-    googleProvider.setCustomParameters({
-      'login_hint': 'user@example.com'
-    });
+    googleProvider
+        .addScope('https://www.googleapis.com/auth/contacts.readonly');
+    googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
 
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithPopup(googleProvider);
@@ -22,7 +24,7 @@ class AuthenticationService {
     await _firebaseAuth.signOut();
   }
 
-  User? get currentUser => _firebaseAuth.currentUser;
+  User? get currentGoogleUser => _firebaseAuth.currentUser;
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 }
