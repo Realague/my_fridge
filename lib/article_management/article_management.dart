@@ -35,6 +35,7 @@ class ArticleManagement extends StatelessWidget {
         } else {
           ArticleService.delete(article.id!);
         }
+        return true;
       },
     );
   }

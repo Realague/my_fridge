@@ -40,6 +40,7 @@ class Fridge extends StatelessWidget {
               FridgeService.delete,
               article.id!);
         }
+        return true;
       },
     );
   }

@@ -84,6 +84,7 @@ class _ShoppingListState extends State<ShoppingList> {
               ShoppingListService.delete,
               article.id!);
         }
+        return true;
       },
     );
   }
