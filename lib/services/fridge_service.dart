@@ -10,14 +10,14 @@ import 'database.dart';
 class FridgeService {
   static create(FridgeArticle article, BuildContext context) async {
     if (article.perishable) {
-      DatabaseService.create(data: article.asMap, collection: getCollectionInstance(context));
+      DatabaseService.create(article.asMap, getCollectionInstance(context));
     } else {
       FridgeArticle? existingArticle = await getByArticle(article, context);
       if (existingArticle != null) {
         existingArticle.quantity += article.quantity;
         update(existingArticle, context);
       } else {
-        DatabaseService.create(data: article.asMap, collection: getCollectionInstance(context));
+        DatabaseService.create(article.asMap, getCollectionInstance(context));
       }
     }
   }
@@ -31,7 +31,7 @@ class FridgeService {
       'category': article.category,
       'expiry_date': expiryDate
     };
-    DatabaseService.create(data: map, collection: getCollectionInstance(context));
+    DatabaseService.create(map, getCollectionInstance(context));
   }
 
   static update(FridgeArticle article, BuildContext context) {

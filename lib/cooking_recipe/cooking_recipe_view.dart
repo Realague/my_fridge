@@ -9,8 +9,7 @@ import 'package:my_fridge/utils/validators.dart';
 import 'article_form_cooking_recipe.dart';
 
 class CookingRecipeView extends StatefulWidget {
-  const CookingRecipeView({this.cookingRecipe, required this.insertMode})
-      : super();
+  const CookingRecipeView({this.cookingRecipe, required this.insertMode}) : super();
 
   final CookingRecipe? cookingRecipe;
   final bool insertMode;
@@ -33,8 +32,7 @@ class _CookingRecipeState extends State<CookingRecipeView> {
     _editMode = widget.insertMode;
     _cookingRecipe = widget.cookingRecipe;
     if (_cookingRecipe == null) {
-      _cookingRecipe =
-          new CookingRecipe(name: "", steps: "", category: "", ingredients: []);
+      _cookingRecipe = new CookingRecipe(name: "", steps: "", category: "", ingredients: []);
     }
     _nameController.text = _cookingRecipe!.name;
     _stepsController.text = _cookingRecipe!.steps;
@@ -62,8 +60,7 @@ class _CookingRecipeState extends State<CookingRecipeView> {
                   child: TextFormField(
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText:
-                          AppLocalizations.of(context)!.form_article_name_label,
+                      labelText: AppLocalizations.of(context)!.form_article_name_label,
                     ),
                     validator: (value) => Validators.notEmpty(context, value!),
                     controller: _nameController,
@@ -90,8 +87,7 @@ class _CookingRecipeState extends State<CookingRecipeView> {
         ),
         SelectArticleForm(confirmCallback: (article, quantity) {
           setState(() {
-            _cookingRecipe!.ingredients
-                .add(ShoppingArticle.fromArticle(article, quantity));
+            _cookingRecipe!.ingredients.add(ShoppingArticle.fromArticle(article, quantity));
           });
         }),
         ListView.builder(
@@ -135,8 +131,8 @@ class _CookingRecipeState extends State<CookingRecipeView> {
           icon: const Icon(Icons.add),
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              _cookingRecipe!.name = _nameController.value.text;
-              _cookingRecipe!.steps = _stepsController.value.text;
+              _cookingRecipe!.name = _nameController.text;
+              _cookingRecipe!.steps = _stepsController.text;
               if (_cookingRecipe!.id != null) {
                 CookingRecipeService.update(_cookingRecipe!, context);
               } else {
@@ -162,9 +158,7 @@ class _CookingRecipeState extends State<CookingRecipeView> {
               flex: 12,
               child: Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text(
-                    AppLocalizations.of(context)!.form_article_name_label +
-                        _cookingRecipe!.name),
+                child: Text(AppLocalizations.of(context)!.form_article_name_label + _cookingRecipe!.name),
               ),
             ),
             Expanded(
@@ -195,10 +189,7 @@ class _CookingRecipeState extends State<CookingRecipeView> {
         ),
         Text(AppLocalizations.of(context)!.cooking_recipe_ingredients),
         ListView.builder(
-          itemBuilder: (_, index) => IngredientForm(
-              isEditMode: _editMode,
-              shoppingArticle: _cookingRecipe!.ingredients[index],
-              id: ""),
+          itemBuilder: (_, index) => IngredientForm(isEditMode: _editMode, shoppingArticle: _cookingRecipe!.ingredients[index], id: ""),
           itemCount: _cookingRecipe!.ingredients.length,
           itemExtent: 50,
           shrinkWrap: true,

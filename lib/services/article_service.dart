@@ -6,19 +6,12 @@ import 'package:my_fridge/model/category.dart';
 import 'database.dart';
 
 class ArticleService {
-  static final CollectionReference collectionInstance =
-      FirebaseFirestore.instance.collection('articles');
+  static final CollectionReference collectionInstance = FirebaseFirestore.instance.collection('articles');
 
   static create(final Article article) {
-    collectionInstance
-        .doc(article.name)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
+    collectionInstance.doc(article.name).get().then((DocumentSnapshot documentSnapshot) {
       if (!documentSnapshot.exists) {
-        DatabaseService.create(
-            id: article.name,
-            data: article.asMap,
-            collection: collectionInstance);
+        DatabaseService.createWithId(article.name, article.asMap, collectionInstance);
       }
     });
   }
@@ -35,8 +28,7 @@ class ArticleService {
     List<Article> articles = [];
     if (searchFilter == null || searchFilter == '') {
       return collectionInstance.get().then((querySnapshot) {
-        querySnapshot.docs.forEach(
-            (document) => articles.add(Article.fromDocument(document)));
+        querySnapshot.docs.forEach((document) => articles.add(Article.fromDocument(document)));
         return articles;
       });
     }
@@ -45,14 +37,12 @@ class ArticleService {
         .where('name', isLessThan: searchFilter)
         .get()
         .then((querySnapshot) {
-      querySnapshot.docs
-          .forEach((document) => articles.add(Article.fromDocument(document)));
+      querySnapshot.docs.forEach((document) => articles.add(Article.fromDocument(document)));
       return articles;
     });
   }
 
-  static Query getByCategory(
-      final BuildContext context, final Category category) {
+  static Query getByCategory(final BuildContext context, final Category category) {
     return collectionInstance.where('category', isEqualTo: category.category);
   }
 }

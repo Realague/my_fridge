@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../bottom_navigation_bar.dart';
 import '../services/household_service.dart';
 import '../utils/validators.dart';
 
@@ -54,8 +55,11 @@ class _JoinHouseholdState extends State<JoinHousehold> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    HouseholdService.joinHousehold(context, _linkController.value.text);
-                    Navigator.pop(context);
+                    HouseholdService.joinHousehold(context, _linkController.text);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CustomBottomNavigationBar()),
+                    );
                   }
                 },
                 child: Text(AppLocalizations.of(context)!.household_join),

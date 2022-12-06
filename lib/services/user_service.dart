@@ -18,7 +18,7 @@ class UserService {
   }
 
   static create(final MyFridgeUser user, final BuildContext context) {
-    DatabaseService.create(id: user.id, data: user.asMap(context), collection: collectionInstance);
+    DatabaseService.createWithId(user.id!, user.asMap(context), collectionInstance);
   }
 
   static MyFridgeUser? getCurrentUserFromCache(final BuildContext context) {
@@ -26,7 +26,7 @@ class UserService {
   }
 
   static Query getHouseholdUsers(final BuildContext context, final String householdId) {
-    return collectionInstance.where('households', arrayContains: householdId);
+    return collectionInstance.where('householdsId', arrayContains: householdId);
   }
 
   static void setCurrentUserFromCache(final BuildContext context, final MyFridgeUser user) {
@@ -47,8 +47,8 @@ class UserService {
 
   static updateUserHouseholds(BuildContext context, String householdId) {
     MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
-    user.households.add(householdId);
-    user.selectedHousehold = householdId;
+    user.householdsId.add(householdId);
+    user.selectedHouseholdId = householdId;
     update(user, context);
   }
 

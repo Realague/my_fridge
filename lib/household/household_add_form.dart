@@ -61,7 +61,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
             child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  Household household = Household(name: _nameController.value.text, members: [], availableStorage: []);
+                  Household household = Household(name: _nameController.text, membersId: [], availableStorage: []);
                   HouseholdService.create(household, context);
                   Navigator.push(
                     context,

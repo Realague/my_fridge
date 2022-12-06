@@ -11,15 +11,15 @@ class HouseholdService {
 
   static DocumentReference<Object?> getSelectedHousehold(final BuildContext context) {
     MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
-    return collectionInstance.doc(user.selectedHousehold);
+    return collectionInstance.doc(user.selectedHouseholdId);
   }
 
   static create(final Household household, final BuildContext context) async {
     MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
+    household.createdBy = user.id;
+    household.membersId = [user.id!];
     Map<String, Object?> data = household.asMap(context);
-    data['created_by'] = user.id;
-    data['members'] = [user.id];
-    DocumentReference docRef = await DatabaseService.create(data: data, collection: collectionInstance);
+    DocumentReference docRef = await DatabaseService.create(data, collectionInstance);
     UserService.updateUserHouseholds(context, docRef.id);
   }
 
@@ -34,7 +34,7 @@ class HouseholdService {
   }
 
   static Query getUserHouseholds(final BuildContext context) {
-    return collectionInstance.where('members', arrayContains: UserService.getCurrentUserFromCache(context)!.id!);
+    return collectionInstance.where('membersId', arrayContains: UserService.getCurrentUserFromCache(context)!.id!);
   }
 
   static joinHousehold(final BuildContext context, final String householdId) async {

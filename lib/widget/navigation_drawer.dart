@@ -121,11 +121,11 @@ class NavigationDrawer extends StatelessWidget {
           itemCount: (snapshot.data as QuerySnapshot).docs.length,
           itemBuilder: (context, index) {
             Household household = Household.fromDocument((snapshot.data as QuerySnapshot).docs[index]);
-            bool isSelectedHousehold = household.id == UserService.getCurrentUserFromCache(context)!.selectedHousehold;
+            bool isSelectedHousehold = household.id == UserService.getCurrentUserFromCache(context)!.selectedHouseholdId;
             return GestureDetector(
               onTap: () {
                 MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
-                user.selectedHousehold = household.id;
+                user.selectedHouseholdId = household.id;
                 UserService.update(user, context);
                 Navigator.pop(context);
               },

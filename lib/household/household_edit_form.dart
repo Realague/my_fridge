@@ -29,7 +29,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
   @override
   void initState() {
     household = widget.household;
-    _nameController.text = "Accueil";
+    _nameController.text = household.name;
     super.initState();
   }
 
@@ -68,6 +68,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
             child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
+                  household.name = _nameController.text;
                   HouseholdService.update(household, context);
                   Navigator.push(
                     context,

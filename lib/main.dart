@@ -103,12 +103,12 @@ class AuthenticationWrapper extends StatelessWidget {
                   username: fireBaseUser.displayName!,
                   email: fireBaseUser.email!,
                   imageUrl: fireBaseUser.photoURL!,
-                  households: []);
+                  householdsId: []);
               UserService.create(user, context);
             }
             // Save the current connected user
             context.read<AuthenticationService>().currentUser = user;
-            if (user.selectedHousehold == null) {
+            if (user.selectedHouseholdId == null) {
               return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 20),

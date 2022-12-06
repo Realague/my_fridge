@@ -4,19 +4,16 @@ import 'package:my_fridge/model/category.dart';
 import 'database.dart';
 
 class CategoryService {
-  static final CollectionReference collectionInstance =
-      FirebaseFirestore.instance.collection('category');
+  static final CollectionReference collectionInstance = FirebaseFirestore.instance.collection('category');
 
   static create(final Category category) {
-    DatabaseService.create(
-        data: category.asMap, collection: collectionInstance);
+    DatabaseService.create(category.asMap, collectionInstance);
   }
 
   static Future<List<Category>> get() {
     List<Category> categories = [];
     return collectionInstance.get().then((querySnapshot) {
-      querySnapshot.docs.forEach(
-          (document) => categories.add(Category.fromDocument(document)));
+      querySnapshot.docs.forEach((document) => categories.add(Category.fromDocument(document)));
       return categories;
     });
   }
