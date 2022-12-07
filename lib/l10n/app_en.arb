@@ -57,5 +57,9 @@
   "household_delete": "Delete a household",
   "household_save": "Save a household",
   "household_add_member": "Add a new member",
-  "household_members_list": "Members list"
+  "household_members_list": "Members list",
+  "storage_type_fridge": "Fridge",
+  "storage_type_freezer": "Freezer",
+  "storage_type_cellar": "Cellar",
+  "storage_type_none": "Undefined"
 }

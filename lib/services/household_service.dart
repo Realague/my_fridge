@@ -18,15 +18,12 @@ class HouseholdService {
     MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
     household.createdBy = user.id;
     household.membersId = [user.id!];
-    Map<String, Object?> data = household.asMap(context);
-    DocumentReference docRef = await DatabaseService.create(data, collectionInstance);
+    DocumentReference docRef = await DatabaseService.create(household.asMap, collectionInstance);
     UserService.updateUserHouseholds(context, docRef.id);
   }
 
   static update(final Household household, final BuildContext context) {
-    var data = household.asMap(context);
-
-    DatabaseService.update(household.id!, data, collectionInstance);
+    DatabaseService.update(household.id!, household.asMap, collectionInstance);
   }
 
   static delete(final String householdId) {
@@ -38,10 +35,10 @@ class HouseholdService {
   }
 
   static joinHousehold(final BuildContext context, final String householdId) async {
-    Household household = await collectionInstance.doc(householdId).get().then((documentSnapshot) {
-      return Household.fromDocument(documentSnapshot);
+    String userId = UserService.getCurrentUserFromCache(context)!.id!;
+    collectionInstance.doc(householdId).update({
+      "membersId": FieldValue.arrayUnion([userId])
     });
-    DatabaseService.update(household.id!, household.asMap(context), collectionInstance);
     UserService.updateUserHouseholds(context, householdId);
   }
 }

@@ -35,7 +35,7 @@ class Household {
         createdBy: data['createdBy']);
   }
 
-  Map<String, Object?> asMap(final BuildContext context) {
+  Map<String, Object?> get asMap {
     return {
       'name': this.name,
       'membersId': this.membersId,

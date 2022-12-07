@@ -46,5 +46,9 @@
   "household_delete": "Supprimer un ménage",
   "household_save": "Enregistrer",
   "household_add_member": "Ajouter un nouveau membre",
-  "household_members_list": "Liste de membres"
+  "household_members_list": "Liste de membres",
+  "storage_type_fridge": "Réfrigérateur",
+  "storage_type_freezer": "Congélateur",
+  "storage_type_cellar": "Cellier",
+  "storage_type_none": "Indéfini"
 }

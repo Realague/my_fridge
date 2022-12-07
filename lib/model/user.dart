@@ -29,7 +29,7 @@ class MyFridgeUser {
     );
   }
 
-  Map<String, Object?> asMap(final BuildContext context) {
+  Map<String, Object?> get asMap {
     return {
       'username': this.username,
       'email': this.email,
