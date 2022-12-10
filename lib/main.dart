@@ -111,7 +111,7 @@ class AuthenticationWrapper extends StatelessWidget {
             if (user.selectedHouseholdId == null) {
               return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
                   child: ElevatedButton(
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FormAddHousehold())),
                     child: Text(AppLocalizations.of(context)!.household_create),
@@ -131,7 +131,7 @@ class AuthenticationWrapper extends StatelessWidget {
             }
             return CustomBottomNavigationBar();
           } else {
-            return Loader();
+            return const Loader();
           }
         });
   }

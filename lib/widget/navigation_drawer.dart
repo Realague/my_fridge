@@ -39,7 +39,7 @@ class NavigationDrawer extends StatelessWidget {
               radius: 30,
               backgroundImage: NetworkImage(UserService.getCurrentUserFromCache(context)!.imageUrl),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Row(
               children: [
                 Column(
@@ -49,7 +49,7 @@ class NavigationDrawer extends StatelessWidget {
                   ],
                 ),
                 IconButton(
-                  icon: Icon(Icons.logout, color: Colors.white),
+                  icon: const Icon(Icons.logout, color: Colors.white),
                   tooltip: AppLocalizations.of(context)!.button_sign_out,
                   onPressed: () {
                     context.read<AuthenticationService>().signOut();
@@ -82,10 +82,10 @@ class NavigationDrawer extends StatelessWidget {
               ),
             ),
             onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FormAddHousehold())),
-            icon: Icon(Icons.add, color: Colors.white),
+            icon: const Icon(Icons.add, color: Colors.white),
             label: Text(AppLocalizations.of(context)!.household_add),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           ElevatedButton.icon(
             style: ButtonStyle(
               padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
@@ -96,10 +96,10 @@ class NavigationDrawer extends StatelessWidget {
               ),
             ),
             onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => JoinHousehold())),
-            icon: Icon(Icons.link, color: Colors.white),
+            icon: const Icon(Icons.link, color: Colors.white),
             label: Text(AppLocalizations.of(context)!.household_join),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           buildHouseholdList(context)
         ],
       ),
@@ -111,7 +111,7 @@ class NavigationDrawer extends StatelessWidget {
       stream: HouseholdService.getUserHouseholds(context).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Loader();
+          return const Loader();
         }
 
         return ListView.builder(
@@ -131,9 +131,9 @@ class NavigationDrawer extends StatelessWidget {
               },
               child: Card(
                 color: isSelectedHousehold ? Theme.of(context).colorScheme.primary : Colors.amber,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
                 child: Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -142,20 +142,20 @@ class NavigationDrawer extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(household.getMembersDisplay(context), style: TextStyle(color: Colors.white)),
-                          SizedBox(width: 6),
-                          Icon(
+                          const SizedBox(width: 6),
+                          const Icon(
                             Icons.fact_check_outlined,
                             size: 15,
                             color: Colors.white,
                           ),
-                          SizedBox(width: 6),
-                          Text("0", style: TextStyle(color: Colors.white)),
+                          const SizedBox(width: 6),
+                          const Text("0", style: TextStyle(color: Colors.white)),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       IconButton(
-                        icon: Icon(Icons.edit, color: Colors.white, size: 15),
-                        padding: EdgeInsets.all(8),
+                        icon: const Icon(Icons.edit, color: Colors.white, size: 15),
+                        padding: const EdgeInsets.all(8),
                         onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FormEditHousehold(household))),
                       )
                     ],

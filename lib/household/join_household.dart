@@ -33,13 +33,13 @@ class _JoinHouseholdState extends State<JoinHousehold> {
           key: _formKey,
           child: Column(children: [
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: TextFormField(
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.link),
+                  icon: const Icon(Icons.link),
                   border: const OutlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                   labelText: AppLocalizations.of(context)!.household_join_link,
                 ),
                 validator: (final link) => Validators.notEmpty(context, link!),
@@ -47,11 +47,11 @@ class _JoinHouseholdState extends State<JoinHousehold> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Text(AppLocalizations.of(context)!.household_join_description, style: TextStyle(color: Colors.black54)),
             ),
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {

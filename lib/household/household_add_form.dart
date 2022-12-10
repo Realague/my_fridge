@@ -47,9 +47,9 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                icon: Icon(Icons.label),
+                icon: const Icon(Icons.label),
                 border: const OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                 labelText: AppLocalizations.of(context)!.household_name,
               ),
               validator: (final name) => Validators.notEmpty(context, name),
@@ -57,9 +57,8 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text(AppLocalizations.of(context)!.household_description,
-                style: TextStyle(color: Colors.black54)),
+            padding: const EdgeInsets.all(16.0),
+            child: Text(AppLocalizations.of(context)!.household_description, style: TextStyle(color: Colors.black54)),
           ),
           Padding(
             padding: EdgeInsets.all(16.0),
@@ -72,7 +71,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
                 },
                 value: hasFridge,
               ),
-              Text("Fridge")
+              const Text("Fridge")
             ]),
           ),
           Padding(
@@ -86,7 +85,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
                 },
                 value: hasFreezer,
               ),
-              Text("Freezer")
+              const Text("Freezer")
             ]),
           ),
           Padding(
@@ -100,7 +99,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
                 },
                 value: hasCellar,
               ),
-              Text("Cellar")
+              const Text("Cellar")
             ]),
           ),
           Padding(
@@ -108,15 +107,11 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
             child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  Household household = Household(
-                      name: _nameController.text,
-                      membersId: [],
-                      availableStorages: []);
+                  Household household = Household(name: _nameController.text, membersId: [], availableStorages: []);
                   HouseholdService.create(household, context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => CustomBottomNavigationBar()),
+                    MaterialPageRoute(builder: (context) => CustomBottomNavigationBar()),
                   );
                 }
               },

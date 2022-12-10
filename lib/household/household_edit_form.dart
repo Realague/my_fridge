@@ -14,7 +14,7 @@ import '../widget/loader.dart';
 class FormEditHousehold extends StatefulWidget {
   FormEditHousehold(this.household) : super();
 
-  Household household;
+  final Household household;
 
   @override
   State<StatefulWidget> createState() => _FormEditHouseholdState();
@@ -49,13 +49,13 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
         key: _formKey,
         child: Column(children: [
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                icon: Icon(Icons.label),
+                icon: const Icon(Icons.label),
                 border: const OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                 labelText: AppLocalizations.of(context)!.household_name,
               ),
               validator: (final name) => Validators.notEmpty(context, name),
@@ -64,7 +64,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
           ),
           buildMemberSection(context),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
@@ -110,13 +110,13 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Text(AppLocalizations.of(context)!.household_description, style: TextStyle(color: Colors.black54)),
         ),
-        Padding(padding: EdgeInsets.all(16.0), child: Text(AppLocalizations.of(context)!.household_members_list)),
+        Padding(padding: const EdgeInsets.all(16.0), child: Text(AppLocalizations.of(context)!.household_members_list)),
         buildMembersList(context),
         Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
             onPressed: () {
               Share.share("Rejoins mon ménage sur MyFridge!\n" + household.id!);
@@ -140,7 +140,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
       stream: UserService.getHouseholdUsers(context, household.id!).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Loader();
+          return const Loader();
         }
 
         return ListView.builder(
@@ -157,7 +157,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
                   radius: 10,
                   backgroundImage: NetworkImage(user.imageUrl),
                 ),
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 Text(user.username)
               ],
             );
