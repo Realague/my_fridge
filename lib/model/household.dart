@@ -3,7 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Household {
-  Household({this.id, required this.name, required this.membersId, required this.availableStorage, this.createdBy});
+  Household(
+      {this.id,
+      required this.name,
+      required this.membersId,
+      required this.availableStorages,
+      this.createdBy});
 
   String? id;
 
@@ -11,7 +16,7 @@ class Household {
 
   List<String> membersId;
 
-  List<int> availableStorage;
+  List<int> availableStorages;
 
   String? createdBy;
 
@@ -31,7 +36,7 @@ class Household {
         id: document.id,
         name: data['name'],
         membersId: List.from(data['membersId']),
-        availableStorage: List.from(data['availableStorage']),
+        availableStorages: List.from(data['availableStorage']),
         createdBy: data['createdBy']);
   }
 
@@ -39,7 +44,7 @@ class Household {
     return {
       'name': this.name,
       'membersId': this.membersId,
-      'availableStorage': this.availableStorage,
+      'availableStorage': this.availableStorages,
       'createdBy': this.createdBy,
     };
   }

@@ -17,6 +17,10 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
 
+  bool hasFridge = false;
+  bool hasFreezer = false;
+  bool hasCellar = false;
+
   @override
   void initState() {
     _nameController.text = "Accueil";
@@ -54,18 +58,65 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
           ),
           Padding(
             padding: EdgeInsets.all(16.0),
-            child: Text(AppLocalizations.of(context)!.household_description, style: TextStyle(color: Colors.black54)),
+            child: Text(AppLocalizations.of(context)!.household_description,
+                style: TextStyle(color: Colors.black54)),
+          ),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(children: [
+              Switch(
+                onChanged: (value) {
+                  setState(() {
+                    hasFridge = value;
+                  });
+                },
+                value: hasFridge,
+              ),
+              Text("Fridge")
+            ]),
+          ),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(children: [
+              Switch(
+                onChanged: (value) {
+                  setState(() {
+                    hasFreezer = value;
+                  });
+                },
+                value: hasFreezer,
+              ),
+              Text("Freezer")
+            ]),
+          ),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(children: [
+              Switch(
+                onChanged: (value) {
+                  setState(() {
+                    hasCellar = value;
+                  });
+                },
+                value: hasCellar,
+              ),
+              Text("Cellar")
+            ]),
           ),
           Padding(
             padding: EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  Household household = Household(name: _nameController.text, membersId: [], availableStorage: []);
+                  Household household = Household(
+                      name: _nameController.text,
+                      membersId: [],
+                      availableStorages: []);
                   HouseholdService.create(household, context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CustomBottomNavigationBar()),
+                    MaterialPageRoute(
+                        builder: (context) => CustomBottomNavigationBar()),
                   );
                 }
               },
