@@ -13,19 +13,13 @@ class FridgeArticleListTile extends StatelessWidget {
     return ListTile(
       tileColor: Utils.nullDateTime == article.expiryDate ||
               article.expiryDate == null ||
-              DateTime.now()
-                  .add(const Duration(days: 3))
-                  .isBefore(article.expiryDate!)
+              DateTime.now().add(const Duration(days: 3)).isBefore(article.expiryDate!)
           ? Colors.white
-          : DateTime.now()
-                  .add(const Duration(days: 1))
-                  .isAfter(article.expiryDate!)
+          : DateTime.now().add(const Duration(days: 1)).isAfter(article.expiryDate!)
               ? Colors.red
               : Colors.amber,
-      title: Text(
-          '${article.name} ${article.quantity} ${article.quantityUnit.displayForDropDown(context)}'),
-      subtitle: Text(
-          '${Utils.nullDateTime != article.expiryDate ? article.expiryDateDisplay : ""}'),
+      title: Text('${article.name} ${article.quantity} ${article.packingType.displayText(context)}'),
+      subtitle: Text('${Utils.nullDateTime != article.expiryDate ? article.expiryDateDisplay : ""}'),
     );
   }
 }

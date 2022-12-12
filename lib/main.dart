@@ -21,7 +21,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return FutureBuilder(
       // Initialize FlutterFire:
       future: Firebase.initializeApp(
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
               messagingSenderId: "265628210515",
               projectId: "myfridge-e530e",
               authDomain: "myfridge-e530e.firebaseapp.com")),
-      builder: (final context, final snapshot) {
+      builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
           return Text(snapshot.error.toString());
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
 
 class InitializeProviders extends StatelessWidget {
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         Provider<AuthenticationService>(
@@ -89,7 +89,7 @@ class AuthenticationWrapper extends StatelessWidget {
   Widget build(final BuildContext context) {
     final fireBaseUser = context.watch<User?>();
     if (fireBaseUser == null) {
-      return AuthenticationPage();
+      return const AuthenticationPage();
     }
 
     return FutureBuilder<MyFridgeUser?>(
@@ -129,7 +129,7 @@ class AuthenticationWrapper extends StatelessWidget {
                 ),
               ]);
             }
-            return CustomBottomNavigationBar();
+            return const CustomBottomNavigationBar();
           } else {
             return const Loader();
           }

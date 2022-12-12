@@ -19,7 +19,7 @@ class FormAddArticle extends StatefulWidget {
 class _FormAddArticleState extends State<FormAddArticle> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  QuantityUnit? _quantityUnit;
+  PackingType? _packingType;
   bool _perishable = false;
   Category? _category;
 
@@ -41,8 +41,7 @@ class _FormAddArticleState extends State<FormAddArticle> {
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                labelText:
-                    AppLocalizations.of(context)!.form_article_name_label,
+                labelText: AppLocalizations.of(context)!.form_article_name_label,
               ),
               validator: (final name) => Validators.notEmpty(context, name),
               controller: _nameController,
@@ -53,23 +52,19 @@ class _FormAddArticleState extends State<FormAddArticle> {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: DropdownSearch<QuantityUnit>(
+                  child: DropdownSearch<PackingType>(
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       dropdownSearchDecoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!
-                            .form_quantity_unit_label,
+                        labelText: AppLocalizations.of(context)!.form_packing_type_label,
                         contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
                         border: const OutlineInputBorder(),
                       ),
                     ),
-                    items: QuantityUnit.values,
-                    itemAsString: (final QuantityUnit? quantityUnit) =>
-                        quantityUnit!.displayForDropDown(context),
-                    selectedItem: _quantityUnit,
-                    validator: (final quantityUnit) =>
-                        Validators.notNull(context, quantityUnit),
-                    onChanged: (final QuantityUnit? quantityUnit) =>
-                        _quantityUnit = quantityUnit,
+                    items: PackingType.values,
+                    itemAsString: (final PackingType? packingType) => packingType!.displayText(context),
+                    selectedItem: _packingType,
+                    validator: (final packingType) => Validators.notNull(context, packingType),
+                    onChanged: (final PackingType? packingType) => _packingType = packingType,
                   ),
                 ),
               ),
@@ -99,8 +94,7 @@ class _FormAddArticleState extends State<FormAddArticle> {
                     ),
                   ),
                   selectedItem: _category,
-                  validator: (category) =>
-                      Validators.notNull(context, category),
+                  validator: (category) => Validators.notNull(context, category),
                   onChanged: (final Category? category) => _category = category,
                 ),
               );
@@ -109,8 +103,7 @@ class _FormAddArticleState extends State<FormAddArticle> {
           SwitchListTile(
             title: Text(AppLocalizations.of(context)!.perishable_label),
             value: _perishable,
-            subtitle:
-                Text(AppLocalizations.of(context)!.perishable_description),
+            subtitle: Text(AppLocalizations.of(context)!.perishable_description),
             onChanged: (final bool value) {
               setState(() {
                 _perishable = value;
@@ -122,17 +115,13 @@ class _FormAddArticleState extends State<FormAddArticle> {
             icon: const Icon(Icons.add),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                Article article = Article(
-                    name: _nameController.text,
-                    unit: _quantityUnit!.index,
-                    perishable: _perishable,
-                    category: _category!.category);
+                Article article =
+                    Article(name: _nameController.text, unit: _packingType!.index, perishable: _perishable, category: _category!.category);
                 ArticleService.create(article);
                 Navigator.pop(context);
               }
             },
-            label: Text(AppLocalizations.of(context)!
-                .button_add_article_to_shopping_list),
+            label: Text(AppLocalizations.of(context)!.button_add_article_to_shopping_list),
           ),
         ],
       ),

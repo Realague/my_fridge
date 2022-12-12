@@ -10,6 +10,7 @@ import 'package:my_fridge/services/shopping_list_service.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/expandable_fab.dart';
+import 'package:my_fridge/widget/household_app_bar_text.dart';
 import 'package:my_fridge/widget/navigation_drawer.dart';
 
 import 'article_management/article_management.dart';
@@ -20,6 +21,8 @@ import 'meal_schedule/meal_schedule_view.dart';
 import 'model/shopping_article.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
+  const CustomBottomNavigationBar();
+
   @override
   _BottomNavigationBarState createState() => _BottomNavigationBarState();
 }
@@ -40,10 +43,10 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     });
   }
 
-  void _addShoppingListArticle(final BuildContext context) {
+  void _addShoppingListArticle(BuildContext context) {
     showDialog(
       context: context,
-      builder: (final BuildContext context) {
+      builder: (BuildContext context) {
         return DialogFullScreen(
           title: AppLocalizations.of(context)!.shopping_list_popup_title,
           child: SelectArticleForm(confirmCallback: (article, quantity) {
@@ -55,10 +58,10 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     );
   }
 
-  void _addFridgeArticle(final BuildContext context) {
+  void _addFridgeArticle(BuildContext context) {
     showDialog(
       context: context,
-      builder: (final BuildContext context) {
+      builder: (BuildContext context) {
         return DialogFullScreen(
           title: AppLocalizations.of(context)!.fridge_popup_title,
           child: FormFridgeArticle(),
@@ -67,10 +70,10 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     );
   }
 
-  void _addCookingRecipe(final BuildContext context) {
+  void _addCookingRecipe(BuildContext context) {
     showDialog(
       context: context,
-      builder: (final BuildContext context) {
+      builder: (BuildContext context) {
         return DialogFullScreen(
           title: AppLocalizations.of(context)!.add_article_popup_title,
           child: CookingRecipeView(insertMode: true),
@@ -79,10 +82,10 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     );
   }
 
-  void _addArticle(final BuildContext context) {
+  void _addArticle(BuildContext context) {
     showDialog(
       context: context,
-      builder: (final BuildContext context) {
+      builder: (BuildContext context) {
         return DialogFullScreen(
           title: AppLocalizations.of(context)!.add_article_popup_title,
           child: FormArticle(),
@@ -91,10 +94,10 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     );
   }
 
-  void _addCategory(final BuildContext context) {
+  void _addCategory(BuildContext context) {
     showDialog(
       context: context,
-      builder: (final BuildContext context) {
+      builder: (BuildContext context) {
         return DialogFullScreen(
           title: AppLocalizations.of(context)!.add_category_popup_title,
           child: CategoryForm(),
@@ -103,12 +106,12 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     );
   }
 
-  void _addCheckedShoppingArticles(final BuildContext context) async {
+  void _addCheckedShoppingArticles(BuildContext context) async {
     var articles = ShoppingListService.getOnlyCheckedArticle(context);
     articles.then(
-      (final articles) => {
+      (articles) => {
         articles.forEach(
-          (final article) async {
+          (article) async {
             if (article.perishable) {
               DateTime? expiryDate = article.expiryDate;
               //TODO if cancel set to null
@@ -186,7 +189,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
   Widget build(final BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MyFridge'),
+        title: const HouseholdAppBarText(),
       ),
       drawer: NavigationDrawer(),
       body: _widgetOptions.elementAt(_selectedIndex),

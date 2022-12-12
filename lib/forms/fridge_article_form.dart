@@ -48,12 +48,9 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
     super.dispose();
   }
 
-  Future _selectDate(final BuildContext context) async {
-    final DateTime? pickedDate = (await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2015),
-        lastDate: DateTime(2050)));
+  Future _selectDate(BuildContext context) async {
+    final DateTime? pickedDate =
+        (await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2015), lastDate: DateTime(2050)));
     if (pickedDate != null && pickedDate != _selectedDate) {
       setState(() {
         _selectedDate = pickedDate;
@@ -86,7 +83,7 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -98,29 +95,23 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<Article>(
-                    asyncItems: (final String filter) =>
-                        ArticleService.get(filter),
+                    asyncItems: (String filter) => ArticleService.get(filter),
                     popupProps: PopupProps.menu(showSearchBox: true),
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       dropdownSearchDecoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context)!.form_article_label,
+                        labelText: AppLocalizations.of(context)!.form_article_label,
                         contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
                         border: const OutlineInputBorder(),
                       ),
                     ),
-                    itemAsString: (Article? article) =>
-                        article!.name +
-                        ", " +
-                        article.quantityUnit.displayForDropDown(context),
-                    onChanged: (final Article? article) {
+                    itemAsString: (Article? article) => article!.name + ", " + article.packingType.displayText(context),
+                    onChanged: (Article? article) {
                       setState(() {
                         _selectedArticle = article;
                       });
                     },
                     selectedItem: _selectedArticle,
-                    validator: (final article) =>
-                        Validators.notNull(context, article),
+                    validator: (article) => Validators.notNull(context, article),
                   ),
                 ),
               ),
@@ -131,11 +122,9 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText:
-                          AppLocalizations.of(context)!.form_quantity_label,
+                      labelText: AppLocalizations.of(context)!.form_quantity_label,
                     ),
-                    validator: (final value) =>
-                        Validators.number(context, value!),
+                    validator: (value) => Validators.number(context, value!),
                     controller: _quantityController,
                   ),
                 ),

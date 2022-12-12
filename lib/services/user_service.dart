@@ -9,11 +9,11 @@ import 'database.dart';
 class UserService {
   static final CollectionReference collectionInstance = FirebaseFirestore.instance.collection("users");
 
-  static DocumentReference currentUserDocument(final BuildContext context) {
+  static DocumentReference currentUserDocument(BuildContext context) {
     return UserService.collectionInstance.doc(context.read<AuthenticationService>().currentGoogleUser!.uid);
   }
 
-  static String currentUserId(final BuildContext context) {
+  static String currentUserId(BuildContext context) {
     return context.read<AuthenticationService>().currentGoogleUser!.uid;
   }
 
@@ -33,10 +33,10 @@ class UserService {
     context.read<AuthenticationService>().currentUser = user;
   }
 
-  static Future<MyFridgeUser?> getCurrentUser(final BuildContext context) {
-    return UserService.collectionInstance.doc(context.read<AuthenticationService>().currentGoogleUser!.uid).get().then((documentSnapshot) {
-      return MyFridgeUser.fromDocument(documentSnapshot);
-    });
+  static Future<MyFridgeUser> getCurrentUser(final BuildContext context) async {
+    DocumentSnapshot documentSnapshot =
+        await UserService.collectionInstance.doc(context.read<AuthenticationService>().currentGoogleUser!.uid).get();
+    return MyFridgeUser.fromDocument(documentSnapshot);
   }
 
   static update(final MyFridgeUser user, final BuildContext context) {
@@ -53,5 +53,11 @@ class UserService {
 
   static delete(final String userId) {
     DatabaseService.delete(userId, collectionInstance);
+  }
+
+  static removeHouseholdFromUser(BuildContext context, String householdId) {
+    currentUserDocument(context).update({
+      'householdsId': FieldValue.arrayRemove([householdId])
+    });
   }
 }

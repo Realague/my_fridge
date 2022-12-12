@@ -8,22 +8,25 @@ import '../model/user.dart';
 import 'database.dart';
 
 class HouseholdService {
-  static final CollectionReference collectionInstance =
-      FirebaseFirestore.instance.collection('households');
+  static final CollectionReference collectionInstance = FirebaseFirestore.instance.collection('households');
 
-  static DocumentReference<Object?> getSelectedHousehold(
-      final BuildContext context) {
+  static DocumentReference<Object?> getSelectedHouseholdDoc(final BuildContext context) {
     MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
     return collectionInstance.doc(user.selectedHouseholdId);
+  }
+
+  static Future<Household> getSelectedHousehold(final BuildContext context) async {
+    MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
+    DocumentSnapshot documentSnapshot = await collectionInstance.doc(user.selectedHouseholdId).get();
+    return Household.fromDocument(documentSnapshot);
   }
 
   static create(final Household household, final BuildContext context) async {
     MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
     household.createdBy = user.id;
     household.membersId = [user.id!];
-    household.availableStorages.add(Storage.NONE.index);
-    DocumentReference docRef =
-        await DatabaseService.create(household.asMap, collectionInstance);
+    household.availableStoragesType.add(Storage.NONE.index);
+    DocumentReference docRef = await DatabaseService.create(household.asMap, collectionInstance);
     UserService.updateUserHouseholds(context, docRef.id);
   }
 
@@ -31,18 +34,16 @@ class HouseholdService {
     DatabaseService.update(household.id!, household.asMap, collectionInstance);
   }
 
-  static delete(final String householdId) {
+  static delete(BuildContext context, final String householdId) {
     DatabaseService.delete(householdId, collectionInstance);
-    //TODO: remove household from user array
+    UserService.removeHouseholdFromUser(context, householdId);
   }
 
   static Query getUserHouseholds(final BuildContext context) {
-    return collectionInstance.where('membersId',
-        arrayContains: UserService.getCurrentUserFromCache(context)!.id!);
+    return collectionInstance.where('membersId', arrayContains: UserService.getCurrentUserFromCache(context)!.id!);
   }
 
-  static joinHousehold(
-      final BuildContext context, final String householdId) async {
+  static joinHousehold(final BuildContext context, final String householdId) async {
     String userId = UserService.getCurrentUserFromCache(context)!.id!;
     collectionInstance.doc(householdId).update({
       "membersId": FieldValue.arrayUnion([userId])

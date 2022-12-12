@@ -30,7 +30,7 @@ class _CategoryFormState extends State<CategoryForm> {
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -41,10 +41,9 @@ class _CategoryFormState extends State<CategoryForm> {
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                labelText:
-                    AppLocalizations.of(context)!.form_article_name_label,
+                labelText: AppLocalizations.of(context)!.form_article_name_label,
               ),
-              validator: (final name) => Validators.notEmpty(context, name),
+              validator: (name) => Validators.notEmpty(context, name),
               controller: _nameController,
             ),
           ),

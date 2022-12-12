@@ -14,12 +14,10 @@ class FormShoppingListFromExistingArticle extends StatefulWidget {
   final ShoppingArticle? article;
 
   @override
-  State<StatefulWidget> createState() =>
-      _FormShoppingListFromExistingArticleState();
+  State<StatefulWidget> createState() => _FormShoppingListFromExistingArticleState();
 }
 
-class _FormShoppingListFromExistingArticleState
-    extends State<FormShoppingListFromExistingArticle> {
+class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFromExistingArticle> {
   final _quantityController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   Article? _selectedArticle;
@@ -44,7 +42,7 @@ class _FormShoppingListFromExistingArticleState
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -56,26 +54,19 @@ class _FormShoppingListFromExistingArticleState
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<Article>(
-                    asyncItems: (final String filter) =>
-                        ArticleService.get(filter),
+                    asyncItems: (String filter) => ArticleService.get(filter),
                     popupProps: PopupProps.menu(showSearchBox: true),
-                    itemAsString: (final Article? article) =>
-                        article!.name +
-                        ", " +
-                        article.quantityUnit.displayForDropDown(context),
+                    itemAsString: (Article? article) => article!.name + ", " + article.packingType.displayText(context),
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       dropdownSearchDecoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context)!.form_article_label,
+                        labelText: AppLocalizations.of(context)!.form_article_label,
                         contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
                         border: const OutlineInputBorder(),
                       ),
                     ),
-                    onChanged: (final Article? article) =>
-                        _selectedArticle = article,
+                    onChanged: (Article? article) => _selectedArticle = article,
                     selectedItem: _selectedArticle,
-                    validator: (final article) =>
-                        Validators.notNull(context, article),
+                    validator: (article) => Validators.notNull(context, article),
                   ),
                 ),
               ),
@@ -86,11 +77,9 @@ class _FormShoppingListFromExistingArticleState
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText:
-                          AppLocalizations.of(context)!.form_quantity_label,
+                      labelText: AppLocalizations.of(context)!.form_quantity_label,
                     ),
-                    validator: (final value) =>
-                        Validators.number(context, value!),
+                    validator: (value) => Validators.number(context, value!),
                     controller: _quantityController,
                   ),
                 ),
@@ -117,8 +106,7 @@ class _FormShoppingListFromExistingArticleState
                 Navigator.pop(context);
               }
             },
-            label: Text(AppLocalizations.of(context)!
-                .button_add_article_to_shopping_list),
+            label: Text(AppLocalizations.of(context)!.button_add_article_to_shopping_list),
           ),
         ],
       ),

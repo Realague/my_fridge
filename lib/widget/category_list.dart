@@ -13,8 +13,7 @@ class CategoryList extends StatefulWidget {
 
   final bool editableCategory;
   final Query Function(BuildContext context, Category category) query;
-  final Widget Function(BuildContext context, QueryDocumentSnapshot document)
-      itemsBuilder;
+  final Widget Function(BuildContext context, QueryDocumentSnapshot document) itemsBuilder;
 
   @override
   State<StatefulWidget> createState() => _CategoryListState();
@@ -33,7 +32,7 @@ class _CategoryListState extends State<CategoryList> {
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return FutureBuilder(
       future: _future,
       builder: (context, snapshot) {
@@ -46,10 +45,7 @@ class _CategoryListState extends State<CategoryList> {
 
         return SingleChildScrollView(
           child: ExpansionPanelList(
-            children: categories
-                .map<ExpansionPanel>(
-                    (category) => _buildCategoryListItem(context, category))
-                .toList(),
+            children: categories.map<ExpansionPanel>((category) => _buildCategoryListItem(context, category)).toList(),
             expansionCallback: (index, isExpanded) {
               setState(
                 () {
@@ -63,12 +59,11 @@ class _CategoryListState extends State<CategoryList> {
     );
   }
 
-  ExpansionPanel _buildCategoryListItem(
-      final BuildContext context, final Category category) {
+  ExpansionPanel _buildCategoryListItem(BuildContext context, Category category) {
     return ExpansionPanel(
       canTapOnHeader: true,
       isExpanded: category.isExpanded,
-      headerBuilder: (final context, final isExpanded) {
+      headerBuilder: (context, isExpanded) {
         if (widget.editableCategory && category.category != " ") {
           return ListTile(
             title: Text(category.categoryForDisplay(context)),
@@ -82,10 +77,9 @@ class _CategoryListState extends State<CategoryList> {
                     onPressed: () async {
                       await showDialog(
                         context: context,
-                        builder: (final BuildContext context) {
+                        builder: (BuildContext context) {
                           return DialogFullScreen(
-                            title: AppLocalizations.of(context)!
-                                .shopping_list_popup_title,
+                            title: AppLocalizations.of(context)!.shopping_list_popup_title,
                             child: CategoryForm(category: category),
                           );
                         },
@@ -120,8 +114,7 @@ class _CategoryListState extends State<CategoryList> {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: (snapshot.data as QuerySnapshot).docs.length,
-            itemBuilder: (context, index) => widget.itemsBuilder(
-                context, (snapshot.data as QuerySnapshot).docs[index]),
+            itemBuilder: (context, index) => widget.itemsBuilder(context, (snapshot.data as QuerySnapshot).docs[index]),
           );
         },
       ),

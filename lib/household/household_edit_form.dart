@@ -88,7 +88,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
           ),
           ElevatedButton(
             onPressed: () {
-              HouseholdService.delete(household.id!);
+              HouseholdService.delete(context, household.id!);
               Navigator.pop(context);
             },
             child: Text(AppLocalizations.of(context)!.household_delete),

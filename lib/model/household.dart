@@ -2,12 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../model/storage.dart';
+
 class Household {
   Household(
       {this.id,
       required this.name,
       required this.membersId,
-      required this.availableStorages,
+      required this.availableStoragesType,
+      required this.expiredItemWarningDelay,
       this.createdBy});
 
   String? id;
@@ -16,7 +19,9 @@ class Household {
 
   List<String> membersId;
 
-  List<int> availableStorages;
+  List<int> availableStoragesType;
+
+  int expiredItemWarningDelay;
 
   String? createdBy;
 
@@ -30,13 +35,27 @@ class Household {
     return display;
   }
 
+  setAvailableStoragesType(bool hasFridge, bool hasFreezer, bool hasCellar) {
+    if (hasFridge) {
+      this.availableStoragesType.add(Storage.FRIDGE.index);
+    }
+    if (hasFreezer) {
+      this.availableStoragesType.add(Storage.FREEZER.index);
+    }
+    if (hasCellar) {
+      this.availableStoragesType.add(Storage.CELLAR.index);
+      this.availableStoragesType.add(Storage.CUPBOARD.index);
+    }
+  }
+
   static Household fromDocument(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     return Household(
         id: document.id,
         name: data['name'],
         membersId: List.from(data['membersId']),
-        availableStorages: List.from(data['availableStorage']),
+        availableStoragesType: List.from(data['availableStorageType']),
+        expiredItemWarningDelay: data['expiredItemWarningDelay'],
         createdBy: data['createdBy']);
   }
 
@@ -44,7 +63,8 @@ class Household {
     return {
       'name': this.name,
       'membersId': this.membersId,
-      'availableStorage': this.availableStorages,
+      'availableStorageType': this.availableStoragesType,
+      'expiredItemWarningDelay': this.expiredItemWarningDelay,
       'createdBy': this.createdBy,
     };
   }

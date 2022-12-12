@@ -9,15 +9,13 @@ class Category {
 
   String category;
 
-  String categoryForDisplay(final BuildContext context) =>
-      category == " " ? AppLocalizations.of(context)!.category_other : category;
+  String categoryForDisplay(BuildContext context) => category == " " ? AppLocalizations.of(context)!.category_other : category;
 
   bool isExpanded;
 
-  static Category fromDocument(final DocumentSnapshot document) {
+  static Category fromDocument(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-    return Category(
-        id: document.id, category: data['category'], isExpanded: false);
+    return Category(id: document.id, category: data['category'], isExpanded: false);
   }
 
   Map<String, Object> get asMap {

@@ -22,7 +22,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
   final _formKey = GlobalKey<FormState>();
   final _quantityController = TextEditingController();
   final _nameController = TextEditingController();
-  QuantityUnit? _quantityUnit;
+  PackingType? _packingType;
   bool _perishable = false;
   Category? _category;
 
@@ -34,7 +34,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -45,10 +45,9 @@ class _FormShoppingListState extends State<FormShoppingList> {
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                labelText:
-                    AppLocalizations.of(context)!.form_article_name_label,
+                labelText: AppLocalizations.of(context)!.form_article_name_label,
               ),
-              validator: (final name) => Validators.notEmpty(context, name),
+              validator: (name) => Validators.notEmpty(context, name),
               controller: _nameController,
             ),
           ),
@@ -61,11 +60,9 @@ class _FormShoppingListState extends State<FormShoppingList> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText:
-                          AppLocalizations.of(context)!.form_quantity_label,
+                      labelText: AppLocalizations.of(context)!.form_quantity_label,
                     ),
-                    validator: (final quantity) =>
-                        Validators.number(context, quantity),
+                    validator: (quantity) => Validators.number(context, quantity),
                     controller: _quantityController,
                   ),
                 ),
@@ -73,23 +70,19 @@ class _FormShoppingListState extends State<FormShoppingList> {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: DropdownSearch<QuantityUnit>(
-                    items: QuantityUnit.values,
-                    itemAsString: (final QuantityUnit? quantityUnit) =>
-                        quantityUnit!.displayForDropDown(context),
+                  child: DropdownSearch<PackingType>(
+                    items: PackingType.values,
+                    itemAsString: (PackingType? packingType) => packingType!.displayText(context),
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       dropdownSearchDecoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!
-                            .form_quantity_unit_label,
+                        labelText: AppLocalizations.of(context)!.form_packing_type_label,
                         contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
                         border: const OutlineInputBorder(),
                       ),
                     ),
-                    selectedItem: _quantityUnit,
-                    validator: (final quantityUnit) =>
-                        Validators.notNull(context, quantityUnit),
-                    onChanged: (final QuantityUnit? quantityUnit) =>
-                        _quantityUnit = quantityUnit,
+                    selectedItem: _packingType,
+                    validator: (packingType) => Validators.notNull(context, packingType),
+                    onChanged: (PackingType? packingType) => _packingType = packingType,
                   ),
                 ),
               ),
@@ -97,7 +90,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
           ),
           FutureBuilder(
             future: CategoryService.get(),
-            builder: (final context, final snapshot) {
+            builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Loader();
               }
@@ -105,7 +98,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
                 padding: EdgeInsets.all(8.0),
                 child: DropdownSearch<Category>(
                   items: snapshot.data as List<Category>,
-                  itemAsString: (final Category? category) {
+                  itemAsString: (Category? category) {
                     if (category != null && category.category == " ") {
                       return AppLocalizations.of(context)!.category_other;
                     }
@@ -119,9 +112,8 @@ class _FormShoppingListState extends State<FormShoppingList> {
                     ),
                   ),
                   selectedItem: _category,
-                  validator: (final category) =>
-                      Validators.notNull(context, category),
-                  onChanged: (final Category? category) => _category = category,
+                  validator: (category) => Validators.notNull(context, category),
+                  onChanged: (Category? category) => _category = category,
                 ),
               );
             },
@@ -129,9 +121,8 @@ class _FormShoppingListState extends State<FormShoppingList> {
           SwitchListTile(
             title: Text(AppLocalizations.of(context)!.perishable_label),
             value: _perishable,
-            subtitle:
-                Text(AppLocalizations.of(context)!.perishable_description),
-            onChanged: (final bool value) {
+            subtitle: Text(AppLocalizations.of(context)!.perishable_description),
+            onChanged: (bool value) {
               setState(() {
                 _perishable = value;
               });
@@ -142,15 +133,12 @@ class _FormShoppingListState extends State<FormShoppingList> {
             icon: const Icon(Icons.add),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                Article article = Article(
-                    name: _nameController.text,
-                    unit: _quantityUnit!.index,
-                    perishable: _perishable,
-                    category: _category!.category);
+                Article article =
+                    Article(name: _nameController.text, unit: _packingType!.index, perishable: _perishable, category: _category!.category);
                 ArticleService.create(article);
                 ShoppingArticle shoppingArticle = ShoppingArticle(
                     name: _nameController.text,
-                    unit: _quantityUnit!.index,
+                    unit: _packingType!.index,
                     quantity: int.parse(_quantityController.text),
                     perishable: _perishable,
                     category: _category!.category);
@@ -158,8 +146,7 @@ class _FormShoppingListState extends State<FormShoppingList> {
                 Navigator.pop(context);
               }
             },
-            label: Text(AppLocalizations.of(context)!
-                .button_add_article_to_shopping_list),
+            label: Text(AppLocalizations.of(context)!.button_add_article_to_shopping_list),
           ),
         ],
       ),

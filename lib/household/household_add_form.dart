@@ -16,6 +16,7 @@ class FormAddHousehold extends StatefulWidget {
 class _FormAddHouseholdState extends State<FormAddHousehold> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  final _expiredItemWarningDelayController = TextEditingController();
 
   bool hasFridge = false;
   bool hasFreezer = false;
@@ -43,7 +44,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
         key: _formKey,
         child: Column(children: [
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
@@ -61,7 +62,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
             child: Text(AppLocalizations.of(context)!.household_description, style: TextStyle(color: Colors.black54)),
           ),
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Row(children: [
               Switch(
                 onChanged: (value) {
@@ -71,11 +72,11 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
                 },
                 value: hasFridge,
               ),
-              const Text("Fridge")
+              Text(AppLocalizations.of(context)!.storage_description_fridge)
             ]),
           ),
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Row(children: [
               Switch(
                 onChanged: (value) {
@@ -85,7 +86,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
                 },
                 value: hasFreezer,
               ),
-              const Text("Freezer")
+              Text(AppLocalizations.of(context)!.storage_description_freezer)
             ]),
           ),
           Padding(
@@ -99,15 +100,39 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
                 },
                 value: hasCellar,
               ),
-              const Text("Cellar")
+              Text(AppLocalizations.of(context)!.storage_description_cellar)
             ]),
           ),
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
+            child: TextFormField(
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                icon: const Icon(Icons.label),
+                border: const OutlineInputBorder(),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                labelText: AppLocalizations.of(context)!.storage_expired_item_warning_delay_label,
+              ),
+              validator: (final value) => Validators.number(context, value),
+              controller: _expiredItemWarningDelayController,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child:
+                Text(AppLocalizations.of(context)!.storage_expired_item_warning_delay_description, style: TextStyle(color: Colors.black54)),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  Household household = Household(name: _nameController.text, membersId: [], availableStorages: []);
+                  Household household = Household(
+                      name: _nameController.text,
+                      membersId: [],
+                      availableStoragesType: [],
+                      expiredItemWarningDelay: int.parse(_expiredItemWarningDelayController.text));
+                  household.setAvailableStoragesType(hasFridge, hasFreezer, hasCellar);
                   HouseholdService.create(household, context);
                   Navigator.push(
                     context,
