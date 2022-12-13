@@ -56,7 +56,7 @@ class InitializeProviders extends StatelessWidget {
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
         StreamProvider(
-          create: (final context) => context.read<AuthenticationService>().authStateChanges,
+          create: (context) => context.read<AuthenticationService>().authStateChanges,
           initialData: null,
         ),
       ],

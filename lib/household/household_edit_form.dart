@@ -58,7 +58,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                 labelText: AppLocalizations.of(context)!.household_name,
               ),
-              validator: (final name) => Validators.notEmpty(context, name),
+              validator: (name) => Validators.notEmpty(context, name),
               controller: _nameController,
             ),
           ),

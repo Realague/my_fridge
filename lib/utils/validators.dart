@@ -3,14 +3,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/utils/utils.dart';
 
 class Validators {
-  static String? notEmpty(final BuildContext context, final String? value) {
+  static String? notEmpty(BuildContext context, String? value) {
     if (value == null || value.isEmpty) {
       return AppLocalizations.of(context)!.error_empty;
     }
     return null;
   }
 
-  static String? number(final BuildContext context, final String? value) {
+  static String? number(BuildContext context, String? value) {
     if (value == null || value.isEmpty) {
       return AppLocalizations.of(context)!.error_empty;
     }
@@ -22,7 +22,7 @@ class Validators {
     return null;
   }
 
-  static String? notNull(final BuildContext context, final Object? value) {
+  static String? notNull(BuildContext context, Object? value) {
     if (value == null) {
       return AppLocalizations.of(context)!.error_empty;
     }

@@ -8,7 +8,7 @@ class ArticleListTile extends StatelessWidget {
   final Article article;
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return ListTile(
       title: Text('${article.name} ${article.packingType.displayText(context)}'),
     );

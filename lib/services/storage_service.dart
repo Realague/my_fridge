@@ -1,23 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_fridge/model/category.dart';
-import 'package:my_fridge/model/fridge_article.dart';
 import 'package:my_fridge/model/shopping_article.dart';
+import 'package:my_fridge/model/storage.dart';
+import 'package:my_fridge/model/storage_item.dart';
 import 'package:my_fridge/services/user_service.dart';
 
 import 'database.dart';
 
-class FridgeService {
-  static create(FridgeArticle article, BuildContext context) async {
-    if (article.perishable) {
-      DatabaseService.create(article.asMap, getCollectionInstance(context));
+class StorageService {
+  static create(StorageItem item, BuildContext context) async {
+    if (item.perishable) {
+      DatabaseService.create(item.asMap, getCollectionInstance(context));
     } else {
-      FridgeArticle? existingArticle = await getByArticle(article, context);
+      StorageItem? existingArticle = await getByArticle(item, context);
       if (existingArticle != null) {
-        existingArticle.quantity += article.quantity;
+        existingArticle.quantity += item.quantity;
         update(existingArticle, context);
       } else {
-        DatabaseService.create(article.asMap, getCollectionInstance(context));
+        DatabaseService.create(item.asMap, getCollectionInstance(context));
       }
     }
   }
@@ -34,42 +35,44 @@ class FridgeService {
     DatabaseService.create(map, getCollectionInstance(context));
   }
 
-  static update(FridgeArticle article, BuildContext context) {
-    var data = article.asMap;
-
-    DatabaseService.update(article.id!, data, getCollectionInstance(context));
+  static update(StorageItem item, BuildContext context) {
+    DatabaseService.update(item.id!, item.asMap, getCollectionInstance(context));
   }
 
   static CollectionReference getCollectionInstance(BuildContext context) {
-    return UserService.currentUserDocument(context).collection("fridge");
+    return UserService.currentUserDocument(context).collection("storage");
   }
 
   static delete(String articleId, BuildContext context) {
     DatabaseService.delete(articleId, getCollectionInstance(context));
   }
 
-  static Future<List<FridgeArticle>> getOrderBy(String field, BuildContext context) async {
-    List<FridgeArticle> articles = [];
+  static Future<List<StorageItem>> getOrderBy(String field, BuildContext context) async {
+    List<StorageItem> items = [];
     return getCollectionInstance(context).orderBy(field).get().then((querySnapshot) {
-      querySnapshot.docs.forEach((document) => articles.add(FridgeArticle.fromDocument(document)));
-      return articles;
+      querySnapshot.docs.forEach((document) => items.add(StorageItem.fromDocument(document)));
+      return items;
     });
   }
 
-  static Future<FridgeArticle?> getByArticle(FridgeArticle article, BuildContext context) {
+  static Future<StorageItem?> getByArticle(StorageItem item, BuildContext context) {
     return getCollectionInstance(context)
-        .where('name', isEqualTo: article.name)
-        .where('unit', isEqualTo: article.unit)
+        .where('name', isEqualTo: item.name)
+        .where('unit', isEqualTo: item.unit)
         .get()
         .then((querySnapshot) {
       if (querySnapshot.docs.length != 1) {
         return null;
       }
-      return FridgeArticle.fromDocument(querySnapshot.docs[0]);
+      return StorageItem.fromDocument(querySnapshot.docs[0]);
     });
   }
 
   static Query getByCategory(BuildContext context, Category category) {
     return getCollectionInstance(context).where('category', isEqualTo: category.category);
+  }
+
+  static Query getByStorage(BuildContext context, Storage storage) {
+    return getCollectionInstance(context).where('storage', isEqualTo: storage.index);
   }
 }

@@ -7,7 +7,7 @@ enum Storage { FRIDGE, FREEZER, CELLAR, CUPBOARD, NONE }
 extension StorageExtension on Storage {
   String get name => describeEnum(this);
 
-  String displayTitle(final BuildContext context) {
+  String displayTitle(BuildContext context) {
     switch (this) {
       case Storage.FRIDGE:
         return AppLocalizations.of(context)!.storage_type_fridge;

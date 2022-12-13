@@ -8,7 +8,7 @@ class ShoppingListItem extends StatelessWidget {
   final ShoppingArticle article;
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     if (article.checked) {
       return Text(
         article.name + " " + article.quantity.toString() + " " + article.packingType.displayText(context),

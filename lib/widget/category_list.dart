@@ -105,7 +105,7 @@ class _CategoryListState extends State<CategoryList> {
       },
       body: StreamBuilder(
         stream: widget.query.call(context, category).snapshots(),
-        builder: (final context, final snapshot) {
+        builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Loader();
           }

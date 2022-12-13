@@ -42,7 +42,7 @@ class ArticleService {
     });
   }
 
-  static Query getByCategory(final BuildContext context, final Category category) {
+  static Query getByCategory(BuildContext context, final Category category) {
     return collectionInstance.where('category', isEqualTo: category.category);
   }
 }

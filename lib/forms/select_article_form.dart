@@ -10,7 +10,7 @@ import '../utils/validators.dart';
 import '../widget/dialog.dart';
 import 'add_article_form.dart';
 
-typedef void ConfirmCallback(final Article article, final int quantity);
+typedef void ConfirmCallback(Article article, int quantity);
 
 class SelectArticleForm extends StatefulWidget {
   const SelectArticleForm({required this.confirmCallback, this.article}) : super();
@@ -48,7 +48,7 @@ class _SelectArticleFormState extends State<SelectArticleForm> {
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -60,7 +60,7 @@ class _SelectArticleFormState extends State<SelectArticleForm> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<Article>(
-                    asyncItems: (final String filter) => ArticleService.get(filter),
+                    asyncItems: (String filter) => ArticleService.get(filter),
                     popupProps: PopupProps.menu(showSearchBox: true),
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       dropdownSearchDecoration: InputDecoration(
@@ -69,14 +69,14 @@ class _SelectArticleFormState extends State<SelectArticleForm> {
                         border: const OutlineInputBorder(),
                       ),
                     ),
-                    itemAsString: (final Article? article) => article!.name + ", " + article.packingType.displayText(context),
-                    onChanged: (final Article? article) {
+                    itemAsString: (Article? article) => article!.name + ", " + article.packingType.displayText(context),
+                    onChanged: (Article? article) {
                       setState(() {
                         _selectedArticle = article;
                       });
                     },
                     selectedItem: _selectedArticle,
-                    validator: (final article) => Validators.notNull(context, article),
+                    validator: (article) => Validators.notNull(context, article),
                   ),
                 ),
               ),
@@ -86,7 +86,7 @@ class _SelectArticleFormState extends State<SelectArticleForm> {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (final BuildContext context) {
+                        builder: (BuildContext context) {
                           return DialogFullScreen(
                             title: AppLocalizations.of(context)!.shopping_list_popup_title,
                             child: FormAddArticle(),
@@ -105,7 +105,7 @@ class _SelectArticleFormState extends State<SelectArticleForm> {
                       border: const OutlineInputBorder(),
                       labelText: AppLocalizations.of(context)!.form_quantity_label,
                     ),
-                    validator: (final value) => Validators.number(context, value!),
+                    validator: (value) => Validators.number(context, value!),
                     controller: _quantityController,
                   ),
                 ),

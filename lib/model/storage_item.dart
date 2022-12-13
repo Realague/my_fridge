@@ -1,15 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:my_fridge/model/quantity_unit.dart';
+import 'package:my_fridge/model/storage.dart';
 
-class FridgeArticle {
-  FridgeArticle(
+class StorageItem {
+  StorageItem(
       {this.id,
       required this.name,
       required this.unit,
       required this.quantity,
       required this.perishable,
       required this.category,
+      required this.boughtAt,
+      required this.boughtBy,
+      required this.storage,
+      this.note = "",
       this.expiryDate});
 
   String? id;
@@ -20,6 +25,8 @@ class FridgeArticle {
 
   int quantity;
 
+  int storage;
+
   bool perishable;
 
   String category;
@@ -28,23 +35,35 @@ class FridgeArticle {
 
   DateTime? expiryDate;
 
+  String note;
+
+  DateTime boughtAt;
+
+  String boughtBy;
+
   String get expiryDateDisplay => expiryDate == null ? "" : DateFormat('dd/MM/yyyy').format(expiryDate!);
 
-  static FridgeArticle fromDocument(DocumentSnapshot document) {
+  Storage get storagePlace => Storage.values[storage];
+
+  static StorageItem fromDocument(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     DateTime? expiryDate;
-    if (data['expiry_date'] != null) {
+    if (data['expiry_date']) {
       expiryDate = DateTime.fromMicrosecondsSinceEpoch((data['expiry_date'] as Timestamp).microsecondsSinceEpoch);
     }
 
-    return FridgeArticle(
+    return StorageItem(
         id: document.id,
         name: data['name'],
         unit: data['unit'],
         quantity: data['quantity'],
         perishable: data["perishable"],
         category: data['category'],
-        expiryDate: expiryDate);
+        expiryDate: expiryDate,
+        storage: data['storage'],
+        note: data['note'],
+        boughtBy: data['boughBy'],
+        boughtAt: data['boughtAt']);
   }
 
   Map<String, Object?> get asMap {
@@ -54,7 +73,11 @@ class FridgeArticle {
       "quantity": this.quantity,
       "perishable": this.perishable,
       "category": this.category,
-      "expiry_date": this.expiryDate
+      "expiry_date": this.expiryDate,
+      "storage": this.storage,
+      "note": this.note,
+      "boughtBy": this.boughtAt,
+      "boughtAt": this.boughtBy
     };
   }
 }

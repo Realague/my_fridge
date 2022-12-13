@@ -1,27 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:my_fridge/model/fridge_article.dart';
-import 'package:my_fridge/services/fridge_service.dart';
+import 'package:my_fridge/model/storage_item.dart';
+import 'package:my_fridge/services/storage_service.dart';
 import 'package:my_fridge/utils/utils.dart';
 import 'package:my_fridge/widget/category_list.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/dismissible.dart';
 
 import '../forms/fridge_article_form.dart';
-import 'fridge_article_list_tile.dart';
+import 'storage_article_list_tile.dart';
 
 class Fridge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CategoryList(FridgeService.getByCategory, _buildFridgeItem, false);
+    return CategoryList(StorageService.getByCategory, _buildStorageItem, false);
   }
 
-  Widget _buildFridgeItem(BuildContext context, DocumentSnapshot document) {
-    FridgeArticle article = FridgeArticle.fromDocument(document);
+  Widget _buildStorageItem(BuildContext context, DocumentSnapshot document) {
+    StorageItem item = StorageItem.fromDocument(document);
     return DismissibleBothWay(
-      key: Key(article.id!),
-      child: FridgeArticleListTile(article: article),
+      key: Key(item.id!),
+      child: StorageItemListTile(item: item),
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.startToEnd) {
           await showDialog(
@@ -29,16 +29,13 @@ class Fridge extends StatelessWidget {
             builder: (BuildContext context) {
               return DialogFullScreen(
                 title: AppLocalizations.of(context)!.shopping_list_popup_title,
-                child: FormFridgeArticle(article: article, id: article.id),
+                child: FormFridgeArticle(article: item, id: item.id),
               );
             },
           );
         } else {
           await Utils.showConfirmDialog(
-              context,
-              AppLocalizations.of(context)!.confirm_delete_fridge_article,
-              FridgeService.delete,
-              article.id!);
+              context, AppLocalizations.of(context)!.confirm_delete_fridge_article, StorageService.delete, item.id!);
         }
         return true;
       },

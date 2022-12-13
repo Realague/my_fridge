@@ -4,13 +4,13 @@ import 'package:my_fridge/cooking_recipe/cooking_recipe_list.dart';
 import 'package:my_fridge/cooking_recipe/cooking_recipe_view.dart';
 import 'package:my_fridge/custom_icons_icons.dart';
 import 'package:my_fridge/forms/article_form.dart';
-import 'package:my_fridge/fridge/fridge.dart';
-import 'package:my_fridge/services/fridge_service.dart';
 import 'package:my_fridge/services/shopping_list_service.dart';
+import 'package:my_fridge/services/storage_service.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
+import 'package:my_fridge/storage/storage.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/expandable_fab.dart';
-import 'package:my_fridge/widget/household_app_bar_text.dart';
+import 'package:my_fridge/widget/household_app_bar.dart';
 import 'package:my_fridge/widget/navigation_drawer.dart';
 
 import 'article_management/article_management.dart';
@@ -123,10 +123,10 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   lastDate: DateTime(2025),
                 );
               }
-              FridgeService.createFromShoppingArticle(article, context, expiryDate: expiryDate);
+              StorageService.createFromShoppingArticle(article, context, expiryDate: expiryDate);
               ShoppingListService.delete(article.id!, context);
             } else {
-              FridgeService.createFromShoppingArticle(article, context);
+              StorageService.createFromShoppingArticle(article, context);
               ShoppingListService.delete(article.id!, context);
             }
           },
@@ -134,7 +134,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(articles.length.toString() + " " + AppLocalizations.of(context)!.snack_message_added_to_fridge),
-            backgroundColor: Colors.blue,
+            backgroundColor: Theme.of(context).colorScheme.primary,
           ),
         ),
       },
@@ -186,43 +186,44 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const HouseholdAppBarText(),
+        title: const HouseholdAppBar(),
       ),
       drawer: NavigationDrawer(),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-            icon: Icon(CustomIcons.shopping_list),
+            icon: const Icon(CustomIcons.shopping_list),
             label: AppLocalizations.of(context)!.menu_shopping_list,
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
-            icon: Icon(CustomIcons.fridge),
-            label: AppLocalizations.of(context)!.menu_fridge,
-            backgroundColor: Colors.green,
+            icon: const Icon(CustomIcons.fridge),
+            label: AppLocalizations.of(context)!.menu_storage,
+            backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
-            icon: Icon(CustomIcons.recipe_book),
+            icon: const Icon(CustomIcons.recipe_book),
             label: AppLocalizations.of(context)!.menu_recipes,
-            backgroundColor: Colors.pink,
+            backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
-            icon: Icon(CustomIcons.recipe_book),
+            icon: const Icon(CustomIcons.recipe_book),
             label: 'Coming soon',
-            backgroundColor: Colors.pink,
+            backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.schedule),
+            icon: const Icon(Icons.schedule),
             label: 'Coming soon',
-            backgroundColor: Colors.pink,
+            backgroundColor: Colors.white,
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Colors.black87,
         onTap: _onItemTapped,
       ),
       floatingActionButton: _floatingActionButton(),

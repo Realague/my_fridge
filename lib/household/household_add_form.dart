@@ -25,6 +25,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
   @override
   void initState() {
     _nameController.text = "Accueil";
+    _expiredItemWarningDelayController.text = "3";
     super.initState();
   }
 
@@ -53,7 +54,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                 labelText: AppLocalizations.of(context)!.household_name,
               ),
-              validator: (final name) => Validators.notEmpty(context, name),
+              validator: (name) => Validators.notEmpty(context, name),
               controller: _nameController,
             ),
           ),

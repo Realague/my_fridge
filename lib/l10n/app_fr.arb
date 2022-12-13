@@ -15,7 +15,7 @@
   "add_category_popup_title": "Ajouter une catégorie",
   "fridge_popup_title": "Ajouter un article au frigo",
   "menu_shopping_list": "Liste de course",
-  "menu_fridge": "Frigo",
+  "menu_storage": "Stockage",
   "menu_recipes": "Recettes",
   "button_add_article_to_shopping_list": "Ajouter à la liste de course",
   "form_quantity_label": "Quantité",
@@ -24,6 +24,7 @@
   "form_article_name_label": "Nom",
   "error_empty": "Champ obligatoire",
   "error_wrong_quantity": "Veuillez selectionner une quantité valide",
+
   "packing_type_none": "Aucun",
   "packing_type_mililitre": "Mililitres",
   "packing_type_liter": "Litres",
@@ -36,6 +37,7 @@
   "packing_type_box": "Caisses",
   "packing_type_jar": "Bocaux",
   "packing_type_tube": "Tubes",
+
   "monday": "Lundi",
   "tuesday": "Mardi",
   "wednesday": "Mercredi",
@@ -43,6 +45,7 @@
   "friday": "Vendredi",
   "saturday": "Samedi",
   "sunday": "Dimanche",
+
   "household_name": "Nom du ménage",
   "household_description": "Chaque ménage consiste en une liste de courses et un emplacement de rangement.\nPartage ta liste de courses et tes étagères en invitant d'autres personnes à ton ménage",
   "household_create": "Créer un ménage",
@@ -56,6 +59,7 @@
   "household_save": "Enregistrer",
   "household_add_member": "Ajouter un nouveau membre",
   "household_members_list": "Liste de membres",
+
   "storage_type_fridge": "Réfrigérateur",
   "storage_type_freezer": "Congélateur",
   "storage_type_cellar": "Cellier",

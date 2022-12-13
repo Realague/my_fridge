@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:my_fridge/model/article.dart';
-import 'package:my_fridge/model/fridge_article.dart';
 import 'package:my_fridge/model/quantity_unit.dart';
-import 'package:my_fridge/services/fridge_service.dart';
+import 'package:my_fridge/model/storage_item.dart';
+import 'package:my_fridge/services/storage_service.dart';
+import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 
 import '../services/article_service.dart';
@@ -13,7 +14,7 @@ import '../services/article_service.dart';
 class FormFridgeArticle extends StatefulWidget {
   const FormFridgeArticle({this.article, this.id}) : super();
 
-  final FridgeArticle? article;
+  final StorageItem? article;
   final String? id;
 
   @override
@@ -132,23 +133,26 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
               _dateSelection(),
             ],
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton.icon(
             icon: const Icon(Icons.add),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                FridgeArticle fridgeArticle = FridgeArticle(
+                StorageItem fridgeArticle = StorageItem(
                     id: widget.article?.id ?? null,
                     name: _selectedArticle!.name,
                     unit: _selectedArticle!.unit,
                     category: _selectedArticle!.category,
                     quantity: int.tryParse(_quantityController.text)!,
                     perishable: _selectedArticle!.perishable,
+                    storage: 0,
+                    boughtAt: DateTime.now(),
+                    boughtBy: UserService.currentUserId(context),
                     expiryDate: _selectedDate);
                 if (fridgeArticle.id != null) {
-                  FridgeService.update(fridgeArticle, context);
+                  StorageService.update(fridgeArticle, context);
                 } else {
-                  FridgeService.create(fridgeArticle, context);
+                  StorageService.create(fridgeArticle, context);
                 }
                 Navigator.pop(context);
               }

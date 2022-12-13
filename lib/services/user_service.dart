@@ -17,29 +17,29 @@ class UserService {
     return context.read<AuthenticationService>().currentGoogleUser!.uid;
   }
 
-  static create(final MyFridgeUser user, final BuildContext context) {
+  static create(MyFridgeUser user, BuildContext context) {
     DatabaseService.createWithId(user.id!, user.asMap, collectionInstance);
   }
 
-  static MyFridgeUser? getCurrentUserFromCache(final BuildContext context) {
+  static MyFridgeUser? getCurrentUserFromCache(BuildContext context) {
     return context.read<AuthenticationService>().currentUser;
   }
 
-  static Query getHouseholdUsers(final BuildContext context, final String householdId) {
+  static Query getHouseholdUsers(BuildContext context, String householdId) {
     return collectionInstance.where('householdsId', arrayContains: householdId);
   }
 
-  static void setCurrentUserFromCache(final BuildContext context, final MyFridgeUser user) {
+  static void setCurrentUserFromCache(BuildContext context, MyFridgeUser user) {
     context.read<AuthenticationService>().currentUser = user;
   }
 
-  static Future<MyFridgeUser> getCurrentUser(final BuildContext context) async {
+  static Future<MyFridgeUser> getCurrentUser(BuildContext context) async {
     DocumentSnapshot documentSnapshot =
         await UserService.collectionInstance.doc(context.read<AuthenticationService>().currentGoogleUser!.uid).get();
     return MyFridgeUser.fromDocument(documentSnapshot);
   }
 
-  static update(final MyFridgeUser user, final BuildContext context) {
+  static update(MyFridgeUser user, BuildContext context) {
     DatabaseService.update(user.id!, user.asMap, collectionInstance);
   }
 
@@ -51,7 +51,7 @@ class UserService {
     });
   }
 
-  static delete(final String userId) {
+  static delete(String userId) {
     DatabaseService.delete(userId, collectionInstance);
   }
 

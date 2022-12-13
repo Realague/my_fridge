@@ -9,7 +9,7 @@ class SignOutButton extends StatelessWidget {
   const SignOutButton();
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.logout),
       tooltip: AppLocalizations.of(context)!.button_sign_out,
