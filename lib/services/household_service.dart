@@ -3,51 +3,57 @@ import 'package:flutter/material.dart';
 import 'package:my_fridge/model/household.dart';
 import 'package:my_fridge/model/storage.dart';
 import 'package:my_fridge/services/user_service.dart';
+import 'package:provider/provider.dart';
 
 import '../model/user.dart';
 import 'database.dart';
 
 class HouseholdService {
+  Household? currentHousehold;
+
   static final CollectionReference collectionInstance = FirebaseFirestore.instance.collection('households');
 
-  static DocumentReference<Object?> getSelectedHouseholdDoc(final BuildContext context) {
-    MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
-    return collectionInstance.doc(user.selectedHouseholdId);
+  static DocumentReference<Object?> getSelectedHouseholdDoc(BuildContext context) {
+    return collectionInstance.doc(HouseholdService.getSelectedHousehold(context).id);
   }
 
-  static Future<Household> getSelectedHousehold(final BuildContext context) async {
-    MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
+  static Future<Household> getSelectedHouseholdFromDb(BuildContext context) async {
+    MyFridgeUser user = UserService.getCurrentUser(context);
     DocumentSnapshot documentSnapshot = await collectionInstance.doc(user.selectedHouseholdId).get();
     return Household.fromDocument(documentSnapshot);
   }
 
-  static create(final Household household, final BuildContext context) async {
-    MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
+  static Household getSelectedHousehold(BuildContext context) {
+    return context.read<HouseholdService>().currentHousehold!;
+  }
+
+  static create(Household household, BuildContext context) async {
+    MyFridgeUser user = UserService.getCurrentUser(context);
     household.createdBy = user.id;
     household.membersId = [user.id!];
     household.availableStoragesType.add(Storage.NONE.index);
     DocumentReference docRef = await DatabaseService.create(household.asMap, collectionInstance);
-    UserService.updateUserHouseholds(context, docRef.id);
+    context.read<UserService>().updateUserHouseholds(context, docRef.id);
   }
 
-  static update(final Household household, final BuildContext context) {
+  static update(Household household, BuildContext context) {
     DatabaseService.update(household.id!, household.asMap, collectionInstance);
   }
 
-  static delete(BuildContext context, final String householdId) {
+  static delete(BuildContext context, String householdId) {
     DatabaseService.delete(householdId, collectionInstance);
-    UserService.removeHouseholdFromUser(context, householdId);
+    context.read<UserService>().removeHouseholdFromUser(context, householdId);
   }
 
   static Query getUserHouseholds(final BuildContext context) {
-    return collectionInstance.where('membersId', arrayContains: UserService.getCurrentUserFromCache(context)!.id!);
+    return collectionInstance.where('membersId', arrayContains: UserService.getCurrentUser(context).id!);
   }
 
-  static joinHousehold(final BuildContext context, final String householdId) async {
-    String userId = UserService.getCurrentUserFromCache(context)!.id!;
+  static joinHousehold(BuildContext context, String householdId) async {
+    String userId = UserService.getCurrentUser(context).id!;
     collectionInstance.doc(householdId).update({
       "membersId": FieldValue.arrayUnion([userId])
     });
-    UserService.updateUserHouseholds(context, householdId);
+    context.read<UserService>().updateUserHouseholds(context, householdId);
   }
 }

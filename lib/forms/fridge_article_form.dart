@@ -32,11 +32,7 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
   @override
   void initState() {
     if (widget.article != null) {
-      _selectedArticle = Article(
-          name: widget.article!.name,
-          unit: widget.article!.unit,
-          perishable: widget.article!.perishable,
-          category: widget.article!.category);
+      _selectedArticle = Article(name: widget.article!.name, unit: widget.article!.unit, perishable: widget.article!.perishable);
     }
     _quantityController.text = widget.article?.quantity.toString() ?? "";
 
@@ -142,7 +138,6 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
                     id: widget.article?.id ?? null,
                     name: _selectedArticle!.name,
                     unit: _selectedArticle!.unit,
-                    category: _selectedArticle!.category,
                     quantity: int.tryParse(_quantityController.text)!,
                     perishable: _selectedArticle!.perishable,
                     storage: 0,

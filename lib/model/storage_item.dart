@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_fridge/model/quantity_unit.dart';
 import 'package:my_fridge/model/storage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../utils/utils.dart';
 
 class StorageItem {
   StorageItem(
       {this.id,
       required this.name,
       required this.unit,
-      required this.quantity,
+      this.quantity = 0,
       required this.perishable,
-      required this.category,
       required this.boughtAt,
       required this.boughtBy,
       required this.storage,
@@ -29,13 +32,11 @@ class StorageItem {
 
   bool perishable;
 
-  String category;
-
   PackingType get packingType => PackingType.values[unit];
 
   DateTime? expiryDate;
 
-  String note;
+  String? note;
 
   DateTime boughtAt;
 
@@ -45,25 +46,34 @@ class StorageItem {
 
   Storage get storagePlace => Storage.values[storage];
 
+  int get daysSinceBought {
+    return DateTime.now().difference(boughtAt).inDays;
+  }
+
+  String getBoughtAtDisplayForListTile(BuildContext context) {
+    String dateDisplay = "";
+    if (expiryDate != null) {
+      dateDisplay = AppLocalizations.of(context)!.storage_item_perish_on + DateFormat('dd/MM/yyyy').format(expiryDate!);
+    } else if (perishable) {
+      dateDisplay = AppLocalizations.of(context)!.storage_item_missing_expiry_date
+    }
+    return dateDisplay;
+  }
+
   static StorageItem fromDocument(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-    DateTime? expiryDate;
-    if (data['expiry_date']) {
-      expiryDate = DateTime.fromMicrosecondsSinceEpoch((data['expiry_date'] as Timestamp).microsecondsSinceEpoch);
-    }
 
     return StorageItem(
         id: document.id,
         name: data['name'],
         unit: data['unit'],
         quantity: data['quantity'],
-        perishable: data["perishable"],
-        category: data['category'],
-        expiryDate: expiryDate,
+        perishable: data['perishable'],
+        expiryDate: Utils.timestampToDateTime(data['expiry_date']),
         storage: data['storage'],
         note: data['note'],
-        boughtBy: data['boughBy'],
-        boughtAt: data['boughtAt']);
+        boughtBy: data['boughtBy'],
+        boughtAt: Utils.timestampToDateTime(data['boughtAt'])!);
   }
 
   Map<String, Object?> get asMap {
@@ -72,7 +82,6 @@ class StorageItem {
       "unit": this.unit,
       "quantity": this.quantity,
       "perishable": this.perishable,
-      "category": this.category,
       "expiry_date": this.expiryDate,
       "storage": this.storage,
       "note": this.note,

@@ -3,12 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:my_fridge/model/category.dart';
 import 'package:my_fridge/model/cooking_recipe.dart';
 import 'package:my_fridge/services/user_service.dart';
+import 'package:provider/provider.dart';
 
 import 'database.dart';
 
 class CookingRecipeService {
   static CollectionReference getCollectionInstance(final BuildContext context) {
-    return UserService.currentUserDocument(context).collection("cooking_recipe");
+    return context.read<UserService>().currentUserDocument(context).collection("cooking_recipe");
   }
 
   static create(final CookingRecipe cookingRecipe, final BuildContext context) {

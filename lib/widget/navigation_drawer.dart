@@ -15,7 +15,9 @@ import '../services/authentication_service.dart';
 import 'loader.dart';
 
 class NavigationDrawer extends StatelessWidget {
-  NavigationDrawer({Key? key}) : super(key: key);
+  NavigationDrawer({required this.user, Key? key}) : super(key: key);
+
+  final MyFridgeUser user;
 
   @override
   Widget build(final BuildContext context) {
@@ -37,15 +39,15 @@ class NavigationDrawer extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 30,
-              backgroundImage: NetworkImage(UserService.getCurrentUserFromCache(context)!.imageUrl),
+              backgroundImage: NetworkImage(user.imageUrl),
             ),
             const SizedBox(height: 12),
             Row(
               children: [
                 Column(
                   children: [
-                    Text(UserService.getCurrentUserFromCache(context)!.username, style: TextStyle(fontSize: 25, color: Colors.white)),
-                    Text(UserService.getCurrentUserFromCache(context)!.email, style: TextStyle(fontSize: 16, color: Colors.white)),
+                    Text(user.username, style: TextStyle(fontSize: 25, color: Colors.white)),
+                    Text(user.email, style: TextStyle(fontSize: 16, color: Colors.white)),
                   ],
                 ),
                 IconButton(
@@ -121,10 +123,9 @@ class NavigationDrawer extends StatelessWidget {
           itemCount: (snapshot.data as QuerySnapshot).docs.length,
           itemBuilder: (context, index) {
             Household household = Household.fromDocument((snapshot.data as QuerySnapshot).docs[index]);
-            bool isSelectedHousehold = household.id == UserService.getCurrentUserFromCache(context)!.selectedHouseholdId;
+            bool isSelectedHousehold = household.id == user.selectedHouseholdId;
             return GestureDetector(
               onTap: () {
-                MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
                 user.selectedHouseholdId = household.id;
                 UserService.update(user, context);
                 Navigator.pop(context);

@@ -6,6 +6,7 @@ import 'package:my_fridge/custom_icons_icons.dart';
 import 'package:my_fridge/forms/article_form.dart';
 import 'package:my_fridge/services/shopping_list_service.dart';
 import 'package:my_fridge/services/storage_service.dart';
+import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
 import 'package:my_fridge/storage/storage.dart';
 import 'package:my_fridge/widget/dialog.dart';
@@ -31,7 +32,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = [
     ShoppingList(),
-    Fridge(),
+    Storage(),
     CookingRecipeList(),
     ArticleManagement(),
     MealScheduleView(),
@@ -191,7 +192,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
       appBar: AppBar(
         title: const HouseholdAppBar(),
       ),
-      drawer: NavigationDrawer(),
+      drawer: NavigationDrawer(user: UserService.getCurrentUser(context)),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: [

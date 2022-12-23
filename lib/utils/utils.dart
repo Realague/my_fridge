@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -9,6 +10,14 @@ class Utils {
 
   static bool isNumber(String str) {
     return int.tryParse(str) != null;
+  }
+
+  static DateTime? timestampToDateTime(Timestamp? timestamp) {
+    DateTime? expiryDate;
+    if (timestamp != null) {
+      expiryDate = DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
+    }
+    return expiryDate;
   }
 
   static Future<void> showConfirmDialog(

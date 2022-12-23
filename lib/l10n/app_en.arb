@@ -80,6 +80,28 @@
   "storage_description_fridge": "",
   "storage_description_freezer": "",
   "storage_description_cellar": "",
+
+
   "storage_expired_item_warning_delay_label": "",
-  "storage_expired_item_warning_delay_description": ""
+  "storage_expired_item_warning_delay_description": "",
+  "storage_item_missing_expiry_date": "Define expiry date",
+  "storage_item_bought_today": "Bought today",
+  "storage_item_perish_on": "Perish on {expiryDate}",
+  "@storage_item_perish_on": {
+    "placeholders": {
+      "expiryDate": {
+        "type": "string",
+        "example": "22/12/2022"
+      }
+    }
+  },
+  "storage_item_bought_at": "Bought {daySinceBought} days ago",
+  "@storage_item_bought_at": {
+    "placeholders": {
+      "daySinceBought": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  }
 }

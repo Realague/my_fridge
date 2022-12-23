@@ -68,6 +68,27 @@
   "storage_description_fridge": "Peux-tu réfrigérer des provisions ?",
   "storage_description_freezer": "Peux-tu congeler des provisions ?",
   "storage_description_cellar": "As-tu un emplacement de rangement sec ?\nMyFridge sépare cela en un cellier et un placard de rangement (là où tu garde les produits de nettoyages).",
+
   "storage_expired_item_warning_delay_label": "",
-  "storage_expired_item_warning_delay_description": "Combien de jour avant qu'un article périme faut-il vous avertir ?"
+  "storage_expired_item_warning_delay_description": "Combien de jour avant qu'un article périme faut-il vous avertir ?",
+  "storage_item_missing_expiry_date": "Définir une date de péremption",
+  "storage_item_perish_on": "Périme le {expiryDate}",
+  "@storage_item_perish_on": {
+    "placeholders": {
+      "expiryDate": {
+        "type": "string",
+        "example": "22/12/2022"
+      }
+    }
+  },
+  "storage_item_bought_today": "Acheté aujourd'hui",
+  "storage_item_bought_at": "Acheté il y a {daySinceBought} jours",
+  "@storage_item_bought_at": {
+    "placeholders": {
+      "daySinceBought": {
+        "type": "int",
+        "example": 1
+      }
+    }
+  }
 }

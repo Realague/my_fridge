@@ -35,4 +35,33 @@ extension PackingTypeExtension on PackingType {
         return AppLocalizations.of(context)!.packing_type_none;
     }
   }
+
+  String displayTextForListTile(BuildContext context) {
+    switch (this) {
+      case PackingType.MILILITRE:
+        return 'ml';
+      case PackingType.LITER:
+        return 'l';
+      case PackingType.GRAM:
+        return 'g';
+      case PackingType.KILOGRAM:
+        return 'kg';
+      case PackingType.PIECE:
+        return 'pces';
+      case PackingType.PACKET:
+        return 'pqt';
+      case PackingType.BOTTLE:
+        return 'btlle';
+      case PackingType.CRATE:
+        return AppLocalizations.of(context)!.packing_type_crate;
+      case PackingType.BOX:
+        return AppLocalizations.of(context)!.packing_type_box;
+      case PackingType.JAR:
+        return AppLocalizations.of(context)!.packing_type_jar;
+      case PackingType.TUBE:
+        return AppLocalizations.of(context)!.packing_type_tube;
+      default:
+        return "";
+    }
+  }
 }

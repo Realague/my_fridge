@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/storage_item.dart';
 import 'package:my_fridge/services/storage_service.dart';
+import 'package:my_fridge/storage/storage_list.dart';
 import 'package:my_fridge/utils/utils.dart';
-import 'package:my_fridge/widget/category_list.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/dismissible.dart';
 
 import '../forms/fridge_article_form.dart';
-import 'storage_article_list_tile.dart';
+import 'storage_item_list_tile.dart';
 
-class Fridge extends StatelessWidget {
+class Storage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CategoryList(StorageService.getByCategory, _buildStorageItem, false);
+    return const StorageList();
   }
 
   Widget _buildStorageItem(BuildContext context, DocumentSnapshot document) {

@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:my_fridge/model/category.dart';
 import 'package:my_fridge/model/shopping_article.dart';
 import 'package:my_fridge/model/storage.dart';
 import 'package:my_fridge/model/storage_item.dart';
-import 'package:my_fridge/services/user_service.dart';
+import 'package:my_fridge/services/household_service.dart';
 
 import 'database.dart';
 
@@ -40,7 +39,7 @@ class StorageService {
   }
 
   static CollectionReference getCollectionInstance(BuildContext context) {
-    return UserService.currentUserDocument(context).collection("storage");
+    return HouseholdService.getSelectedHouseholdDoc(context).collection("storage");
   }
 
   static delete(String articleId, BuildContext context) {
@@ -68,11 +67,30 @@ class StorageService {
     });
   }
 
-  static Query getByCategory(BuildContext context, Category category) {
-    return getCollectionInstance(context).where('category', isEqualTo: category.category);
+  static Future<List<dynamic>> getUniqueItemByStorage(BuildContext context, Storage storage) async {
+    List<dynamic> items = [];
+    QuerySnapshot querySnapshot = await getCollectionInstance(context).where('storage', isEqualTo: storage.index).get();
+    querySnapshot.docs.forEach((document) {
+      StorageItem newItem = StorageItem.fromDocument(document);
+      print(newItem);
+
+      for (var item in items) {
+        if (item is StorageItem && item.name == item.name) {
+          items.remove(item);
+          items.add([newItem, item]);
+          return;
+        } else if (item is List<StorageItem> && item[0].name == newItem.name) {
+          item.add(newItem);
+          return;
+        }
+      }
+      items.add(newItem);
+    });
+
+    return items;
   }
 
-  static Query getByStorage(BuildContext context, Storage storage) {
-    return getCollectionInstance(context).where('storage', isEqualTo: storage.index);
+  static Query getItemsByName(BuildContext context, String name) {
+    return getCollectionInstance(context).where('name', isEqualTo: name);
   }
 }
