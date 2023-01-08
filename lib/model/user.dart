@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 class MyFridgeUser {
   MyFridgeUser(
@@ -29,7 +28,7 @@ class MyFridgeUser {
     );
   }
 
-  Map<String, Object?> asMap(final BuildContext context) {
+  Map<String, Object?> get asMap {
     return {
       'username': this.username,
       'email': this.email,

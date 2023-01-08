@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/category.dart';
-import 'package:my_fridge/services/article_category_service.dart';
+import 'package:my_fridge/model/services/article_category_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 
 class CategoryForm extends StatefulWidget {
@@ -30,7 +30,7 @@ class _CategoryFormState extends State<CategoryForm> {
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -41,10 +41,9 @@ class _CategoryFormState extends State<CategoryForm> {
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                labelText:
-                    AppLocalizations.of(context)!.form_article_name_label,
+                labelText: AppLocalizations.of(context)!.form_article_name_label,
               ),
-              validator: (final name) => Validators.notEmpty(context, name),
+              validator: (name) => Validators.notEmpty(context, name),
               controller: _nameController,
             ),
           ),

@@ -2,13 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:my_fridge/model/article.dart';
 import 'package:my_fridge/model/category.dart';
-
-import 'database.dart';
+import 'package:my_fridge/model/services/database.dart';
 
 class ArticleService {
   static final CollectionReference collectionInstance = FirebaseFirestore.instance.collection('articles');
 
-  static create(final Article article) {
+  static create(Article article) {
     collectionInstance.doc(article.name).get().then((DocumentSnapshot documentSnapshot) {
       if (!documentSnapshot.exists) {
         DatabaseService.createWithId(article.name, article.asMap, collectionInstance);
@@ -16,15 +15,15 @@ class ArticleService {
     });
   }
 
-  static update(final Article article) {
+  static update(Article article) {
     DatabaseService.update(article.id!, article.asMap, collectionInstance);
   }
 
-  static delete(final String articleId) {
+  static delete(String articleId) {
     DatabaseService.delete(articleId, collectionInstance);
   }
 
-  static Future<List<Article>> get(final String? searchFilter) async {
+  static Future<List<Article>> get(String? searchFilter) async {
     List<Article> articles = [];
     if (searchFilter == null || searchFilter == '') {
       return collectionInstance.get().then((querySnapshot) {
@@ -42,7 +41,7 @@ class ArticleService {
     });
   }
 
-  static Query getByCategory(final BuildContext context, final Category category) {
+  static Query getByCategory(BuildContext context, final Category category) {
     return collectionInstance.where('category', isEqualTo: category.category);
   }
 }

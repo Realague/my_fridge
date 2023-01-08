@@ -1,21 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_fridge/household/household_add_form.dart';
+import 'package:my_fridge/household/household_edit_form.dart';
+import 'package:my_fridge/household/join_household.dart';
+import 'package:my_fridge/main.dart';
 import 'package:my_fridge/model/household.dart';
+import 'package:my_fridge/model/services/authentication_service.dart';
+import 'package:my_fridge/model/services/household_service.dart';
+import 'package:my_fridge/model/services/user_service.dart';
 import 'package:my_fridge/model/user.dart';
-import 'package:my_fridge/services/household_service.dart';
-import 'package:my_fridge/services/user_service.dart';
+import 'package:my_fridge/widget/loader.dart';
 import 'package:provider/provider.dart';
 
-import '../household/household_add_form.dart';
-import '../household/household_edit_form.dart';
-import '../household/join_household.dart';
-import '../main.dart';
-import '../services/authentication_service.dart';
-import 'loader.dart';
+class Menu extends StatelessWidget {
+  Menu({required this.user, Key? key}) : super(key: key);
 
-class NavigationDrawer extends StatelessWidget {
-  NavigationDrawer({Key? key}) : super(key: key);
+  final MyFridgeUser user;
 
   @override
   Widget build(final BuildContext context) {
@@ -37,19 +38,19 @@ class NavigationDrawer extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 30,
-              backgroundImage: NetworkImage(UserService.getCurrentUserFromCache(context)!.imageUrl),
+              backgroundImage: NetworkImage(user.imageUrl),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Row(
               children: [
                 Column(
                   children: [
-                    Text(UserService.getCurrentUserFromCache(context)!.username, style: TextStyle(fontSize: 25, color: Colors.white)),
-                    Text(UserService.getCurrentUserFromCache(context)!.email, style: TextStyle(fontSize: 16, color: Colors.white)),
+                    Text(user.username, style: TextStyle(fontSize: 25, color: Colors.white)),
+                    Text(user.email, style: TextStyle(fontSize: 16, color: Colors.white)),
                   ],
                 ),
                 IconButton(
-                  icon: Icon(Icons.logout, color: Colors.white),
+                  icon: const Icon(Icons.logout, color: Colors.white),
                   tooltip: AppLocalizations.of(context)!.button_sign_out,
                   onPressed: () {
                     context.read<AuthenticationService>().signOut();
@@ -82,10 +83,10 @@ class NavigationDrawer extends StatelessWidget {
               ),
             ),
             onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FormAddHousehold())),
-            icon: Icon(Icons.add, color: Colors.white),
+            icon: const Icon(Icons.add, color: Colors.white),
             label: Text(AppLocalizations.of(context)!.household_add),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           ElevatedButton.icon(
             style: ButtonStyle(
               padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
@@ -96,10 +97,10 @@ class NavigationDrawer extends StatelessWidget {
               ),
             ),
             onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => JoinHousehold())),
-            icon: Icon(Icons.link, color: Colors.white),
+            icon: const Icon(Icons.link, color: Colors.white),
             label: Text(AppLocalizations.of(context)!.household_join),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           buildHouseholdList(context)
         ],
       ),
@@ -111,7 +112,7 @@ class NavigationDrawer extends StatelessWidget {
       stream: HouseholdService.getUserHouseholds(context).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Loader();
+          return const Loader();
         }
 
         return ListView.builder(
@@ -121,19 +122,18 @@ class NavigationDrawer extends StatelessWidget {
           itemCount: (snapshot.data as QuerySnapshot).docs.length,
           itemBuilder: (context, index) {
             Household household = Household.fromDocument((snapshot.data as QuerySnapshot).docs[index]);
-            bool isSelectedHousehold = household.id == UserService.getCurrentUserFromCache(context)!.selectedHouseholdId;
+            bool isSelectedHousehold = household.id == user.selectedHouseholdId;
             return GestureDetector(
               onTap: () {
-                MyFridgeUser user = UserService.getCurrentUserFromCache(context)!;
                 user.selectedHouseholdId = household.id;
                 UserService.update(user, context);
                 Navigator.pop(context);
               },
               child: Card(
                 color: isSelectedHousehold ? Theme.of(context).colorScheme.primary : Colors.amber,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
                 child: Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -142,20 +142,20 @@ class NavigationDrawer extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(household.getMembersDisplay(context), style: TextStyle(color: Colors.white)),
-                          SizedBox(width: 6),
-                          Icon(
+                          const SizedBox(width: 6),
+                          const Icon(
                             Icons.fact_check_outlined,
                             size: 15,
                             color: Colors.white,
                           ),
-                          SizedBox(width: 6),
-                          Text("0", style: TextStyle(color: Colors.white)),
+                          const SizedBox(width: 6),
+                          const Text("0", style: TextStyle(color: Colors.white)),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       IconButton(
-                        icon: Icon(Icons.edit, color: Colors.white, size: 15),
-                        padding: EdgeInsets.all(8),
+                        icon: const Icon(Icons.edit, color: Colors.white, size: 15),
+                        padding: const EdgeInsets.all(8),
                         onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FormEditHousehold(household))),
                       )
                     ],

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/main.dart';
+import 'package:my_fridge/model/services/authentication_service.dart';
 import 'package:provider/provider.dart';
 
-import '../services/authentication_service.dart';
-
 class SignOutButton extends StatelessWidget {
+  const SignOutButton();
+
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.logout),
+      icon: const Icon(Icons.logout),
       tooltip: AppLocalizations.of(context)!.button_sign_out,
       onPressed: () {
         context.read<AuthenticationService>().signOut();

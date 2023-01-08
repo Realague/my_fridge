@@ -1,20 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_fridge/bottom_navigation_bar.dart';
 import 'package:my_fridge/model/household.dart';
-import 'package:my_fridge/services/household_service.dart';
-import 'package:my_fridge/services/user_service.dart';
+import 'package:my_fridge/model/services/household_service.dart';
+import 'package:my_fridge/model/services/user_service.dart';
+import 'package:my_fridge/model/storage.dart';
+import 'package:my_fridge/model/user.dart';
+import 'package:my_fridge/utils/validators.dart';
+import 'package:my_fridge/widget/loader.dart';
 import 'package:share_plus/share_plus.dart';
-
-import '../bottom_navigation_bar.dart';
-import '../model/user.dart';
-import '../utils/validators.dart';
-import '../widget/loader.dart';
 
 class FormEditHousehold extends StatefulWidget {
   FormEditHousehold(this.household) : super();
 
-  Household household;
+  final Household household;
 
   @override
   State<StatefulWidget> createState() => _FormEditHouseholdState();
@@ -23,6 +24,7 @@ class FormEditHousehold extends StatefulWidget {
 class _FormEditHouseholdState extends State<FormEditHousehold> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  List<Storage> _storagesController = <Storage>[];
 
   late Household household;
 
@@ -30,6 +32,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
   void initState() {
     household = widget.household;
     _nameController.text = household.name;
+    _storagesController = household.availableStoragesType.toStorageList;
     super.initState();
   }
 
@@ -49,22 +52,43 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
         key: _formKey,
         child: Column(children: [
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                icon: Icon(Icons.label),
+                icon: const Icon(Icons.label),
                 border: const OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                 labelText: AppLocalizations.of(context)!.household_name,
               ),
-              validator: (final name) => Validators.notEmpty(context, name),
+              validator: (name) => Validators.notEmpty(context, name),
               controller: _nameController,
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: DropdownSearch<Storage>.multiSelection(
+                compareFn: (Storage storage, Storage storage2) {
+                  return storage.index == storage2.index;
+                },
+                popupProps: PopupPropsMultiSelection.modalBottomSheet(
+                  showSelectedItems: true,
+                  title: ListTile(title: Text(AppLocalizations.of(context)!.storage_item_storage_place)),
+                ),
+                clearButtonProps: ClearButtonProps(isVisible: true),
+                items: Storage.values.storageListWithoutNone,
+                itemAsString: (Storage storage) => storage.displayTitle(context),
+                selectedItems: _storagesController,
+                onChanged: (List<Storage> storages) {
+                  setState(() {
+                    household.availableStoragesType = storages.toIntList;
+                    _storagesController = storages;
+                  });
+                }),
+          ),
           buildMemberSection(context),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
@@ -88,7 +112,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
           ),
           ElevatedButton(
             onPressed: () {
-              HouseholdService.delete(household.id!);
+              HouseholdService.delete(context, household.id!);
               Navigator.pop(context);
             },
             child: Text(AppLocalizations.of(context)!.household_delete),
@@ -110,13 +134,13 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Text(AppLocalizations.of(context)!.household_description, style: TextStyle(color: Colors.black54)),
         ),
-        Padding(padding: EdgeInsets.all(16.0), child: Text(AppLocalizations.of(context)!.household_members_list)),
+        Padding(padding: const EdgeInsets.all(16.0), child: Text(AppLocalizations.of(context)!.household_members_list)),
         buildMembersList(context),
         Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
             onPressed: () {
               Share.share("Rejoins mon ménage sur MyFridge!\n" + household.id!);
@@ -140,7 +164,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
       stream: UserService.getHouseholdUsers(context, household.id!).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Loader();
+          return const Loader();
         }
 
         return ListView.builder(
@@ -157,7 +181,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
                   radius: 10,
                   backgroundImage: NetworkImage(user.imageUrl),
                 ),
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 Text(user.username)
               ],
             );

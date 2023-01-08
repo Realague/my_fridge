@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_fridge/model/quantity_unit.dart';
+import 'package:my_fridge/model/packing_type.dart';
 import 'package:my_fridge/model/shopping_article.dart';
 
 class ShoppingListItem extends StatelessWidget {
@@ -8,24 +8,16 @@ class ShoppingListItem extends StatelessWidget {
   final ShoppingArticle article;
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     if (article.checked) {
       return Text(
-        article.name +
-            " " +
-            article.quantity.toString() +
-            " " +
-            article.quantityUnit.displayForDropDown(context),
+        article.name + " " + article.quantity.toString() + " " + article.packingType.displayText(context),
         style: TextStyle(
           decoration: TextDecoration.lineThrough,
         ),
       );
     } else {
-      return Text(article.name +
-          " " +
-          article.quantity.toString() +
-          " " +
-          article.quantityUnit.displayForDropDown(context));
+      return Text(article.name + " " + article.quantity.toString() + " " + article.packingType.displayText(context));
     }
   }
 }

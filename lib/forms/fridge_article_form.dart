@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:my_fridge/model/article.dart';
-import 'package:my_fridge/model/fridge_article.dart';
-import 'package:my_fridge/model/quantity_unit.dart';
-import 'package:my_fridge/services/fridge_service.dart';
+import 'package:my_fridge/model/packing_type.dart';
+import 'package:my_fridge/model/services/article_service.dart';
+import 'package:my_fridge/model/services/storage_service.dart';
+import 'package:my_fridge/model/services/user_service.dart';
+import 'package:my_fridge/model/storage_item.dart';
 import 'package:my_fridge/utils/validators.dart';
-
-import '../services/article_service.dart';
 
 class FormFridgeArticle extends StatefulWidget {
   const FormFridgeArticle({this.article, this.id}) : super();
 
-  final FridgeArticle? article;
+  final StorageItem? article;
   final String? id;
 
   @override
@@ -31,11 +31,7 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
   @override
   void initState() {
     if (widget.article != null) {
-      _selectedArticle = Article(
-          name: widget.article!.name,
-          unit: widget.article!.unit,
-          perishable: widget.article!.perishable,
-          category: widget.article!.category);
+      _selectedArticle = Article(name: widget.article!.name, unit: widget.article!.unit, perishable: widget.article!.perishable);
     }
     _quantityController.text = widget.article?.quantity.toString() ?? "";
 
@@ -48,12 +44,9 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
     super.dispose();
   }
 
-  Future _selectDate(final BuildContext context) async {
-    final DateTime? pickedDate = (await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2015),
-        lastDate: DateTime(2050)));
+  Future _selectDate(BuildContext context) async {
+    final DateTime? pickedDate =
+        (await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2015), lastDate: DateTime(2050)));
     if (pickedDate != null && pickedDate != _selectedDate) {
       setState(() {
         _selectedDate = pickedDate;
@@ -86,7 +79,7 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -98,29 +91,23 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<Article>(
-                    asyncItems: (final String filter) =>
-                        ArticleService.get(filter),
+                    asyncItems: (String filter) => ArticleService.get(filter),
                     popupProps: PopupProps.menu(showSearchBox: true),
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       dropdownSearchDecoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context)!.form_article_label,
+                        labelText: AppLocalizations.of(context)!.form_article_label,
                         contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
                         border: const OutlineInputBorder(),
                       ),
                     ),
-                    itemAsString: (Article? article) =>
-                        article!.name +
-                        ", " +
-                        article.quantityUnit.displayForDropDown(context),
-                    onChanged: (final Article? article) {
+                    itemAsString: (Article? article) => article!.name + ", " + article.packingType.displayText(context),
+                    onChanged: (Article? article) {
                       setState(() {
                         _selectedArticle = article;
                       });
                     },
                     selectedItem: _selectedArticle,
-                    validator: (final article) =>
-                        Validators.notNull(context, article),
+                    validator: (article) => Validators.notNull(context, article),
                   ),
                 ),
               ),
@@ -131,11 +118,9 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText:
-                          AppLocalizations.of(context)!.form_quantity_label,
+                      labelText: AppLocalizations.of(context)!.form_quantity_label,
                     ),
-                    validator: (final value) =>
-                        Validators.number(context, value!),
+                    validator: (value) => Validators.number(context, value!),
                     controller: _quantityController,
                   ),
                 ),
@@ -143,23 +128,25 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
               _dateSelection(),
             ],
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton.icon(
             icon: const Icon(Icons.add),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                FridgeArticle fridgeArticle = FridgeArticle(
+                StorageItem fridgeArticle = StorageItem(
                     id: widget.article?.id ?? null,
                     name: _selectedArticle!.name,
                     unit: _selectedArticle!.unit,
-                    category: _selectedArticle!.category,
                     quantity: int.tryParse(_quantityController.text)!,
                     perishable: _selectedArticle!.perishable,
+                    storage: 0,
+                    boughtAt: DateTime.now(),
+                    boughtBy: UserService.currentUserId(context),
                     expiryDate: _selectedDate);
                 if (fridgeArticle.id != null) {
-                  FridgeService.update(fridgeArticle, context);
+                  StorageService.update(fridgeArticle, context);
                 } else {
-                  FridgeService.create(fridgeArticle, context);
+                  StorageService.create(fridgeArticle, context);
                 }
                 Navigator.pop(context);
               }

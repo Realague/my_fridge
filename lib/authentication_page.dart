@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_fridge/model/services/authentication_service.dart';
 import 'package:provider/provider.dart';
 
-import 'services/authentication_service.dart';
-
 class AuthenticationPage extends StatelessWidget {
+  const AuthenticationPage();
+
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: OutlinedButton(
@@ -27,7 +28,7 @@ class AuthenticationPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Image(
+                const Image(
                   image: AssetImage("google_logo.png"),
                   height: 35.0,
                 ),

@@ -15,21 +15,32 @@
   "button_save_cooking_recipe": "Save Cooking Recipe",
   "fridge_popup_title": "Add an article to the fridge",
   "menu_shopping_list": "Shopping list",
-  "menu_fridge": "Fridge",
+  "menu_storage": "Storage",
   "menu_recipes": "Recipes",
   "button_add_article_to_shopping_list": "Add to shopping list",
   "button_add_article": "Add article",
-  "form_expiry_date_label": "Quantity",
+  "form_expiry_date_label": "Expiration date",
   "form_quantity_label": "Quantity",
-  "form_quantity_unit_label": "Quantity unit",
+  "form_packing_type_label": "Unit",
   "form_article_label": "Article",
   "form_article_name_label": "Name",
   "form_article_name_steps": "Steps",
   "error_empty": "Required field",
   "error_wrong_quantity": "Please select a valid quantity",
-  "quantity_unit_gram_display_for_dropdown": "Gram",
-  "quantity_unit_liter_display_for_dropdown": "Centilitre",
-  "quantity_unit_piece_display_for_dropdown": "Piece",
+
+  "packing_type_none": "None",
+  "packing_type_mililitre": "Mililitres",
+  "packing_type_liter": "Liters",
+  "packing_type_gram": "Grammes",
+  "packing_type_kilogram": "Kilogrammes",
+  "packing_type_piece": "Pieces",
+  "packing_type_packet": "Packets",
+  "packing_type_bottle": "Bottles",
+  "packing_type_crate": "Crates",
+  "packing_type_box": "Boxes",
+  "packing_type_jar": "Jars",
+  "packing_type_tube": "Tubes",
+
   "snack_message_added_to_fridge": " article(s) added to the fridge",
   "confirm": "confirm",
   "cancel": "cancel",
@@ -38,6 +49,7 @@
   "confirm_delete_category": "Are you sure you want to delete this category",
   "cooking_recipe_ingredients": "Ingredients list",
   "cooking_recipe_steps": "Steps",
+
   "monday": "Monday",
   "tuesday": "Tuesday",
   "wednesday": "Wednesday",
@@ -45,6 +57,7 @@
   "friday": "Friday",
   "saturday": "Saturday",
   "sunday": "Sunday",
+
   "household_name": "Household name",
   "household_description": "Each household is a shopping list and a storage.\n Share your shopping list and your storage by inviting other person to your household",
   "household_create": "Create a household",
@@ -57,5 +70,43 @@
   "household_delete": "Delete a household",
   "household_save": "Save a household",
   "household_add_member": "Add a new member",
-  "household_members_list": "Members list"
+  "household_members_list": "Members list",
+
+  "storage_type_fridge": "Fridge",
+  "storage_type_freezer": "Freezer",
+  "storage_type_cellar": "Cellar",
+  "storage_type_cupboard": "Cupboard",
+  "storage_type_none": "Undefined",
+  "storage_description_fridge": "",
+  "storage_description_freezer": "",
+  "storage_description_cellar": "",
+
+  "storage_expired_item_warning_delay_label": "",
+  "storage_expired_item_warning_delay_description": "",
+  "storage_item_missing_expiry_date": "Define expiry date",
+  "storage_item_bought_today": "Bought today",
+  "storage_item_perish_on": "Perish on {expiryDate}",
+  "storage_item_delete": "Remove",
+  "@storage_item_perish_on": {
+    "placeholders": {
+      "expiryDate": {
+        "type": "String",
+        "example": "22/12/2022"
+      }
+    }
+  },
+  "storage_item_bought_at_list_tile": "Bought {daySinceBought} days ago",
+  "@storage_item_bought_at_list_tile": {
+    "placeholders": {
+      "daySinceBought": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+
+  "storage_item_bought_by": "Bought by",
+  "storage_item_bought_at": "Bought at",
+  "storage_item_details_note": "Note",
+  "storage_item_storage_place": "Storage place"
 }

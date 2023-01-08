@@ -7,12 +7,13 @@ import 'package:my_fridge/authentication_page.dart';
 import 'package:my_fridge/bottom_navigation_bar.dart';
 import 'package:my_fridge/household/household_add_form.dart';
 import 'package:my_fridge/household/join_household.dart';
+import 'package:my_fridge/model/household.dart';
+import 'package:my_fridge/model/services/authentication_service.dart';
+import 'package:my_fridge/model/services/household_service.dart';
+import 'package:my_fridge/model/services/user_service.dart';
 import 'package:my_fridge/model/user.dart';
-import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/widget/loader.dart';
 import 'package:provider/provider.dart';
-
-import 'services/authentication_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return FutureBuilder(
       // Initialize FlutterFire:
       future: Firebase.initializeApp(
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
               messagingSenderId: "265628210515",
               projectId: "myfridge-e530e",
               authDomain: "myfridge-e530e.firebaseapp.com")),
-      builder: (final context, final snapshot) {
+      builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
           return Text(snapshot.error.toString());
@@ -49,14 +50,16 @@ class MyApp extends StatelessWidget {
 
 class InitializeProviders extends StatelessWidget {
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
+        Provider<UserService>(create: (_) => UserService()),
+        Provider<HouseholdService>(create: (_) => HouseholdService()),
         StreamProvider(
-          create: (final context) => context.read<AuthenticationService>().authStateChanges,
+          create: (context) => context.read<AuthenticationService>().authStateChanges,
           initialData: null,
         ),
       ],
@@ -89,12 +92,12 @@ class AuthenticationWrapper extends StatelessWidget {
   Widget build(final BuildContext context) {
     final fireBaseUser = context.watch<User?>();
     if (fireBaseUser == null) {
-      return AuthenticationPage();
+      return const AuthenticationPage();
     }
 
-    return FutureBuilder<MyFridgeUser?>(
-        future: UserService.getCurrentUser(context),
-        builder: (context, AsyncSnapshot<MyFridgeUser?> snapshot) {
+    return FutureBuilder<MyFridgeUser>(
+        future: UserService.getCurrentUserFromDb(context),
+        builder: (context, AsyncSnapshot<MyFridgeUser> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             MyFridgeUser? user = snapshot.data;
             if (user == null) {
@@ -107,32 +110,47 @@ class AuthenticationWrapper extends StatelessWidget {
               UserService.create(user, context);
             }
             // Save the current connected user
-            context.read<AuthenticationService>().currentUser = user;
+            context.read<UserService>().currentUser = user;
             if (user.selectedHouseholdId == null) {
-              return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FormAddHousehold())),
-                    child: Text(AppLocalizations.of(context)!.household_create),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => JoinHousehold())),
-                  child: Text(AppLocalizations.of(context)!.household_join),
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
-                  ),
-                ),
-              ]);
+              return buildWelcomePage(context);
             }
-            return CustomBottomNavigationBar();
-          } else {
-            return Loader();
+            return buildApp(context);
           }
+          return const Loader();
         });
+  }
+
+  Widget buildApp(BuildContext context) {
+    return FutureBuilder<Household>(
+        future: HouseholdService.getSelectedHouseholdFromDb(context),
+        builder: (context, AsyncSnapshot<Household> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            context.read<HouseholdService>().currentHousehold = snapshot.data;
+            return const CustomBottomNavigationBar();
+          }
+          return const Loader();
+        });
+  }
+
+  Widget buildWelcomePage(BuildContext context) {
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: ElevatedButton(
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FormAddHousehold())),
+          child: Text(AppLocalizations.of(context)!.household_create),
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
+          ),
+        ),
+      ),
+      ElevatedButton(
+        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => JoinHousehold())),
+        child: Text(AppLocalizations.of(context)!.household_join),
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
+        ),
+      ),
+    ]);
   }
 }

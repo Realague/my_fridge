@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'article.dart';
-import 'quantity_unit.dart';
+import 'package:my_fridge/model/article.dart';
+import 'package:my_fridge/model/packing_type.dart';
 
 class ShoppingArticle {
   ShoppingArticle(
@@ -30,21 +29,16 @@ class ShoppingArticle {
 
   DateTime? expiryDate;
 
-  QuantityUnit get quantityUnit => QuantityUnit.values[unit];
+  PackingType get packingType => PackingType.values[unit];
 
   bool isEditable = false;
 
-  static ShoppingArticle fromArticle(
-      final Article article, final int quantity) {
+  static ShoppingArticle fromArticle(Article article, int quantity) {
     return ShoppingArticle(
-        name: article.name,
-        unit: article.unit,
-        quantity: quantity,
-        perishable: article.perishable,
-        category: article.category);
+        name: article.name, unit: article.unit, quantity: quantity, perishable: article.perishable, category: article.category);
   }
 
-  static ShoppingArticle fromMap(final Map<String, dynamic> map) {
+  static ShoppingArticle fromMap(Map<String, dynamic> map) {
     return ShoppingArticle(
         name: map['name'],
         unit: map['unit'],
@@ -54,12 +48,11 @@ class ShoppingArticle {
         expiryDate: map['expiry_date']);
   }
 
-  static ShoppingArticle fromDocument(final DocumentSnapshot document) {
+  static ShoppingArticle fromDocument(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     DateTime? expiryDate;
     if (data['expiry_date'] != null) {
-      expiryDate = DateTime.fromMicrosecondsSinceEpoch(
-          (data['expiry_date'] as Timestamp).microsecondsSinceEpoch);
+      expiryDate = DateTime.fromMicrosecondsSinceEpoch((data['expiry_date'] as Timestamp).microsecondsSinceEpoch);
     }
 
     return ShoppingArticle(

@@ -2,11 +2,10 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/article.dart';
-import 'package:my_fridge/model/quantity_unit.dart';
+import 'package:my_fridge/model/packing_type.dart';
+import 'package:my_fridge/model/services/article_service.dart';
 import 'package:my_fridge/model/shopping_article.dart';
 import 'package:my_fridge/utils/validators.dart';
-
-import '../services/article_service.dart';
 
 typedef void RemoveIngredientCallback();
 typedef void EditIngredientCallback(ShoppingArticle shoppingArticle);
@@ -64,10 +63,7 @@ class _IngredientFormState extends State<IngredientForm> {
             child: DropdownSearch<Article>(
               asyncItems: (final String filter) => ArticleService.get(filter),
               popupProps: PopupProps.menu(showSearchBox: true),
-              itemAsString: (Article? article) =>
-                  article!.name +
-                  ", " +
-                  article.quantityUnit.displayForDropDown(context),
+              itemAsString: (Article? article) => article!.name + ", " + article.packingType.displayText(context),
               dropdownDecoratorProps: DropDownDecoratorProps(
                 dropdownSearchDecoration: InputDecoration(
                   labelText: AppLocalizations.of(context)!.form_article_label,
@@ -105,9 +101,7 @@ class _IngredientFormState extends State<IngredientForm> {
               onPressed: () {
                 setState(() {
                   _article!.isEditable = false;
-                  widget.onEditIngredient!(ShoppingArticle.fromArticle(
-                      _selectedArticle!,
-                      int.tryParse(_quantityController.text)!));
+                  widget.onEditIngredient!(ShoppingArticle.fromArticle(_selectedArticle!, int.tryParse(_quantityController.text)!));
                 });
               },
               child: const Icon(Icons.check)),
@@ -129,11 +123,7 @@ class _IngredientFormState extends State<IngredientForm> {
   Widget fullReadonlyMode() {
     return Padding(
       padding: EdgeInsets.all(8.0),
-      child: Text(_article!.name +
-          ", " +
-          _article!.quantityUnit.displayForDropDown(context) +
-          " " +
-          _article!.quantity.toString()),
+      child: Text(_article!.name + ", " + _article!.packingType.displayText(context) + " " + _article!.quantity.toString()),
     );
   }
 
@@ -144,11 +134,7 @@ class _IngredientFormState extends State<IngredientForm> {
           flex: 2,
           child: Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text(_article!.name +
-                ", " +
-                _article!.quantityUnit.displayForDropDown(context) +
-                " " +
-                _article!.quantity.toString()),
+            child: Text(_article!.name + ", " + _article!.packingType.displayText(context) + " " + _article!.quantity.toString()),
           ),
         ),
         Padding(

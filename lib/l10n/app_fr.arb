@@ -15,18 +15,29 @@
   "add_category_popup_title": "Ajouter une catégorie",
   "fridge_popup_title": "Ajouter un article au frigo",
   "menu_shopping_list": "Liste de course",
-  "menu_fridge": "Frigo",
+  "menu_storage": "Stockage",
   "menu_recipes": "Recettes",
   "button_add_article_to_shopping_list": "Ajouter à la liste de course",
   "form_quantity_label": "Quantité",
-  "form_quantity_unit_label": "Unité de mesure",
+  "form_packing_type_label": "Unité",
   "form_article_label": "Article",
   "form_article_name_label": "Nom",
   "error_empty": "Champ obligatoire",
   "error_wrong_quantity": "Veuillez selectionner une quantité valide",
-  "quantity_unit_gram_display_for_dropdown": "Gramme",
-  "quantity_unit_liter_display_for_dropdown": "Centilitre",
-  "quantity_unit_piece_display_for_dropdown": "Pièce",
+
+  "packing_type_none": "Aucun",
+  "packing_type_mililitre": "Mililitres",
+  "packing_type_liter": "Litres",
+  "packing_type_gram": "Grammes",
+  "packing_type_kilogram": "Kilogrammes",
+  "packing_type_piece": "Pièces",
+  "packing_type_packet": "Paquets",
+  "packing_type_bottle": "Bouteilles",
+  "packing_type_crate": "Cageots",
+  "packing_type_box": "Caisses",
+  "packing_type_jar": "Bocaux",
+  "packing_type_tube": "Tubes",
+
   "monday": "Lundi",
   "tuesday": "Mardi",
   "wednesday": "Mercredi",
@@ -34,6 +45,7 @@
   "friday": "Vendredi",
   "saturday": "Samedi",
   "sunday": "Dimanche",
+
   "household_name": "Nom du ménage",
   "household_description": "Chaque ménage consiste en une liste de courses et un emplacement de rangement.\nPartage ta liste de courses et tes étagères en invitant d'autres personnes à ton ménage",
   "household_create": "Créer un ménage",
@@ -46,5 +58,43 @@
   "household_delete": "Supprimer un ménage",
   "household_save": "Enregistrer",
   "household_add_member": "Ajouter un nouveau membre",
-  "household_members_list": "Liste de membres"
+  "household_members_list": "Liste de membres",
+
+  "storage_type_fridge": "Réfrigérateur",
+  "storage_type_freezer": "Congélateur",
+  "storage_type_cellar": "Cellier",
+  "storage_type_cupboard": "Placard de rangement",
+  "storage_type_none": "Lieu indéfini",
+  "storage_description_fridge": "Peux-tu réfrigérer des provisions ?",
+  "storage_description_freezer": "Peux-tu congeler des provisions ?",
+  "storage_description_cellar": "As-tu un emplacement de rangement sec ?\nMyFridge sépare cela en un cellier et un placard de rangement (là où tu garde les produits de nettoyages).",
+
+  "storage_expired_item_warning_delay_label": "",
+  "storage_expired_item_warning_delay_description": "Combien de jour avant qu'un article périme faut-il vous avertir ?",
+  "storage_item_missing_expiry_date": "Définir une date de péremption",
+  "storage_item_perish_on": "Périme le {expiryDate}",
+  "storage_item_delete": "Retirer",
+  "@storage_item_perish_on": {
+    "placeholders": {
+      "expiryDate": {
+        "type": "String",
+        "example": "22/12/2022"
+      }
+    }
+  },
+  "storage_item_bought_today": "Acheté aujourd'hui",
+  "storage_item_bought_at_list_tile": "Acheté il y a {daySinceBought} jours",
+  "@storage_item_bought_at_list_tile": {
+    "placeholders": {
+      "daySinceBought": {
+        "type": "int",
+        "example": 1
+      }
+    }
+  },
+
+  "storage_item_bought_by": "Acheté par",
+  "storage_item_bought_at": "Acheté le",
+  "storage_item_details_note": "Annotation",
+  "storage_item_storage_place": "Lieu de stockage"
 }

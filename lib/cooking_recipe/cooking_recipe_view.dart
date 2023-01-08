@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_fridge/cooking_recipe/article_form_cooking_recipe.dart';
 import 'package:my_fridge/forms/select_article_form.dart';
 import 'package:my_fridge/model/cooking_recipe.dart';
+import 'package:my_fridge/model/services/cooking_recipe_service.dart';
 import 'package:my_fridge/model/shopping_article.dart';
-import 'package:my_fridge/services/cooking_recipe_service.dart';
 import 'package:my_fridge/utils/validators.dart';
-
-import 'article_form_cooking_recipe.dart';
 
 class CookingRecipeView extends StatefulWidget {
   const CookingRecipeView({this.cookingRecipe, required this.insertMode}) : super();
