@@ -13,8 +13,8 @@ import 'package:my_fridge/model/user.dart';
 import 'package:my_fridge/widget/loader.dart';
 import 'package:provider/provider.dart';
 
-class NavigationDrawer extends StatelessWidget {
-  NavigationDrawer({required this.user, Key? key}) : super(key: key);
+class Menu extends StatelessWidget {
+  Menu({required this.user, Key? key}) : super(key: key);
 
   final MyFridgeUser user;
 

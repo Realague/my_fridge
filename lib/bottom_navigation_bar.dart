@@ -18,7 +18,7 @@ import 'package:my_fridge/storage/storage.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/expandable_fab.dart';
 import 'package:my_fridge/widget/household_app_bar.dart';
-import 'package:my_fridge/widget/navigation_drawer.dart';
+import 'package:my_fridge/widget/menu.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar();
@@ -191,7 +191,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
       appBar: AppBar(
         title: const HouseholdAppBar(),
       ),
-      drawer: NavigationDrawer(user: UserService.getCurrentUser(context)),
+      drawer: Menu(user: UserService.getCurrentUser(context)),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: [
