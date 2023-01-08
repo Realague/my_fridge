@@ -75,7 +75,7 @@ class _StorageItemDetailsState extends State<StorageItemDetails> {
                       dropdownDecoratorProps: DropDownDecoratorProps(
                         dropdownSearchDecoration: InputDecoration(labelText: AppLocalizations.of(context)!.storage_item_storage_place),
                       ),
-                      items: HouseholdService.getSelectedHousehold(context).availableStoragesType as List<Storage>,
+                      items: HouseholdService.getSelectedHousehold(context).availableStoragesType.toStorageList,
                       itemAsString: (Storage storage) => storage.displayTitle(context),
                       selectedItem: item.storagePlace,
                       onChanged: (Storage? storage) {

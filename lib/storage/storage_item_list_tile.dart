@@ -16,7 +16,7 @@ class StorageItemListTile extends StatelessWidget {
     if (item.expiryDate == null && item.perishable) {
       expiryDateTextColor = Colors.red;
     } else if (item.expiryDate != null &&
-        HouseholdService.getSelectedHousehold(context).expiredItemWarningDelay < item.expiryDate!.difference(DateTime.now()).inDays) {
+        HouseholdService.getSelectedHousehold(context).expiredItemWarningDelay >= item.expiryDate!.difference(DateTime.now()).inDays) {
       expiryDateTextColor = Colors.red;
     }
     return expiryDateTextColor;
@@ -61,7 +61,8 @@ class StorageItemListTile extends StatelessWidget {
           child: Row(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.chevron_right)])),
       title: Row(children: [
         Text(item.name),
-        Text(item.quantity != 0 ? '${item.quantity} ${item.packingType.displayTextForListTile(context)}' : "", textAlign: TextAlign.end),
+        SizedBox(width: 225),
+        Text(item.quantity != 0 ? '${item.quantity} ${item.packingType.displayTextForListTile(context)}' : "", textAlign: TextAlign.end)
       ]),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
