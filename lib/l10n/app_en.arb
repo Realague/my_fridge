@@ -81,27 +81,32 @@
   "storage_description_freezer": "",
   "storage_description_cellar": "",
 
-
   "storage_expired_item_warning_delay_label": "",
   "storage_expired_item_warning_delay_description": "",
   "storage_item_missing_expiry_date": "Define expiry date",
   "storage_item_bought_today": "Bought today",
   "storage_item_perish_on": "Perish on {expiryDate}",
+  "storage_item_delete": "Remove",
   "@storage_item_perish_on": {
     "placeholders": {
       "expiryDate": {
-        "type": "string",
+        "type": "String",
         "example": "22/12/2022"
       }
     }
   },
-  "storage_item_bought_at": "Bought {daySinceBought} days ago",
-  "@storage_item_bought_at": {
+  "storage_item_bought_at_list_tile": "Bought {daySinceBought} days ago",
+  "@storage_item_bought_at_list_tile": {
     "placeholders": {
       "daySinceBought": {
         "type": "int",
         "example": "1"
       }
     }
-  }
+  },
+
+  "storage_item_bought_by": "Bought by",
+  "storage_item_bought_at": "Bought at",
+  "storage_item_details_note": "Note",
+  "storage_item_storage_place": "Storage place"
 }

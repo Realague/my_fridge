@@ -14,7 +14,7 @@ class UserService {
   static final CollectionReference collectionInstance = FirebaseFirestore.instance.collection("users");
 
   DocumentReference currentUserDocument(BuildContext context) {
-    return UserService.collectionInstance.doc(this.currentUser!.id);
+    return collectionInstance.doc(this.currentUser!.id);
   }
 
   static String currentUserId(BuildContext context) {
@@ -29,13 +29,17 @@ class UserService {
     return context.read<UserService>().currentUser!;
   }
 
+  static Future<MyFridgeUser> getUserById(BuildContext context, String userId) async {
+    DocumentSnapshot documentSnapshot = await collectionInstance.doc(userId).get();
+    return MyFridgeUser.fromDocument(documentSnapshot);
+  }
+
   static Query getHouseholdUsers(BuildContext context, String householdId) {
     return collectionInstance.where('householdsId', arrayContains: householdId);
   }
 
   static Future<MyFridgeUser> getCurrentUserFromDb(BuildContext context) async {
-    DocumentSnapshot documentSnapshot =
-        await UserService.collectionInstance.doc(context.read<AuthenticationService>().currentGoogleUser!.uid).get();
+    DocumentSnapshot documentSnapshot = await collectionInstance.doc(context.read<AuthenticationService>().currentGoogleUser!.uid).get();
     return MyFridgeUser.fromDocument(documentSnapshot);
   }
 

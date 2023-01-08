@@ -42,8 +42,8 @@ class StorageService {
     return HouseholdService.getSelectedHouseholdDoc(context).collection("storage");
   }
 
-  static delete(String articleId, BuildContext context) {
-    DatabaseService.delete(articleId, getCollectionInstance(context));
+  static delete(String itemId, BuildContext context) {
+    DatabaseService.delete(itemId, getCollectionInstance(context));
   }
 
   static Future<List<StorageItem>> getOrderBy(String field, BuildContext context) async {
@@ -72,7 +72,6 @@ class StorageService {
     QuerySnapshot querySnapshot = await getCollectionInstance(context).where('storage', isEqualTo: storage.index).get();
     querySnapshot.docs.forEach((document) {
       StorageItem newItem = StorageItem.fromDocument(document);
-      print(newItem);
 
       for (var item in items) {
         if (item is StorageItem && item.name == item.name) {

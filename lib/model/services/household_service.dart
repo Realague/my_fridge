@@ -31,12 +31,17 @@ class HouseholdService {
     MyFridgeUser user = UserService.getCurrentUser(context);
     household.createdBy = user.id;
     household.membersId = [user.id!];
-    household.availableStoragesType.add(Storage.NONE.index);
+    if (!household.availableStoragesType.contains(Storage.NONE.index)) {
+      household.availableStoragesType.add(Storage.NONE.index);
+    }
     DocumentReference docRef = await DatabaseService.create(household.asMap, collectionInstance);
     context.read<UserService>().updateUserHouseholds(context, docRef.id);
   }
 
   static update(Household household, BuildContext context) {
+    if (!household.availableStoragesType.contains(Storage.NONE.index)) {
+      household.availableStoragesType.add(Storage.NONE.index);
+    }
     DatabaseService.update(household.id!, household.asMap, collectionInstance);
   }
 

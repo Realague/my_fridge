@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'article.dart';
-import 'quantity_unit.dart';
+import 'packing_type.dart';
 
 class ShoppingArticle {
   ShoppingArticle(

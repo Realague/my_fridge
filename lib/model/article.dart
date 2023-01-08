@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:my_fridge/model/quantity_unit.dart';
+import 'package:my_fridge/model/packing_type.dart';
 import 'package:my_fridge/model/shopping_article.dart';
 
 class Article {

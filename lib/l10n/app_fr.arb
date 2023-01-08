@@ -73,22 +73,28 @@
   "storage_expired_item_warning_delay_description": "Combien de jour avant qu'un article périme faut-il vous avertir ?",
   "storage_item_missing_expiry_date": "Définir une date de péremption",
   "storage_item_perish_on": "Périme le {expiryDate}",
+  "storage_item_delete": "Retirer",
   "@storage_item_perish_on": {
     "placeholders": {
       "expiryDate": {
-        "type": "string",
+        "type": "String",
         "example": "22/12/2022"
       }
     }
   },
   "storage_item_bought_today": "Acheté aujourd'hui",
-  "storage_item_bought_at": "Acheté il y a {daySinceBought} jours",
-  "@storage_item_bought_at": {
+  "storage_item_bought_at_list_tile": "Acheté il y a {daySinceBought} jours",
+  "@storage_item_bought_at_list_tile": {
     "placeholders": {
       "daySinceBought": {
         "type": "int",
         "example": 1
       }
     }
-  }
+  },
+
+  "storage_item_bought_by": "Acheté par",
+  "storage_item_bought_at": "Acheté le",
+  "storage_item_details_note": "Annotation",
+  "storage_item_storage_place": "Lieu de stockage"
 }
