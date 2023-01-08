@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/packing_type.dart';
+import 'package:my_fridge/model/services/household_service.dart';
+import 'package:my_fridge/model/services/storage_service.dart';
 import 'package:my_fridge/model/storage_item.dart';
-import 'package:my_fridge/services/storage_service.dart';
 import 'package:my_fridge/storage/storage_item_details.dart';
-
-import '../services/household_service.dart';
 
 class StorageItemListTile extends StatelessWidget {
   StorageItemListTile({required this.item}) : super();

@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_fridge/bottom_navigation_bar.dart';
 import 'package:my_fridge/model/household.dart';
-import 'package:my_fridge/services/household_service.dart';
-import 'package:my_fridge/services/user_service.dart';
+import 'package:my_fridge/model/services/household_service.dart';
+import 'package:my_fridge/model/services/user_service.dart';
+import 'package:my_fridge/model/storage.dart';
+import 'package:my_fridge/model/user.dart';
+import 'package:my_fridge/utils/validators.dart';
+import 'package:my_fridge/widget/loader.dart';
 import 'package:share_plus/share_plus.dart';
-
-import '../bottom_navigation_bar.dart';
-import '../model/user.dart';
-import '../utils/validators.dart';
-import '../widget/loader.dart';
 
 class FormEditHousehold extends StatefulWidget {
   FormEditHousehold(this.household) : super();
@@ -23,6 +24,7 @@ class FormEditHousehold extends StatefulWidget {
 class _FormEditHouseholdState extends State<FormEditHousehold> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  List<Storage> _storagesController = <Storage>[];
 
   late Household household;
 
@@ -30,6 +32,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
   void initState() {
     household = widget.household;
     _nameController.text = household.name;
+    _storagesController = household.availableStoragesType.toStorageList;
     super.initState();
   }
 
@@ -61,6 +64,27 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
               validator: (name) => Validators.notEmpty(context, name),
               controller: _nameController,
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: DropdownSearch<Storage>.multiSelection(
+                compareFn: (Storage storage, Storage storage2) {
+                  return storage.index == storage2.index;
+                },
+                popupProps: PopupPropsMultiSelection.modalBottomSheet(
+                  showSelectedItems: true,
+                  title: ListTile(title: Text(AppLocalizations.of(context)!.storage_item_storage_place)),
+                ),
+                clearButtonProps: ClearButtonProps(isVisible: true),
+                items: Storage.values.storageListWithoutNone,
+                itemAsString: (Storage storage) => storage.displayTitle(context),
+                selectedItems: _storagesController,
+                onChanged: (List<Storage> storages) {
+                  setState(() {
+                    household.availableStoragesType = storages.toIntList;
+                    _storagesController = storages;
+                  });
+                }),
           ),
           buildMemberSection(context),
           Padding(

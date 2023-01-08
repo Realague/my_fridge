@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:my_fridge/model/article.dart';
 import 'package:my_fridge/model/category.dart';
-
-import 'database.dart';
+import 'package:my_fridge/model/services/database.dart';
 
 class ArticleService {
   static final CollectionReference collectionInstance = FirebaseFirestore.instance.collection('articles');

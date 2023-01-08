@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/article.dart';
 import 'package:my_fridge/model/category.dart';
-import 'package:my_fridge/model/quantity_unit.dart';
-import 'package:my_fridge/services/article_category_service.dart';
-import 'package:my_fridge/services/article_service.dart';
+import 'package:my_fridge/model/packing_type.dart';
+import 'package:my_fridge/model/services/article_category_service.dart';
+import 'package:my_fridge/model/services/article_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 import 'package:my_fridge/widget/loader.dart';
 
@@ -30,7 +30,7 @@ class _FormAddArticleState extends State<FormAddArticle> {
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -43,7 +43,7 @@ class _FormAddArticleState extends State<FormAddArticle> {
                 border: const OutlineInputBorder(),
                 labelText: AppLocalizations.of(context)!.form_article_name_label,
               ),
-              validator: (final name) => Validators.notEmpty(context, name),
+              validator: (name) => Validators.notEmpty(context, name),
               controller: _nameController,
             ),
           ),
@@ -61,10 +61,10 @@ class _FormAddArticleState extends State<FormAddArticle> {
                       ),
                     ),
                     items: PackingType.values,
-                    itemAsString: (final PackingType? packingType) => packingType!.displayText(context),
+                    itemAsString: (PackingType? packingType) => packingType!.displayText(context),
                     selectedItem: _packingType,
-                    validator: (final packingType) => Validators.notNull(context, packingType),
-                    onChanged: (final PackingType? packingType) => _packingType = packingType,
+                    validator: (packingType) => Validators.notNull(context, packingType),
+                    onChanged: (PackingType? packingType) => _packingType = packingType,
                   ),
                 ),
               ),
@@ -72,15 +72,15 @@ class _FormAddArticleState extends State<FormAddArticle> {
           ),
           FutureBuilder(
             future: CategoryService.get(),
-            builder: (final context, final snapshot) {
+            builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return Loader();
+                return const Loader();
               }
               return Padding(
                 padding: EdgeInsets.all(8.0),
                 child: DropdownSearch<Category>(
                   items: snapshot.data as List<Category>,
-                  itemAsString: (final Category? category) {
+                  itemAsString: (Category? category) {
                     if (category != null && category.category == " ") {
                       return AppLocalizations.of(context)!.category_other;
                     }
@@ -95,7 +95,7 @@ class _FormAddArticleState extends State<FormAddArticle> {
                   ),
                   selectedItem: _category,
                   validator: (category) => Validators.notNull(context, category),
-                  onChanged: (final Category? category) => _category = category,
+                  onChanged: (Category? category) => _category = category,
                 ),
               );
             },
@@ -104,7 +104,7 @@ class _FormAddArticleState extends State<FormAddArticle> {
             title: Text(AppLocalizations.of(context)!.perishable_label),
             value: _perishable,
             subtitle: Text(AppLocalizations.of(context)!.perishable_description),
-            onChanged: (final bool value) {
+            onChanged: (bool value) {
               setState(() {
                 _perishable = value;
               });

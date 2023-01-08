@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_fridge/model/meal_schedule.dart';
+import 'package:my_fridge/model/services/meal_schedule_service.dart';
 import 'package:my_fridge/model/week_day.dart';
-import 'package:my_fridge/services/meal_schedule_service.dart';
 
 class MealScheduleView extends StatefulWidget {
   const MealScheduleView() : super();
@@ -30,9 +30,7 @@ class _MealScheduleViewState extends State<MealScheduleView> {
             verticalDirection: VerticalDirection.down,
             children: <Widget>[
               Expanded(
-                child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: dataBody(mealsSchedule, context)),
+                child: Container(padding: EdgeInsets.all(5), child: dataBody(mealsSchedule, context)),
               )
             ],
           );
@@ -43,8 +41,7 @@ class _MealScheduleViewState extends State<MealScheduleView> {
   }
 }
 
-DataTable dataBody(
-    final List<MealSchedule> mealsSchedule, final BuildContext context) {
+DataTable dataBody(final List<MealSchedule> mealsSchedule, final BuildContext context) {
   return DataTable(
     sortColumnIndex: 0,
     showCheckboxColumn: false,

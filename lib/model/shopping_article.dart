@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'article.dart';
-import 'packing_type.dart';
+import 'package:my_fridge/model/article.dart';
+import 'package:my_fridge/model/packing_type.dart';
 
 class ShoppingArticle {
   ShoppingArticle(

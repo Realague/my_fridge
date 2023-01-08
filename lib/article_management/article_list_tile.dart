@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_fridge/model/article.dart';
-import 'package:my_fridge/model/quantity_unit.dart';
+import 'package:my_fridge/model/packing_type.dart';
 
 class ArticleListTile extends StatelessWidget {
   ArticleListTile({required this.article}) : super();

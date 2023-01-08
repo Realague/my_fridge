@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
-import '../model/household.dart';
+import 'package:my_fridge/model/household.dart';
 
 class AuthenticationService {
   AuthenticationService(this._firebaseAuth);

@@ -1,18 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_fridge/household/household_add_form.dart';
+import 'package:my_fridge/household/household_edit_form.dart';
+import 'package:my_fridge/household/join_household.dart';
+import 'package:my_fridge/main.dart';
 import 'package:my_fridge/model/household.dart';
+import 'package:my_fridge/model/services/authentication_service.dart';
+import 'package:my_fridge/model/services/household_service.dart';
+import 'package:my_fridge/model/services/user_service.dart';
 import 'package:my_fridge/model/user.dart';
-import 'package:my_fridge/services/household_service.dart';
-import 'package:my_fridge/services/user_service.dart';
+import 'package:my_fridge/widget/loader.dart';
 import 'package:provider/provider.dart';
-
-import '../household/household_add_form.dart';
-import '../household/household_edit_form.dart';
-import '../household/join_household.dart';
-import '../main.dart';
-import '../services/authentication_service.dart';
-import 'loader.dart';
 
 class NavigationDrawer extends StatelessWidget {
   NavigationDrawer({required this.user, Key? key}) : super(key: key);

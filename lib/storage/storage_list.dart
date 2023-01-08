@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_fridge/services/household_service.dart';
+import 'package:my_fridge/model/expansion_data.dart';
+import 'package:my_fridge/model/services/household_service.dart';
+import 'package:my_fridge/model/services/storage_service.dart';
+import 'package:my_fridge/model/storage.dart';
 import 'package:my_fridge/storage/storage_item_expansion_list.dart';
-
-import '../model/expansion_data.dart';
-import '../model/storage.dart';
-import '../services/storage_service.dart';
-import '../widget/loader.dart';
+import 'package:my_fridge/widget/loader.dart';
 
 class StorageList extends StatefulWidget {
   const StorageList();

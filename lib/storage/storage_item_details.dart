@@ -2,14 +2,13 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/packing_type.dart';
+import 'package:my_fridge/model/services/household_service.dart';
+import 'package:my_fridge/model/services/storage_service.dart';
+import 'package:my_fridge/model/services/user_service.dart';
+import 'package:my_fridge/model/storage.dart';
 import 'package:my_fridge/model/storage_item.dart';
 import 'package:my_fridge/model/user.dart';
-import 'package:my_fridge/services/household_service.dart';
-import 'package:my_fridge/services/storage_service.dart';
-import 'package:my_fridge/services/user_service.dart';
-
-import '../model/storage.dart';
-import '../widget/loader.dart';
+import 'package:my_fridge/widget/loader.dart';
 
 class StorageItemDetails extends StatefulWidget {
   const StorageItemDetails({required this.item});
@@ -103,59 +102,7 @@ class _StorageItemDetailsState extends State<StorageItemDetails> {
                     },
                   ),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        padding: EdgeInsets.all(16),
-                        margin: EdgeInsets.symmetric(vertical: 4),
-                        color: Colors.white,
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                            labelText: AppLocalizations.of(context)!.form_quantity_label,
-                          ),
-                          initialValue: item.quantity.toString(),
-                          onChanged: (quantity) {
-                            setState(() {
-                              item.quantity = int.parse(quantity);
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        padding: EdgeInsets.all(16),
-                        margin: EdgeInsets.symmetric(vertical: 4),
-                        color: Colors.white,
-                        child: DropdownSearch<PackingType>(
-                            compareFn: (PackingType packingType, PackingType packingType2) {
-                              return packingType.index == packingType2.index;
-                            },
-                            popupProps: PopupProps.modalBottomSheet(
-                              showSelectedItems: true,
-                              title: ListTile(title: Text(AppLocalizations.of(context)!.form_packing_type_label)),
-                            ),
-                            dropdownDecoratorProps: DropDownDecoratorProps(
-                              dropdownSearchDecoration: InputDecoration(labelText: AppLocalizations.of(context)!.form_packing_type_label),
-                            ),
-                            items: PackingType.values,
-                            itemAsString: (PackingType packingType) => packingType.displayText(context),
-                            selectedItem: item.packingType,
-                            onChanged: (PackingType? packingType) {
-                              setState(() {
-                                item.packingType = packingType!;
-                              });
-                            }),
-                      ),
-                    )
-                  ],
-                ),
+                _buildQuantity(context),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 4),
                   color: Colors.white,
@@ -177,32 +124,7 @@ class _StorageItemDetailsState extends State<StorageItemDetails> {
                   ),
                 ),
                 SizedBox(height: 6),
-                Container(
-                  color: Colors.white,
-                  child: TextFormField(
-                    keyboardType: TextInputType.text,
-                    initialValue: item.expiryDateDisplay,
-                    readOnly: true,
-                    enabled: false,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                      labelText: AppLocalizations.of(context)!.storage_item_bought_at,
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Colors.white,
-                  child: TextFormField(
-                    keyboardType: TextInputType.text,
-                    initialValue: user.username,
-                    readOnly: true,
-                    enabled: false,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                      labelText: AppLocalizations.of(context)!.storage_item_bought_by,
-                    ),
-                  ),
-                ),
+                _buildLifeCycle(context, user),
                 SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
@@ -222,6 +144,93 @@ class _StorageItemDetailsState extends State<StorageItemDetails> {
               ]),
             );
           }),
+    );
+  }
+
+  Widget _buildLifeCycle(BuildContext context, MyFridgeUser user) {
+    return Column(children: [
+      Container(
+        color: Colors.white,
+        child: TextFormField(
+          keyboardType: TextInputType.text,
+          initialValue: item.expiryDateDisplay,
+          readOnly: true,
+          enabled: false,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+            labelText: AppLocalizations.of(context)!.storage_item_bought_at,
+          ),
+        ),
+      ),
+      Container(
+        color: Colors.white,
+        child: TextFormField(
+          keyboardType: TextInputType.text,
+          initialValue: user.username,
+          readOnly: true,
+          enabled: false,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+            labelText: AppLocalizations.of(context)!.storage_item_bought_by,
+          ),
+        ),
+      )
+    ]);
+  }
+
+  Widget _buildQuantity(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Container(
+            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.symmetric(vertical: 4),
+            color: Colors.white,
+            child: TextFormField(
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                labelText: AppLocalizations.of(context)!.form_quantity_label,
+              ),
+              initialValue: item.quantity.toString(),
+              onChanged: (quantity) {
+                setState(() {
+                  item.quantity = int.parse(quantity);
+                });
+              },
+            ),
+          ),
+        ),
+        SizedBox(width: 10),
+        Expanded(
+          flex: 1,
+          child: Container(
+            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.symmetric(vertical: 4),
+            color: Colors.white,
+            child: DropdownSearch<PackingType>(
+                compareFn: (PackingType packingType, PackingType packingType2) {
+                  return packingType.index == packingType2.index;
+                },
+                popupProps: PopupProps.modalBottomSheet(
+                  showSelectedItems: true,
+                  title: ListTile(title: Text(AppLocalizations.of(context)!.form_packing_type_label)),
+                ),
+                dropdownDecoratorProps: DropDownDecoratorProps(
+                  dropdownSearchDecoration: InputDecoration(labelText: AppLocalizations.of(context)!.form_packing_type_label),
+                ),
+                items: PackingType.values,
+                itemAsString: (PackingType packingType) => packingType.displayText(context),
+                selectedItem: item.packingType,
+                onChanged: (PackingType? packingType) {
+                  setState(() {
+                    item.packingType = packingType!;
+                  });
+                }),
+          ),
+        )
+      ],
     );
   }
 }

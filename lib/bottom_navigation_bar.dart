@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_fridge/article_management/article_management.dart';
 import 'package:my_fridge/cooking_recipe/cooking_recipe_list.dart';
 import 'package:my_fridge/cooking_recipe/cooking_recipe_view.dart';
 import 'package:my_fridge/custom_icons_icons.dart';
 import 'package:my_fridge/forms/article_form.dart';
-import 'package:my_fridge/services/shopping_list_service.dart';
-import 'package:my_fridge/services/storage_service.dart';
-import 'package:my_fridge/services/user_service.dart';
+import 'package:my_fridge/forms/category_form.dart';
+import 'package:my_fridge/forms/fridge_article_form.dart';
+import 'package:my_fridge/forms/select_article_form.dart';
+import 'package:my_fridge/meal_schedule/meal_schedule_view.dart';
+import 'package:my_fridge/model/services/shopping_list_service.dart';
+import 'package:my_fridge/model/services/storage_service.dart';
+import 'package:my_fridge/model/services/user_service.dart';
+import 'package:my_fridge/model/shopping_article.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
 import 'package:my_fridge/storage/storage.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/expandable_fab.dart';
 import 'package:my_fridge/widget/household_app_bar.dart';
 import 'package:my_fridge/widget/navigation_drawer.dart';
-
-import 'article_management/article_management.dart';
-import 'forms/category_form.dart';
-import 'forms/fridge_article_form.dart';
-import 'forms/select_article_form.dart';
-import 'meal_schedule/meal_schedule_view.dart';
-import 'model/shopping_article.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar();

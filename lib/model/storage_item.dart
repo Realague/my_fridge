@@ -4,8 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:my_fridge/model/packing_type.dart';
 import 'package:my_fridge/model/storage.dart';
-
-import '../utils/utils.dart';
+import 'package:my_fridge/utils/utils.dart';
 
 class StorageItem {
   StorageItem(

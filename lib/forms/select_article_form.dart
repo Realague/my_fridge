@@ -1,14 +1,13 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:my_fridge/model/quantity_unit.dart';
-
-import '../model/article.dart';
-import '../model/shopping_article.dart';
-import '../services/article_service.dart';
-import '../utils/validators.dart';
-import '../widget/dialog.dart';
-import 'add_article_form.dart';
+import 'package:my_fridge/forms/add_article_form.dart';
+import 'package:my_fridge/model/article.dart';
+import 'package:my_fridge/model/packing_type.dart';
+import 'package:my_fridge/model/services/article_service.dart';
+import 'package:my_fridge/model/shopping_article.dart';
+import 'package:my_fridge/utils/validators.dart';
+import 'package:my_fridge/widget/dialog.dart';
 
 typedef void ConfirmCallback(Article article, int quantity);
 

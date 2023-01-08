@@ -2,10 +2,10 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/article.dart';
-import 'package:my_fridge/model/quantity_unit.dart';
+import 'package:my_fridge/model/packing_type.dart';
+import 'package:my_fridge/model/services/article_service.dart';
+import 'package:my_fridge/model/services/shopping_list_service.dart';
 import 'package:my_fridge/model/shopping_article.dart';
-import 'package:my_fridge/services/article_service.dart';
-import 'package:my_fridge/services/shopping_list_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 
 class FormShoppingListFromExistingArticle extends StatefulWidget {

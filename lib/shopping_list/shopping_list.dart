@@ -1,16 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_fridge/forms/select_article_form.dart';
+import 'package:my_fridge/model/article.dart';
+import 'package:my_fridge/model/services/shopping_list_service.dart';
 import 'package:my_fridge/model/shopping_article.dart';
-import 'package:my_fridge/services/shopping_list_service.dart';
 import 'package:my_fridge/utils/utils.dart';
 import 'package:my_fridge/widget/category_list.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/dismissible.dart';
 import 'package:my_fridge/widget/shopping_list_item.dart';
-
-import '../forms/select_article_form.dart';
-import '../model/article.dart';
 
 class ShoppingList extends StatefulWidget {
   const ShoppingList() : super();
