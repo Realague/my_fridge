@@ -9,10 +9,10 @@ import 'package:my_fridge/forms/category_form.dart';
 import 'package:my_fridge/forms/fridge_article_form.dart';
 import 'package:my_fridge/forms/select_article_form.dart';
 import 'package:my_fridge/meal_schedule/meal_schedule_view.dart';
-import 'package:my_fridge/model/services/shopping_list_service.dart';
-import 'package:my_fridge/model/services/storage_service.dart';
-import 'package:my_fridge/model/services/user_service.dart';
 import 'package:my_fridge/model/shopping_article.dart';
+import 'package:my_fridge/services/shopping_list_service.dart';
+import 'package:my_fridge/services/storage_service.dart';
+import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
 import 'package:my_fridge/storage/storage.dart';
 import 'package:my_fridge/widget/dialog.dart';
@@ -50,7 +50,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
         return DialogFullScreen(
           title: AppLocalizations.of(context)!.shopping_list_popup_title,
           child: SelectArticleForm(confirmCallback: (article, quantity) {
-            ShoppingListService.create(ShoppingArticle.fromArticle(article, quantity), context);
+            ShoppingListService.create(ShoppingItem.fromItem(article, quantity), context);
             Navigator.pop(context);
           }),
         );

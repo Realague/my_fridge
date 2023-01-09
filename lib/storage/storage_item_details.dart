@@ -2,12 +2,12 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/services/household_service.dart';
-import 'package:my_fridge/model/services/storage_service.dart';
-import 'package:my_fridge/model/services/user_service.dart';
 import 'package:my_fridge/model/storage.dart';
 import 'package:my_fridge/model/storage_item.dart';
 import 'package:my_fridge/model/user.dart';
+import 'package:my_fridge/services/household_service.dart';
+import 'package:my_fridge/services/storage_service.dart';
+import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/widget/loader.dart';
 
 class StorageItemDetails extends StatefulWidget {

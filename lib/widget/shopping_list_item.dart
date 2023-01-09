@@ -5,7 +5,7 @@ import 'package:my_fridge/model/shopping_article.dart';
 class ShoppingListItem extends StatelessWidget {
   ShoppingListItem({required this.article}) : super();
 
-  final ShoppingArticle article;
+  final ShoppingItem article;
 
   @override
   Widget build(BuildContext context) {

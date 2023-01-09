@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:my_fridge/model/services/storage_service.dart';
 import 'package:my_fridge/model/storage_item.dart';
+import 'package:my_fridge/services/storage_service.dart';
 import 'package:my_fridge/storage/storage_item_list_tile.dart';
 
 class StorageItemExpansionList extends StatefulWidget {

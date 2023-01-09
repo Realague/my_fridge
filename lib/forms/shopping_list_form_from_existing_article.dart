@@ -1,17 +1,17 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:my_fridge/model/article.dart';
+import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/services/article_service.dart';
-import 'package:my_fridge/model/services/shopping_list_service.dart';
 import 'package:my_fridge/model/shopping_article.dart';
+import 'package:my_fridge/services/article_service.dart';
+import 'package:my_fridge/services/shopping_list_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 
 class FormShoppingListFromExistingArticle extends StatefulWidget {
   const FormShoppingListFromExistingArticle({this.article}) : super();
 
-  final ShoppingArticle? article;
+  final ShoppingItem? article;
 
   @override
   State<StatefulWidget> createState() => _FormShoppingListFromExistingArticleState();
@@ -20,12 +20,12 @@ class FormShoppingListFromExistingArticle extends StatefulWidget {
 class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFromExistingArticle> {
   final _quantityController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  Article? _selectedArticle;
+  Item? _selectedArticle;
 
   @override
   void initState() {
     if (widget.article != null) {
-      _selectedArticle = Article(
+      _selectedArticle = Item(
           name: widget.article!.name,
           unit: widget.article!.unit,
           perishable: widget.article!.perishable,
@@ -53,10 +53,10 @@ class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFr
                 flex: 2,
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: DropdownSearch<Article>(
+                  child: DropdownSearch<Item>(
                     asyncItems: (String filter) => ArticleService.get(filter),
                     popupProps: PopupProps.menu(showSearchBox: true),
-                    itemAsString: (Article? article) => article!.name + ", " + article.packingType.displayText(context),
+                    itemAsString: (Item? article) => article!.name + ", " + article.packingType.displayText(context),
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       dropdownSearchDecoration: InputDecoration(
                         labelText: AppLocalizations.of(context)!.form_article_label,
@@ -64,7 +64,7 @@ class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFr
                         border: const OutlineInputBorder(),
                       ),
                     ),
-                    onChanged: (Article? article) => _selectedArticle = article,
+                    onChanged: (Item? article) => _selectedArticle = article,
                     selectedItem: _selectedArticle,
                     validator: (article) => Validators.notNull(context, article),
                   ),
@@ -91,7 +91,7 @@ class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFr
             icon: const Icon(Icons.add),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                ShoppingArticle shoppingArticle = ShoppingArticle(
+                ShoppingItem shoppingArticle = ShoppingItem(
                     id: widget.article?.id ?? null,
                     name: _selectedArticle!.name,
                     unit: _selectedArticle!.unit,

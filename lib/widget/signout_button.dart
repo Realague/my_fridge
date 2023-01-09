@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/main.dart';
-import 'package:my_fridge/model/services/authentication_service.dart';
+import 'package:my_fridge/services/authentication_service.dart';
 import 'package:provider/provider.dart';
 
 class SignOutButton extends StatelessWidget {

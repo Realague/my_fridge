@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_fridge/household/household_edit_form.dart';
-import 'package:my_fridge/model/services/household_service.dart';
+import 'package:my_fridge/services/household_service.dart';
 
 class HouseholdAppBar extends StatelessWidget {
   const HouseholdAppBar();

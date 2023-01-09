@@ -8,10 +8,10 @@ import 'package:my_fridge/bottom_navigation_bar.dart';
 import 'package:my_fridge/household/household_add_form.dart';
 import 'package:my_fridge/household/join_household.dart';
 import 'package:my_fridge/model/household.dart';
-import 'package:my_fridge/model/services/authentication_service.dart';
-import 'package:my_fridge/model/services/household_service.dart';
-import 'package:my_fridge/model/services/user_service.dart';
 import 'package:my_fridge/model/user.dart';
+import 'package:my_fridge/services/authentication_service.dart';
+import 'package:my_fridge/services/household_service.dart';
+import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/widget/loader.dart';
 import 'package:provider/provider.dart';
 

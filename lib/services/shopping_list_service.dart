@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_fridge/model/category.dart';
-import 'package:my_fridge/model/services/database.dart';
-import 'package:my_fridge/model/services/household_service.dart';
 import 'package:my_fridge/model/shopping_article.dart';
+import 'package:my_fridge/services/database.dart';
+import 'package:my_fridge/services/household_service.dart';
 
 class ShoppingListService {
-  static create(ShoppingArticle article, BuildContext context) {
+  static create(ShoppingItem article, BuildContext context) {
     DatabaseService.create(article.asMap, getCollectionInstance(context));
   }
 
-  static createFromFridge(ShoppingArticle article, BuildContext context) {
+  static createFromFridge(ShoppingItem article, BuildContext context) {
     DatabaseService.create(article.asMap, getCollectionInstance(context));
   }
 
-  static update(ShoppingArticle article, BuildContext context) {
+  static update(ShoppingItem article, BuildContext context) {
     DatabaseService.update(article.id!, article.asMap, getCollectionInstance(context));
   }
 
@@ -26,18 +26,18 @@ class ShoppingListService {
     DatabaseService.delete(articleId, getCollectionInstance(context));
   }
 
-  static Future<List<ShoppingArticle>> getOrderBy(String field, BuildContext context) async {
-    List<ShoppingArticle> articles = [];
+  static Future<List<ShoppingItem>> getOrderBy(String field, BuildContext context) async {
+    List<ShoppingItem> articles = [];
     return getCollectionInstance(context).orderBy(field).get().then((querySnapshot) {
-      querySnapshot.docs.forEach((document) => articles.add(ShoppingArticle.fromDocument(document)));
+      querySnapshot.docs.forEach((document) => articles.add(ShoppingItem.fromDocument(document)));
       return articles;
     });
   }
 
-  static Future<List<ShoppingArticle>> getOnlyCheckedArticle(BuildContext context) async {
-    List<ShoppingArticle> articles = [];
+  static Future<List<ShoppingItem>> getOnlyCheckedArticle(BuildContext context) async {
+    List<ShoppingItem> articles = [];
     return getCollectionInstance(context).where('checked', isEqualTo: true).get().then((querySnapshot) {
-      querySnapshot.docs.forEach((document) => articles.add(ShoppingArticle.fromDocument(document)));
+      querySnapshot.docs.forEach((document) => articles.add(ShoppingItem.fromDocument(document)));
       return articles;
     });
   }

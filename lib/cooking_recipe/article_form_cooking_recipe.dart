@@ -1,14 +1,14 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:my_fridge/model/article.dart';
+import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/services/article_service.dart';
 import 'package:my_fridge/model/shopping_article.dart';
+import 'package:my_fridge/services/article_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 
 typedef void RemoveIngredientCallback();
-typedef void EditIngredientCallback(ShoppingArticle shoppingArticle);
+typedef void EditIngredientCallback(ShoppingItem shoppingArticle);
 
 class IngredientForm extends StatefulWidget {
   const IngredientForm({
@@ -20,7 +20,7 @@ class IngredientForm extends StatefulWidget {
   }) : super();
 
   final bool isEditMode;
-  final ShoppingArticle? shoppingArticle;
+  final ShoppingItem? shoppingArticle;
   final String? id;
 
   final RemoveIngredientCallback? onRemoveIngredient;
@@ -32,8 +32,8 @@ class IngredientForm extends StatefulWidget {
 
 class _IngredientFormState extends State<IngredientForm> {
   final _quantityController = TextEditingController();
-  ShoppingArticle? _article;
-  Article? _selectedArticle;
+  ShoppingItem? _article;
+  Item? _selectedArticle;
   bool _isEditMode = false;
 
   final _formKey = GlobalKey<FormState>();
@@ -42,7 +42,7 @@ class _IngredientFormState extends State<IngredientForm> {
   void initState() {
     _isEditMode = widget.isEditMode;
     _article = widget.shoppingArticle;
-    _selectedArticle = Article.fromShoppingArticle(_article!);
+    _selectedArticle = Item.fromShoppingArticle(_article!);
     _quantityController.text = _article!.quantity.toString();
     super.initState();
   }
@@ -60,10 +60,10 @@ class _IngredientFormState extends State<IngredientForm> {
           flex: 2,
           child: Padding(
             padding: EdgeInsets.all(8.0),
-            child: DropdownSearch<Article>(
+            child: DropdownSearch<Item>(
               asyncItems: (final String filter) => ArticleService.get(filter),
               popupProps: PopupProps.menu(showSearchBox: true),
-              itemAsString: (Article? article) => article!.name + ", " + article.packingType.displayText(context),
+              itemAsString: (Item? article) => article!.name + ", " + article.packingType.displayText(context),
               dropdownDecoratorProps: DropDownDecoratorProps(
                 dropdownSearchDecoration: InputDecoration(
                   labelText: AppLocalizations.of(context)!.form_article_label,
@@ -71,7 +71,7 @@ class _IngredientFormState extends State<IngredientForm> {
                   border: const OutlineInputBorder(),
                 ),
               ),
-              onChanged: (final Article? article) {
+              onChanged: (final Item? article) {
                 setState(() {
                   _selectedArticle = article;
                 });
@@ -101,7 +101,7 @@ class _IngredientFormState extends State<IngredientForm> {
               onPressed: () {
                 setState(() {
                   _article!.isEditable = false;
-                  widget.onEditIngredient!(ShoppingArticle.fromArticle(_selectedArticle!, int.tryParse(_quantityController.text)!));
+                  widget.onEditIngredient!(ShoppingItem.fromItem(_selectedArticle!, int.tryParse(_quantityController.text)!));
                 });
               },
               child: const Icon(Icons.check)),

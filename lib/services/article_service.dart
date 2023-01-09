@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:my_fridge/model/article.dart';
 import 'package:my_fridge/model/category.dart';
-import 'package:my_fridge/model/services/database.dart';
+import 'package:my_fridge/model/item.dart';
+import 'package:my_fridge/services/database.dart';
 
 class ArticleService {
   static final CollectionReference collectionInstance = FirebaseFirestore.instance.collection('articles');
 
-  static create(Article article) {
+  static create(Item article) {
     collectionInstance.doc(article.name).get().then((DocumentSnapshot documentSnapshot) {
       if (!documentSnapshot.exists) {
         DatabaseService.createWithId(article.name, article.asMap, collectionInstance);
@@ -15,7 +15,7 @@ class ArticleService {
     });
   }
 
-  static update(Article article) {
+  static update(Item article) {
     DatabaseService.update(article.id!, article.asMap, collectionInstance);
   }
 
@@ -23,11 +23,11 @@ class ArticleService {
     DatabaseService.delete(articleId, collectionInstance);
   }
 
-  static Future<List<Article>> get(String? searchFilter) async {
-    List<Article> articles = [];
+  static Future<List<Item>> get(String? searchFilter) async {
+    List<Item> articles = [];
     if (searchFilter == null || searchFilter == '') {
       return collectionInstance.get().then((querySnapshot) {
-        querySnapshot.docs.forEach((document) => articles.add(Article.fromDocument(document)));
+        querySnapshot.docs.forEach((document) => articles.add(Item.fromDocument(document)));
         return articles;
       });
     }
@@ -36,7 +36,7 @@ class ArticleService {
         .where('name', isLessThan: searchFilter)
         .get()
         .then((querySnapshot) {
-      querySnapshot.docs.forEach((document) => articles.add(Article.fromDocument(document)));
+      querySnapshot.docs.forEach((document) => articles.add(Item.fromDocument(document)));
       return articles;
     });
   }

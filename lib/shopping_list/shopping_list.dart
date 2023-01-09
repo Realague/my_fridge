@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/forms/select_article_form.dart';
-import 'package:my_fridge/model/article.dart';
-import 'package:my_fridge/model/services/shopping_list_service.dart';
+import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/shopping_article.dart';
+import 'package:my_fridge/services/shopping_list_service.dart';
 import 'package:my_fridge/utils/utils.dart';
 import 'package:my_fridge/widget/category_list.dart';
 import 'package:my_fridge/widget/dialog.dart';
@@ -24,11 +24,10 @@ class _ShoppingListState extends State<ShoppingList> {
     return CategoryList(ShoppingListService.getByCategory, _buildShoppingListItem, false);
   }
 
-  void confirmCallback(Article article, int quantity) =>
-      ShoppingListService.update(ShoppingArticle.fromArticle(article, quantity), context);
+  void confirmCallback(Item article, int quantity) => ShoppingListService.update(ShoppingItem.fromItem(article, quantity), context);
 
   Widget _buildShoppingListItem(BuildContext context, DocumentSnapshot document) {
-    ShoppingArticle article = ShoppingArticle.fromDocument(document);
+    ShoppingItem article = ShoppingItem.fromDocument(document);
     return DismissibleBothWay(
       key: Key(article.id!),
       child: CheckboxListTile(
@@ -61,7 +60,7 @@ class _ShoppingListState extends State<ShoppingList> {
                 title: AppLocalizations.of(context)!.shopping_list_popup_title,
                 child: SelectArticleForm(
                   confirmCallback: (art, quantity) {
-                    ShoppingArticle shoppingArticle = ShoppingArticle.fromArticle(art, quantity);
+                    ShoppingItem shoppingArticle = ShoppingItem.fromItem(art, quantity);
                     shoppingArticle.id = article.id;
                     ShoppingListService.update(shoppingArticle, context);
                     Navigator.pop(context);

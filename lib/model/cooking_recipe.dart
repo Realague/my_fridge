@@ -2,12 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_fridge/model/shopping_article.dart';
 
 class CookingRecipe {
-  CookingRecipe(
-      {this.id,
-      required this.name,
-      required this.steps,
-      required this.category,
-      required this.ingredients});
+  CookingRecipe({this.id, required this.name, required this.steps, required this.category, required this.ingredients});
 
   String? id;
 
@@ -17,7 +12,7 @@ class CookingRecipe {
 
   String category;
 
-  List<ShoppingArticle> ingredients;
+  List<ShoppingItem> ingredients;
 
   static CookingRecipe fromDocument(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
@@ -26,9 +21,7 @@ class CookingRecipe {
         name: data['name'],
         steps: data['steps'],
         category: data['category'],
-        ingredients: List<ShoppingArticle>.from(
-                data['ingredients'].map((e) => ShoppingArticle.fromMap(e)))
-            .toList());
+        ingredients: List<ShoppingItem>.from(data['ingredients'].map((e) => ShoppingItem.fromMap(e))).toList());
   }
 
   Map<String, Object> get asMap {

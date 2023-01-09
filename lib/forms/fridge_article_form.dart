@@ -2,12 +2,12 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:my_fridge/model/article.dart';
+import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/services/article_service.dart';
-import 'package:my_fridge/model/services/storage_service.dart';
-import 'package:my_fridge/model/services/user_service.dart';
 import 'package:my_fridge/model/storage_item.dart';
+import 'package:my_fridge/services/article_service.dart';
+import 'package:my_fridge/services/storage_service.dart';
+import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 
 class FormFridgeArticle extends StatefulWidget {
@@ -22,7 +22,7 @@ class FormFridgeArticle extends StatefulWidget {
 
 class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
   final _quantityController = TextEditingController();
-  Article? _selectedArticle;
+  Item? _selectedArticle;
   DateTime? _selectedDate;
   TextEditingController _dateController = TextEditingController();
 
@@ -31,7 +31,7 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
   @override
   void initState() {
     if (widget.article != null) {
-      _selectedArticle = Article(name: widget.article!.name, unit: widget.article!.unit, perishable: widget.article!.perishable);
+      _selectedArticle = Item(name: widget.article!.name, unit: widget.article!.unit, perishable: widget.article!.perishable);
     }
     _quantityController.text = widget.article?.quantity.toString() ?? "";
 
@@ -90,7 +90,7 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
                 flex: 2,
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: DropdownSearch<Article>(
+                  child: DropdownSearch<Item>(
                     asyncItems: (String filter) => ArticleService.get(filter),
                     popupProps: PopupProps.menu(showSearchBox: true),
                     dropdownDecoratorProps: DropDownDecoratorProps(
@@ -100,8 +100,8 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
                         border: const OutlineInputBorder(),
                       ),
                     ),
-                    itemAsString: (Article? article) => article!.name + ", " + article.packingType.displayText(context),
-                    onChanged: (Article? article) {
+                    itemAsString: (Item? article) => article!.name + ", " + article.packingType.displayText(context),
+                    onChanged: (Item? article) {
                       setState(() {
                         _selectedArticle = article;
                       });

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:my_fridge/model/meal_schedule.dart';
-import 'package:my_fridge/model/services/database.dart';
-import 'package:my_fridge/model/services/user_service.dart';
 import 'package:my_fridge/model/week_day.dart';
+import 'package:my_fridge/services/database.dart';
+import 'package:my_fridge/services/user_service.dart';
 import 'package:provider/provider.dart';
 
 class MealScheduleService {

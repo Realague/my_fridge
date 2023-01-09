@@ -2,19 +2,19 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/forms/add_article_form.dart';
-import 'package:my_fridge/model/article.dart';
+import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/services/article_service.dart';
 import 'package:my_fridge/model/shopping_article.dart';
+import 'package:my_fridge/services/article_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 import 'package:my_fridge/widget/dialog.dart';
 
-typedef void ConfirmCallback(Article article, int quantity);
+typedef void ConfirmCallback(Item article, int quantity);
 
 class SelectArticleForm extends StatefulWidget {
   const SelectArticleForm({required this.confirmCallback, this.article}) : super();
 
-  final ShoppingArticle? article;
+  final ShoppingItem? article;
   final ConfirmCallback confirmCallback;
 
   @override
@@ -22,7 +22,7 @@ class SelectArticleForm extends StatefulWidget {
 }
 
 class _SelectArticleFormState extends State<SelectArticleForm> {
-  Article? _selectedArticle;
+  Item? _selectedArticle;
   final _quantityController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
@@ -30,7 +30,7 @@ class _SelectArticleFormState extends State<SelectArticleForm> {
   @override
   void initState() {
     if (widget.article != null) {
-      _selectedArticle = Article(
+      _selectedArticle = Item(
           name: widget.article!.name,
           unit: widget.article!.unit,
           perishable: widget.article!.perishable,
@@ -58,7 +58,7 @@ class _SelectArticleFormState extends State<SelectArticleForm> {
                 flex: 2,
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: DropdownSearch<Article>(
+                  child: DropdownSearch<Item>(
                     asyncItems: (String filter) => ArticleService.get(filter),
                     popupProps: PopupProps.menu(showSearchBox: true),
                     dropdownDecoratorProps: DropDownDecoratorProps(
@@ -68,8 +68,8 @@ class _SelectArticleFormState extends State<SelectArticleForm> {
                         border: const OutlineInputBorder(),
                       ),
                     ),
-                    itemAsString: (Article? article) => article!.name + ", " + article.packingType.displayText(context),
-                    onChanged: (Article? article) {
+                    itemAsString: (Item? article) => article!.name + ", " + article.packingType.displayText(context),
+                    onChanged: (Item? article) {
                       setState(() {
                         _selectedArticle = article;
                       });
