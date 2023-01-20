@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_fridge/model/meal_schedule.dart';
-import 'package:my_fridge/model/services/meal_schedule_service.dart';
 import 'package:my_fridge/model/week_day.dart';
+import 'package:my_fridge/services/meal_schedule_service.dart';
 
 class MealScheduleView extends StatefulWidget {
   const MealScheduleView() : super();

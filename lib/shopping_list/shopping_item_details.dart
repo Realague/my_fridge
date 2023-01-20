@@ -1,35 +1,43 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_fridge/model/category.dart';
 import 'package:my_fridge/model/packing_type.dart';
+import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/model/storage.dart';
 import 'package:my_fridge/model/storage_item.dart';
 import 'package:my_fridge/model/user.dart';
+import 'package:my_fridge/services/article_category_service.dart';
 import 'package:my_fridge/services/household_service.dart';
+import 'package:my_fridge/services/shopping_list_service.dart';
 import 'package:my_fridge/services/storage_service.dart';
 import 'package:my_fridge/services/user_service.dart';
+import 'package:my_fridge/utils/validators.dart';
 import 'package:my_fridge/widget/loader.dart';
 
-class StorageItemDetails extends StatefulWidget {
-  const StorageItemDetails({required this.item});
+class ShoppingItemDetails extends StatefulWidget {
+  const ShoppingItemDetails({required this.item});
 
-  final StorageItem item;
+  final ShoppingItem item;
 
   @override
-  State<StatefulWidget> createState() => _StorageItemDetailsState();
+  State<StatefulWidget> createState() => _ShoppingItemDetailsState();
 }
 
-class _StorageItemDetailsState extends State<StorageItemDetails> {
-  _StorageItemDetailsState();
+class _ShoppingItemDetailsState extends State<ShoppingItemDetails> {
+  _ShoppingItemDetailsState();
 
   TextEditingController expiryDateInput = TextEditingController();
 
-  late StorageItem item;
+  late ShoppingItem item;
+
+  late Category _category;
 
   @override
   void initState() {
     this.item = widget.item;
-    expiryDateInput.text = item.expiryDateDisplay;
+
+    _category = Category(category: item.category ?? " ");
     super.initState();
   }
 
@@ -46,12 +54,12 @@ class _StorageItemDetailsState extends State<StorageItemDetails> {
       appBar: AppBar(
         title: Text(item.name),
         leading: BackButton(onPressed: () {
-          StorageService.update(item, context);
+          ShoppingListService.update(item, context);
           Navigator.of(context).pop();
         }),
       ),
       body: FutureBuilder(
-          future: UserService.getUserById(context, item.boughtBy),
+          future: UserService.getUserById(context, item.createdBy),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Loader();
@@ -70,14 +78,14 @@ class _StorageItemDetailsState extends State<StorageItemDetails> {
                       },
                       popupProps: PopupProps.modalBottomSheet(
                         showSelectedItems: true,
-                        title: ListTile(title: Text(AppLocalizations.of(context)!.storage_item_storage_place)),
+                        title: ListTile(title: Text(AppLocalizations.of(context)!.shopping_item_storage)),
                       ),
                       dropdownDecoratorProps: DropDownDecoratorProps(
-                        dropdownSearchDecoration: InputDecoration(labelText: AppLocalizations.of(context)!.storage_item_storage_place),
+                        dropdownSearchDecoration: InputDecoration(labelText: AppLocalizations.of(context)!.shopping_item_storage),
                       ),
                       items: HouseholdService.getSelectedHousehold(context).availableStoragesType.toStorageList,
                       itemAsString: (Storage storage) => storage.displayTitle(context),
-                      selectedItem: item.storagePlace,
+                      selectedItem: item.defaultStoragePlace,
                       onChanged: (Storage? storage) {
                         setState(() {
                           item.storage = storage!.index;
@@ -103,26 +111,39 @@ class _StorageItemDetailsState extends State<StorageItemDetails> {
                   ),
                 ),
                 _buildQuantity(context),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 4),
-                  color: Colors.white,
-                  child: TextFormField(
-                    controller: expiryDateInput,
-                    decoration:
-                        InputDecoration(icon: Icon(Icons.calendar_today), labelText: AppLocalizations.of(context)!.form_expiry_date_label),
-                    readOnly: true,
-                    onTap: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                          context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2101));
-                      if (pickedDate != null) {
-                        setState(() {
-                          item.expiryDate = pickedDate;
-                          expiryDateInput.text = item.expiryDateDisplay;
-                        });
+                FutureBuilder(
+                    future: CategoryService.get(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Loader();
                       }
-                    },
-                  ),
-                ),
+                      return Container(
+                        padding: EdgeInsets.all(16),
+                        margin: EdgeInsets.symmetric(vertical: 4),
+                        color: Colors.white,
+                        child: DropdownSearch<Category>(
+                            compareFn: (Category category, Category category2) {
+                              return category.category == category2.category;
+                            },
+                            popupProps: PopupProps.modalBottomSheet(
+                              showSelectedItems: true,
+                              title: ListTile(title: Text(AppLocalizations.of(context)!.shopping_item_category)),
+                            ),
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(labelText: AppLocalizations.of(context)!.shopping_item_category),
+                            ),
+                            items: snapshot.data as List<Category>,
+                            itemAsString: (Category? category) {
+                              if (category != null && category.category == " ") {
+                                return AppLocalizations.of(context)!.category_other;
+                              }
+                              return category!.category;
+                            },
+                            selectedItem: _category,
+                            validator: (category) => Validators.notNull(context, category),
+                            onChanged: (Category? category) => _category = category!),
+                      );
+                    }),
                 SizedBox(height: 6),
                 _buildLifeCycle(context, user),
                 SizedBox(height: 10),
@@ -131,7 +152,7 @@ class _StorageItemDetailsState extends State<StorageItemDetails> {
                     StorageService.delete(item.id!, context);
                     Navigator.pop(context);
                   },
-                  child: Text(AppLocalizations.of(context)!.storage_item_delete),
+                  child: Text(AppLocalizations.of(context)!.shopping_item_delete),
                   style: ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll<Color>(Colors.red),
                     shape: MaterialStateProperty.all(
@@ -153,12 +174,12 @@ class _StorageItemDetailsState extends State<StorageItemDetails> {
         color: Colors.white,
         child: TextFormField(
           keyboardType: TextInputType.text,
-          initialValue: item.boughtAtDisplay,
+          initialValue: item.createdAtDisplay,
           readOnly: true,
           enabled: false,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-            labelText: AppLocalizations.of(context)!.storage_item_bought_at,
+            labelText: AppLocalizations.of(context)!.shopping_item_created_at,
           ),
         ),
       ),
@@ -171,7 +192,7 @@ class _StorageItemDetailsState extends State<StorageItemDetails> {
           enabled: false,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-            labelText: AppLocalizations.of(context)!.storage_item_bought_by,
+            labelText: AppLocalizations.of(context)!.shopping_item_created_by,
           ),
         ),
       )

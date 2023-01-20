@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_fridge/model/expansion_data.dart';
-import 'package:my_fridge/model/services/household_service.dart';
-import 'package:my_fridge/model/services/storage_service.dart';
 import 'package:my_fridge/model/storage.dart';
+import 'package:my_fridge/services/household_service.dart';
+import 'package:my_fridge/services/storage_service.dart';
 import 'package:my_fridge/storage/storage_item_expansion_list.dart';
 import 'package:my_fridge/widget/loader.dart';
 
@@ -30,7 +30,7 @@ class _StorageListState extends State<StorageList> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: ExpansionPanelList(
-        children: listData.map<ExpansionPanel>((expansionData) => _buildCategoryListItem(context, expansionData)).toList(),
+        children: listData.map<ExpansionPanel>((expansionData) => _buildStorageListItem(context, expansionData)).toList(),
         expansionCallback: (index, isExpanded) {
           setState(
             () {
@@ -42,7 +42,7 @@ class _StorageListState extends State<StorageList> {
     );
   }
 
-  ExpansionPanel _buildCategoryListItem(BuildContext context, ExpansionData expansionData) {
+  ExpansionPanel _buildStorageListItem(BuildContext context, ExpansionData expansionData) {
     return ExpansionPanel(
       canTapOnHeader: true,
       isExpanded: expansionData.isExpanded,

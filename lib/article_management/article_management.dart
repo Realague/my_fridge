@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/article_management/article_list_tile.dart';
 import 'package:my_fridge/forms/article_form.dart';
-import 'package:my_fridge/model/article.dart';
-import 'package:my_fridge/model/services/article_service.dart';
+import 'package:my_fridge/model/item.dart';
+import 'package:my_fridge/services/item_service.dart';
 import 'package:my_fridge/widget/category_list.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/dismissible.dart';
@@ -12,11 +12,11 @@ import 'package:my_fridge/widget/dismissible.dart';
 class ArticleManagement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CategoryList(ArticleService.getByCategory, _buildArticleItem, true);
+    return CategoryList(ItemService.getByCategory, _buildArticleItem, true);
   }
 
   Widget _buildArticleItem(BuildContext context, DocumentSnapshot document) {
-    Article article = Article.fromDocument(document);
+    Item article = Item.fromDocument(document);
     return DismissibleBothWay(
       key: Key(article.id!),
       child: ArticleListTile(article: article),
@@ -32,7 +32,7 @@ class ArticleManagement extends StatelessWidget {
             },
           );
         } else {
-          ArticleService.delete(article.id!);
+          ItemService.delete(article.id!);
         }
         return true;
       },

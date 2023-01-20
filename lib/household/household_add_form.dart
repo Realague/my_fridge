@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/bottom_navigation_bar.dart';
 import 'package:my_fridge/model/household.dart';
-import 'package:my_fridge/model/services/household_service.dart';
+import 'package:my_fridge/services/household_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 
 class FormAddHousehold extends StatefulWidget {

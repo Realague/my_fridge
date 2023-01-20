@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:my_fridge/model/services/database.dart';
-import 'package:my_fridge/model/services/household_service.dart';
-import 'package:my_fridge/model/shopping_article.dart';
+import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/model/storage.dart';
 import 'package:my_fridge/model/storage_item.dart';
+import 'package:my_fridge/services/database.dart';
+import 'package:my_fridge/services/household_service.dart';
 
 class StorageService {
   static create(StorageItem item, BuildContext context) async {
@@ -21,7 +21,7 @@ class StorageService {
     }
   }
 
-  static createFromShoppingArticle(ShoppingArticle article, BuildContext context, {DateTime? expiryDate}) {
+  static createFromShoppingArticle(ShoppingItem article, BuildContext context, {DateTime? expiryDate}) {
     Map<String, Object?> map = {
       'name': article.name,
       'unit': article.unit,

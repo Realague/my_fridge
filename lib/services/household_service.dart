@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_fridge/model/household.dart';
-import 'package:my_fridge/model/services/database.dart';
-import 'package:my_fridge/model/services/user_service.dart';
 import 'package:my_fridge/model/storage.dart';
 import 'package:my_fridge/model/user.dart';
+import 'package:my_fridge/services/database.dart';
+import 'package:my_fridge/services/user_service.dart';
 import 'package:provider/provider.dart';
 
 class HouseholdService {

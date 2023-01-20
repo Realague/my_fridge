@@ -1,11 +1,11 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:my_fridge/model/article.dart';
 import 'package:my_fridge/model/category.dart';
+import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/services/article_category_service.dart';
-import 'package:my_fridge/model/services/article_service.dart';
+import 'package:my_fridge/services/article_category_service.dart';
+import 'package:my_fridge/services/item_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 import 'package:my_fridge/widget/loader.dart';
 
@@ -115,9 +115,9 @@ class _FormAddArticleState extends State<FormAddArticle> {
             icon: const Icon(Icons.add),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                Article article =
-                    Article(name: _nameController.text, unit: _packingType!.index, perishable: _perishable, category: _category!.category);
-                ArticleService.create(article);
+                Item article =
+                    Item(name: _nameController.text, unit: _packingType!.index, perishable: _perishable, category: _category!.category, storage: 1);
+                ItemService.create(article);
                 Navigator.pop(context);
               }
             },

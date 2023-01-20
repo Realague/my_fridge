@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/forms/category_form.dart';
 import 'package:my_fridge/model/category.dart';
-import 'package:my_fridge/model/services/article_category_service.dart';
+import 'package:my_fridge/services/article_category_service.dart';
 import 'package:my_fridge/widget/dialog.dart';
 import 'package:my_fridge/widget/loader.dart';
 

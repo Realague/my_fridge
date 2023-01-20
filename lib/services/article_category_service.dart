@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_fridge/model/category.dart';
-import 'package:my_fridge/model/services/database.dart';
+
+import 'database.dart';
 
 class CategoryService {
   static final CollectionReference collectionInstance = FirebaseFirestore.instance.collection('category');
