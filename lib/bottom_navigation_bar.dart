@@ -6,10 +6,7 @@ import 'package:my_fridge/cooking_recipe/cooking_recipe_view.dart';
 import 'package:my_fridge/custom_icons_icons.dart';
 import 'package:my_fridge/forms/article_form.dart';
 import 'package:my_fridge/forms/category_form.dart';
-import 'package:my_fridge/forms/fridge_article_form.dart';
 import 'package:my_fridge/meal_schedule/meal_schedule_view.dart';
-import 'package:my_fridge/services/shopping_list_service.dart';
-import 'package:my_fridge/services/storage_service.dart';
 import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
 import 'package:my_fridge/storage/storage.dart';
@@ -40,18 +37,6 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-  void _addFridgeArticle(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return DialogFullScreen(
-          title: AppLocalizations.of(context)!.fridge_popup_title,
-          child: FormFridgeArticle(),
-        );
-      },
-    );
   }
 
   void _addCookingRecipe(BuildContext context) {
@@ -91,9 +76,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
   }
 
   Widget? _floatingActionButton() {
-    if (_selectedIndex == 1) {
-      return FloatingActionButton(onPressed: () => _addFridgeArticle(context), child: const Icon(Icons.article));
-    } else if (_selectedIndex == 2) {
+    if (_selectedIndex == 2) {
       return FloatingActionButton(
         onPressed: () => _addCookingRecipe(context),
         child: Icon(Icons.add),
