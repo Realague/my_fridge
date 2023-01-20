@@ -108,5 +108,33 @@
   "storage_item_bought_by": "Bought by",
   "storage_item_bought_at": "Bought at",
   "storage_item_details_note": "Note",
-  "storage_item_storage_place": "Storage place"
+  "storage_item_storage_place": "Storage place",
+
+  "shopping_list_bough_shopping_items": "Bought items",
+  "shopping_list_search_hint": "What do you need?",
+  "shopping_list_go_to_text": "Go to",
+  "shopping_list_item_deleted_snack_bar_message": "{itemNumber} article(s) has been deleted.",
+  "@shopping_list_item_deleted_snack_bar_message": {
+    "placeholders": {
+      "itemNumber": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "shopping_list_item_added_snack_bar_message": "{itemName} has been added to your shopping list.",
+  "@shopping_list_item_added_snack_bar_message": {
+    "placeholders": {
+      "itemName": {
+        "type": "String",
+        "example": "test"
+      }
+    }
+  },
+
+  "shopping_item_created_by": "Added by",
+  "shopping_item_created_at": "Added at",
+  "shopping_item_category": "Change category",
+  "shopping_item_storage": "Default storage",
+  "shopping_item_delete": "Remove a product"
 }

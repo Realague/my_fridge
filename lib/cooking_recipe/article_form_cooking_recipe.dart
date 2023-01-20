@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/shopping_article.dart';
-import 'package:my_fridge/services/article_service.dart';
+import 'package:my_fridge/model/shopping_item.dart';
+import 'package:my_fridge/services/item_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 
 typedef void RemoveIngredientCallback();
@@ -42,7 +42,7 @@ class _IngredientFormState extends State<IngredientForm> {
   void initState() {
     _isEditMode = widget.isEditMode;
     _article = widget.shoppingArticle;
-    _selectedArticle = Item.fromShoppingArticle(_article!);
+    _selectedArticle = Item.fromShoppingItem(_article!, context);
     _quantityController.text = _article!.quantity.toString();
     super.initState();
   }
@@ -61,7 +61,7 @@ class _IngredientFormState extends State<IngredientForm> {
           child: Padding(
             padding: EdgeInsets.all(8.0),
             child: DropdownSearch<Item>(
-              asyncItems: (final String filter) => ArticleService.get(filter),
+              asyncItems: (String filter) => ItemService.get(filter),
               popupProps: PopupProps.menu(showSearchBox: true),
               itemAsString: (Item? article) => article!.name + ", " + article.packingType.displayText(context),
               dropdownDecoratorProps: DropDownDecoratorProps(
@@ -101,7 +101,7 @@ class _IngredientFormState extends State<IngredientForm> {
               onPressed: () {
                 setState(() {
                   _article!.isEditable = false;
-                  widget.onEditIngredient!(ShoppingItem.fromItem(_selectedArticle!, int.tryParse(_quantityController.text)!));
+                  //widget.onEditIngredient!(ShoppingItem.fromItem(_selectedArticle!, int.tryParse(_quantityController.text)!));
                 });
               },
               child: const Icon(Icons.check)),

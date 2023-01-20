@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
 import 'package:my_fridge/model/storage_item.dart';
-import 'package:my_fridge/services/article_service.dart';
+import 'package:my_fridge/services/item_service.dart';
 import 'package:my_fridge/services/storage_service.dart';
 import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/utils/validators.dart';
@@ -31,7 +31,7 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
   @override
   void initState() {
     if (widget.article != null) {
-      _selectedArticle = Item(name: widget.article!.name, unit: widget.article!.unit, perishable: widget.article!.perishable);
+      _selectedArticle = Item(name: widget.article!.name, unit: widget.article!.unit, perishable: widget.article!.perishable, storage: widget.article!.storage);
     }
     _quantityController.text = widget.article?.quantity.toString() ?? "";
 
@@ -91,7 +91,7 @@ class _FormFridgeArticleArticleState extends State<FormFridgeArticle> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<Item>(
-                    asyncItems: (String filter) => ArticleService.get(filter),
+                    asyncItems: (String filter) => ItemService.get(filter),
                     popupProps: PopupProps.menu(showSearchBox: true),
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       dropdownSearchDecoration: InputDecoration(

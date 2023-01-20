@@ -4,10 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/category.dart';
 import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/shopping_article.dart';
 import 'package:my_fridge/services/article_category_service.dart';
-import 'package:my_fridge/services/article_service.dart';
-import 'package:my_fridge/services/shopping_list_service.dart';
+import 'package:my_fridge/services/item_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 import 'package:my_fridge/widget/loader.dart';
 
@@ -134,15 +132,15 @@ class _FormShoppingListState extends State<FormShoppingList> {
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 Item article =
-                    Item(name: _nameController.text, unit: _packingType!.index, perishable: _perishable, category: _category!.category);
-                ArticleService.create(article);
-                ShoppingItem shoppingArticle = ShoppingItem(
+                    Item(name: _nameController.text, unit: _packingType!.index, perishable: _perishable, category: _category!.category, storage: 1);
+                ItemService.create(article);
+                /*ShoppingItem shoppingArticle = ShoppingItem(
                     name: _nameController.text,
                     unit: _packingType!.index,
                     quantity: int.parse(_quantityController.text),
                     perishable: _perishable,
                     category: _category!.category);
-                ShoppingListService.create(shoppingArticle, context);
+                ShoppingListService.create(shoppingArticle, context);*/
                 Navigator.pop(context);
               }
             },

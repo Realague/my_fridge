@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/cooking_recipe/article_form_cooking_recipe.dart';
 import 'package:my_fridge/forms/select_article_form.dart';
 import 'package:my_fridge/model/cooking_recipe.dart';
-import 'package:my_fridge/model/shopping_article.dart';
+import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/services/cooking_recipe_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 
@@ -86,7 +86,7 @@ class _CookingRecipeState extends State<CookingRecipeView> {
         ),
         SelectArticleForm(confirmCallback: (article, quantity) {
           setState(() {
-            _cookingRecipe!.ingredients.add(ShoppingItem.fromItem(article, quantity));
+            //_cookingRecipe!.ingredients.add(ShoppingItem.fromItem(article, quantity));
           });
         }),
         ListView.builder(

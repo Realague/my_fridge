@@ -10,7 +10,6 @@
   "button_add_to_fridge": "Ajouté au frigo",
   "button_add_article": "Ajouté l'article",
   "button_add_category": "Ajouté la catégorie",
-  "add_article_popup_title": "Ajouter un article",
   "shopping_list_popup_title": "Ajouter un article",
   "add_category_popup_title": "Ajouter une catégorie",
   "fridge_popup_title": "Ajouter un article au frigo",
@@ -96,5 +95,34 @@
   "storage_item_bought_by": "Acheté par",
   "storage_item_bought_at": "Acheté le",
   "storage_item_details_note": "Annotation",
-  "storage_item_storage_place": "Lieu de stockage"
+  "storage_item_storage_place": "Lieu de stockage",
+
+  "shopping_list_search_hint": "Quest-ce qu'il te faut ?",
+  "shopping_list_go_to_text": "Aller à",
+  "shopping_list_bough_shopping_items": "Produits acheté",
+  "shopping_list_item_deleted_snack_bar_message": "{itemNumber} article(s) à été supprimé.",
+  "@shopping_list_item_deleted_snack_bar_message": {
+    "placeholders": {
+      "itemNumber": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "shopping_list_item_added_snack_bar_message": "{itemName} à été ajouté à ta liste de courses.",
+  "@shopping_list_item_added_snack_bar_message": {
+    "placeholders": {
+      "itemName": {
+        "type": "String",
+        "example": "test"
+      }
+    }
+  },
+
+  "shopping_item_created_by": "Ajouté par",
+  "shopping_item_created_at": "Ajouté le",
+  "shopping_item_category": "Changer de catégorie",
+  "shopping_item_storage": "Stockage par défaut",
+  "shopping_item_delete": "Retirer un produit",
+  "add_article_popup_title": "Ajouter un article"
 }

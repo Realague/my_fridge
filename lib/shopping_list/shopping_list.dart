@@ -1,15 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:my_fridge/forms/select_article_form.dart';
-import 'package:my_fridge/model/item.dart';
-import 'package:my_fridge/model/shopping_article.dart';
+import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/services/shopping_list_service.dart';
-import 'package:my_fridge/utils/utils.dart';
-import 'package:my_fridge/widget/category_list.dart';
-import 'package:my_fridge/widget/dialog.dart';
-import 'package:my_fridge/widget/dismissible.dart';
-import 'package:my_fridge/widget/shopping_list_item.dart';
+import 'package:my_fridge/shopping_list/category_list.dart';
+import 'package:my_fridge/shopping_list/shopping_list_item.dart';
+import 'package:my_fridge/shopping_list/shopping_list_item_bought.dart';
+import 'package:my_fridge/widget/loader.dart';
 
 class ShoppingList extends StatefulWidget {
   const ShoppingList() : super();
@@ -19,63 +16,39 @@ class ShoppingList extends StatefulWidget {
 }
 
 class _ShoppingListState extends State<ShoppingList> {
+
   @override
   Widget build(BuildContext context) {
-    return CategoryList(ShoppingListService.getByCategory, _buildShoppingListItem, false);
+    return Column(children: [
+      const CategoryList(),
+      _buildShoppingItemBought(context),
+    ]);
   }
 
-  void confirmCallback(Item article, int quantity) => ShoppingListService.update(ShoppingItem.fromItem(article, quantity), context);
-
-  Widget _buildShoppingListItem(BuildContext context, DocumentSnapshot document) {
-    ShoppingItem article = ShoppingItem.fromDocument(document);
-    return DismissibleBothWay(
-      key: Key(article.id!),
-      child: CheckboxListTile(
-        controlAffinity: ListTileControlAffinity.leading,
-        title: ShoppingListItem(article: article),
-        onChanged: (value) async {
-          if (value != null) {
-            article.checked = value;
-
-            if (article.perishable) {
-              var expiryDate = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2000),
-                lastDate: DateTime(2025),
-              );
-              article.expiryDate = expiryDate;
-            }
-            ShoppingListService.update(article, context);
+  Widget _buildShoppingItemBought(BuildContext context) {
+    return ExpansionTile(title: Text(AppLocalizations.of(context)!.shopping_list_bough_shopping_items), children: [
+      StreamBuilder(
+        stream: ShoppingListService.getBoughtItems(context).snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Loader();
           }
-        },
-        value: article.checked,
-      ),
-      confirmDismiss: (direction) async {
-        if (direction == DismissDirection.startToEnd) {
-          await showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return DialogFullScreen(
-                title: AppLocalizations.of(context)!.shopping_list_popup_title,
-                child: SelectArticleForm(
-                  confirmCallback: (art, quantity) {
-                    ShoppingItem shoppingArticle = ShoppingItem.fromItem(art, quantity);
-                    shoppingArticle.id = article.id;
-                    ShoppingListService.update(shoppingArticle, context);
-                    Navigator.pop(context);
-                  },
-                  article: article,
-                ),
-              );
-            },
+
+          return ListView.builder(
+            primary: false,
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            itemCount: (snapshot.data as QuerySnapshot).docs.length,
+            itemBuilder: (context, index) {
+              ShoppingItem shoppingItem = ShoppingItem.fromDocument((snapshot.data as QuerySnapshot).docs[index]);
+              if (shoppingItem.isBought) {
+                return ShoppingListItemBought(shoppingItem: shoppingItem);
+              }
+              return ShoppingListItem(shoppingItem: shoppingItem);
+            }
           );
-        } else {
-          await Utils.showConfirmDialog(
-              context, AppLocalizations.of(context)!.confirm_delete_shopping_list_article, ShoppingListService.delete, article.id!);
-        }
-        return true;
-      },
-    );
+        },
+      ),
+    ]);
   }
 }

@@ -4,8 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/forms/add_article_form.dart';
 import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/shopping_article.dart';
-import 'package:my_fridge/services/article_service.dart';
+import 'package:my_fridge/model/shopping_item.dart';
+import 'package:my_fridge/services/item_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 import 'package:my_fridge/widget/dialog.dart';
 
@@ -34,7 +34,8 @@ class _SelectArticleFormState extends State<SelectArticleForm> {
           name: widget.article!.name,
           unit: widget.article!.unit,
           perishable: widget.article!.perishable,
-          category: widget.article!.category);
+          category: widget.article!.category,
+          storage: widget.article!.storage);
     }
     _quantityController.text = widget.article?.quantity.toString() ?? "";
     super.initState();
@@ -59,7 +60,7 @@ class _SelectArticleFormState extends State<SelectArticleForm> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<Item>(
-                    asyncItems: (String filter) => ArticleService.get(filter),
+                    asyncItems: (String filter) => ItemService.get(filter),
                     popupProps: PopupProps.menu(showSearchBox: true),
                     dropdownDecoratorProps: DropDownDecoratorProps(
                       dropdownSearchDecoration: InputDecoration(

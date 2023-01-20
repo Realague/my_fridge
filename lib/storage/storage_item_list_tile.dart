@@ -60,9 +60,8 @@ class StorageItemListTile extends StatelessWidget {
               ),
           child: Row(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.chevron_right)])),
       title: Row(children: [
-        Text(item.name),
-        SizedBox(width: 225),
-        Text(item.quantity != 0 ? '${item.quantity} ${item.packingType.displayTextForListTile(context)}' : "", textAlign: TextAlign.end)
+        Expanded(flex: 2, child: Text(item.name)),
+        Expanded(flex: 1, child: Text(item.quantity != 0 && item.packingType != PackingType.NONE ? '${item.quantity} ${item.packingType.displayTextForListTile(context)}' : "", textAlign: TextAlign.end))
       ]),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

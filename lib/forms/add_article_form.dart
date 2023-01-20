@@ -5,7 +5,7 @@ import 'package:my_fridge/model/category.dart';
 import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
 import 'package:my_fridge/services/article_category_service.dart';
-import 'package:my_fridge/services/article_service.dart';
+import 'package:my_fridge/services/item_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 import 'package:my_fridge/widget/loader.dart';
 
@@ -116,8 +116,8 @@ class _FormAddArticleState extends State<FormAddArticle> {
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 Item article =
-                    Item(name: _nameController.text, unit: _packingType!.index, perishable: _perishable, category: _category!.category);
-                ArticleService.create(article);
+                    Item(name: _nameController.text, unit: _packingType!.index, perishable: _perishable, category: _category!.category, storage: 1);
+                ItemService.create(article);
                 Navigator.pop(context);
               }
             },

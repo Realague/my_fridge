@@ -3,21 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:my_fridge/model/packing_type.dart';
+import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/model/storage.dart';
+import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/utils/utils.dart';
 
 class StorageItem {
-  StorageItem(
-      {this.id,
-      required this.name,
-      required this.unit,
-      this.quantity = 0,
-      required this.perishable,
-      required this.boughtAt,
-      required this.boughtBy,
-      required this.storage,
-      this.note = "",
-      this.expiryDate});
+  StorageItem({this.id,
+    required this.name,
+    required this.unit,
+    this.quantity = 0,
+    required this.perishable,
+    required this.boughtAt,
+    required this.boughtBy,
+    required this.storage,
+    this.note = "",
+    this.expiryDate});
 
   String? id;
 
@@ -45,11 +46,17 @@ class StorageItem {
 
   String boughtBy;
 
+  String get boughtAtDisplay => DateFormat('dd/MM/yyyy').format(boughtAt);
+
   String get expiryDateDisplay => expiryDate == null ? "" : DateFormat('dd/MM/yyyy').format(expiryDate!);
 
   Storage get storagePlace => Storage.values[storage];
 
-  int get daysSinceBought => DateTime.now().difference(boughtAt).inDays;
+  int get daysSinceBought =>
+      DateTime
+          .now()
+          .difference(boughtAt)
+          .inDays;
 
   String getBoughtAtDisplayForListTile(BuildContext context) {
     String dateDisplay = "";
@@ -59,6 +66,15 @@ class StorageItem {
       dateDisplay = AppLocalizations.of(context)!.storage_item_missing_expiry_date;
     }
     return dateDisplay;
+  }
+
+  static StorageItem fromShoppingItem(ShoppingItem shoppingItem, BuildContext context) {
+    return StorageItem(name: shoppingItem.name,
+        unit: shoppingItem.unit,
+        perishable: shoppingItem.perishable,
+        boughtAt: DateTime.now(),
+        boughtBy: UserService.currentUserId(context),
+        storage: shoppingItem.storage);
   }
 
   static StorageItem fromDocument(DocumentSnapshot document) {

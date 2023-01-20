@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/shopping_article.dart';
-import 'package:my_fridge/services/article_service.dart';
-import 'package:my_fridge/services/shopping_list_service.dart';
+import 'package:my_fridge/model/shopping_item.dart';
+import 'package:my_fridge/services/item_service.dart';
 import 'package:my_fridge/utils/validators.dart';
 
 class FormShoppingListFromExistingArticle extends StatefulWidget {
@@ -29,7 +28,7 @@ class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFr
           name: widget.article!.name,
           unit: widget.article!.unit,
           perishable: widget.article!.perishable,
-          category: widget.article!.category);
+          category: widget.article!.category, storage: 1);
     }
     _quantityController.text = widget.article?.quantity.toString() ?? "";
     super.initState();
@@ -54,7 +53,7 @@ class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFr
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: DropdownSearch<Item>(
-                    asyncItems: (String filter) => ArticleService.get(filter),
+                    asyncItems: (String filter) => ItemService.get(filter),
                     popupProps: PopupProps.menu(showSearchBox: true),
                     itemAsString: (Item? article) => article!.name + ", " + article.packingType.displayText(context),
                     dropdownDecoratorProps: DropDownDecoratorProps(
@@ -91,7 +90,7 @@ class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFr
             icon: const Icon(Icons.add),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                ShoppingItem shoppingArticle = ShoppingItem(
+                /*ShoppingItem shoppingArticle = ShoppingItem(
                     id: widget.article?.id ?? null,
                     name: _selectedArticle!.name,
                     unit: _selectedArticle!.unit,
@@ -102,7 +101,7 @@ class _FormShoppingListFromExistingArticleState extends State<FormShoppingListFr
                   ShoppingListService.update(shoppingArticle, context);
                 } else {
                   ShoppingListService.create(shoppingArticle, context);
-                }
+                }*/
                 Navigator.pop(context);
               }
             },
