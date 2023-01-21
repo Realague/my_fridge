@@ -126,6 +126,7 @@ class Menu extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 user.selectedHouseholdId = household.id;
+                context.read<UserService>().currentUser = user;
                 UserService.update(user, context);
                 Navigator.pop(context);
               },

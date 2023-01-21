@@ -62,12 +62,8 @@ class ShoppingListItem extends StatelessWidget {
   }
 
   void _onShoppingItemTap(BuildContext context) async {
-    shoppingItem.isBought = !shoppingItem.isBought;
-    ShoppingListService.update(shoppingItem, context);
+    shoppingItem.isBought = true;
 
-    if (!shoppingItem.isBought) {
-      return;
-    }
     StorageItem storageItem = StorageItem.fromShoppingItem(shoppingItem, context);
     if (shoppingItem.perishable) {
       var expiryDate = await showDatePicker(
@@ -79,5 +75,6 @@ class ShoppingListItem extends StatelessWidget {
       storageItem.expiryDate = expiryDate;
     }
     StorageService.create(storageItem, context);
+    ShoppingListService.update(shoppingItem, context);
   }
 }

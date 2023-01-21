@@ -27,7 +27,7 @@ class _StorageItemExpansionListState extends State<StorageItemExpansionList> {
   Widget _buildItemExpansionPanel(BuildContext context, dynamic item) {
     if (item is List<StorageItem>) {
       return Dismissible(
-        key: Key(item[0].name),
+        key: UniqueKey(),
         direction: DismissDirection.endToStart,
         background: Container(
           color: Colors.red,

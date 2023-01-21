@@ -26,9 +26,12 @@ class ShoppingListService {
     DatabaseService.delete(itemId, getCollectionInstance(context));
   }
 
-  static Future<ShoppingItem> getByName(String name, BuildContext context) async {
+  static Future<ShoppingItem?> getByName(String name, BuildContext context) async {
     QuerySnapshot querySnapshot = await getCollectionInstance(context).where("name", isEqualTo: name).get();
-    return ShoppingItem.fromDocument(querySnapshot.docs[0]);
+    if (querySnapshot.size != 0) {
+      return ShoppingItem.fromDocument(querySnapshot.docs[0]);
+    }
+    return null;
   }
 
   static Future<List<ShoppingItem>> getOrderBy(String field, BuildContext context) async {

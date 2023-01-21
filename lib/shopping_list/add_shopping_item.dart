@@ -33,8 +33,8 @@ class _AddShoppingItemState extends State<AddShoppingItem> {
       results.add(filter);
     }
     for (Item item in items) {
-      ShoppingItem shoppingItem = await ShoppingListService.getByName(item.name, context);
-      if (shoppingItem.name == item.name) {
+      ShoppingItem? shoppingItem = await ShoppingListService.getByName(item.name, context);
+      if (shoppingItem != null && shoppingItem.name == item.name) {
         results.add(shoppingItem);
       } else {
         results.add(item);
