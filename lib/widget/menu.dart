@@ -142,6 +142,7 @@ class Menu extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
+                          //TODO: list all members name
                           Text(household.getMembersDisplay(context), style: TextStyle(color: Colors.white)),
                           const SizedBox(width: 6),
                           const Icon(
@@ -150,6 +151,7 @@ class Menu extends StatelessWidget {
                             color: Colors.white,
                           ),
                           const SizedBox(width: 6),
+                          //TODO: replace with number of stored item
                           const Text("0", style: TextStyle(color: Colors.white)),
                         ],
                       ),

@@ -25,7 +25,7 @@ class StorageItemListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key(item.id!),
+      key: UniqueKey(),
       direction: DismissDirection.endToStart,
       background: Container(
         color: Colors.red,
