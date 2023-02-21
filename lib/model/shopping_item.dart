@@ -75,7 +75,7 @@ class ShoppingItem {
         perishable: map['perishable'],
         category: map['category'],
         note: map['note'],
-        createdAt: map['created_at'],
+        createdAt: Utils.timestampToDateTime(map['created_at'])!,
         createdBy: map['created_by'],
         isBought: map['is_bought'],
         storage: map['storage']);

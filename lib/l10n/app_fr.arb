@@ -124,5 +124,52 @@
   "shopping_item_category": "Changer de catégorie",
   "shopping_item_storage": "Stockage par défaut",
   "shopping_item_delete": "Retirer un produit",
-  "add_article_popup_title": "Ajouter un article"
+  "cooking_recipe_save": "Enregistrer ma recette",
+  "add_article_popup_title": "Ajouter un article",
+
+  "cooking_recipe_created_by": "Créée par",
+  "cooking_recipe_created_at": "Créée le",
+  "cooking_recipe_delete": "Supprimer la recette",
+  "cooking_recipe_ingredients": "Ingrédients ({ingredientCount})",
+  "@cooking_recipe_ingredients": {
+    "placeholders": {
+      "ingredientCount": {
+        "type": "int",
+        "example": "0"
+      }
+    }
+  },
+  "cooking_recipe_step": "Etape {stepIndex}",
+  "@cooking_recipe_step": {
+    "placeholders": {
+      "stepIndex": {
+        "type": "int",
+        "example": "0"
+      }
+    }
+  },
+  "cooking_recipe_steps": "Etapes ({stepCount})",
+  "@cooking_recipe_steps": {
+    "placeholders": {
+      "stepCount": {
+        "type": "int",
+        "example": "0"
+      }
+    }
+  },
+  "cooking_recipe_add_title": "Ma nouvelle recette",
+  "cooking_recipe_meal_type": "Type de plat",
+  "cooking_recipe_cooking_time": "Cuisson",
+  "cooking_recipe_rest_time": "Repos",
+  "cooking_recipe_preparation_time": "Préparation",
+  "cooking_recipe_add_ingredient": "Ajouter un ingrédient",
+  "cooking_recipe_add_step": "Ajouter une étape",
+  "cooking_recipe_add_the_step": "Ajouter l'étape",
+  "cooking_recipe_add_the_ingredient": "Ajouter l'ingrédient",
+  "meal_type_dessert": "Déssert",
+  "meal_type_dish": "Plat",
+  "meal_type_drink": "Boisson",
+  "meal_type_starter": "Entrée",
+  "meal_type_appetizer": "Apéritif",
+  "meal_type_other": "Autre"
 }
