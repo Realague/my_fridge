@@ -36,7 +36,7 @@ class _IngredientFormState extends State<IngredientForm> {
   Item? _selectedArticle;
   bool _isEditMode = false;
 
-  final _formKey = GlobalKey<FormState>();
+  //final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {

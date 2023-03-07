@@ -5,7 +5,6 @@ import 'package:my_fridge/model/category.dart';
 import 'package:my_fridge/model/packing_type.dart';
 import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/model/storage.dart';
-import 'package:my_fridge/model/storage_item.dart';
 import 'package:my_fridge/model/user.dart';
 import 'package:my_fridge/services/article_category_service.dart';
 import 'package:my_fridge/services/household_service.dart';
@@ -37,7 +36,7 @@ class _ShoppingItemDetailsState extends State<ShoppingItemDetails> {
   void initState() {
     this.item = widget.item;
 
-    _category = Category(category: item.category ?? " ");
+    _category = Category(category: item.category);
     super.initState();
   }
 

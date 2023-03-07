@@ -154,6 +154,4 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
       ),
     );
   }
-
-  void _addHousehold() {}
 }
