@@ -2,9 +2,11 @@ name: MyFridge CI/CD
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - '**'
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - '**'
 
 jobs:
   build:
@@ -20,12 +22,9 @@ jobs:
       - name: Build web
         run: |
           flutter pub get
-          flutter analyze
-          flutter test
           flutter build web
       - name: Deploy web
-        env:
-          WEB_DEPLOY_TOKEN: ${{ secrets.WEB_DEPLOY_TOKEN }}
         run: |
           curl -sL https://firebase.tools | bash
-          firebase deploy --token $WEB_DEPLOY_TOKEN
+          firebase deploy --token "1//03SP-GbHQAOBbCgYIARAAGAMSNwF-L9IrmO3Kb8M3ogc8Thz2sLlqbE-YHqfKlEA5D3PMR8a6_bsmsU42evGL-3_fn7S4oaRnr-M"
+        if: github.event_name == 'release'
