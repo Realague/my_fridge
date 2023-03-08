@@ -1,13 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/category.dart';
 import 'package:my_fridge/model/shopping_item.dart';
-import 'package:my_fridge/model/storage_item.dart';
 import 'package:my_fridge/services/article_category_service.dart';
 import 'package:my_fridge/services/shopping_list_service.dart';
-import 'package:my_fridge/services/storage_service.dart';
-import 'package:my_fridge/shopping_list/shopping_item_details.dart';
 import 'package:my_fridge/shopping_list/shopping_list_item.dart';
 import 'package:my_fridge/widget/loader.dart';
 

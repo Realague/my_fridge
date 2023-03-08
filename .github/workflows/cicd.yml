@@ -1,0 +1,30 @@
+name: MyFridge CI/CD
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+    
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.7.6'
+          channel: stable
+      - name: Build web
+        run: |
+          flutter pub get
+          flutter build web
+      - name: Deploy web
+        run: |
+          curl -sL https://firebase.tools | bash
+          firebase deploy --token "1//03SP-GbHQAOBbCgYIARAAGAMSNwF-L9IrmO3Kb8M3ogc8Thz2sLlqbE-YHqfKlEA5D3PMR8a6_bsmsU42evGL-3_fn7S4oaRnr-M"
+        if: github.event_name == 'release'

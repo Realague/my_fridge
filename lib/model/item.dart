@@ -7,7 +7,7 @@ import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/utils/utils.dart';
 
 class Item {
-  Item({this.id, required this.name, required this.unit, required this.perishable, this.createdAt, this.createdBy, this.category: " ", required this.storage});
+  Item({this.id, required this.name, required this.unit, required this.perishable, this.createdAt, this.createdBy, this.category = " ", required this.storage});
 
   static Item fromShoppingItem(ShoppingItem item, BuildContext context) {
     return Item(name: item.name, unit: item.unit, perishable: item.perishable, category: item.category, storage: item.storage, createdAt: DateTime.now(), createdBy: UserService.currentUserId(context));
