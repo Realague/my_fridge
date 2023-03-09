@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/article_management/article_management.dart';
+import 'package:my_fridge/cooking_recipe/add_cooking_recipe.dart';
+import 'package:my_fridge/cooking_recipe/cooking_recipe_details.dart';
 import 'package:my_fridge/cooking_recipe/cooking_recipe_list.dart';
-import 'package:my_fridge/cooking_recipe/cooking_recipe_view.dart';
 import 'package:my_fridge/custom_icons_icons.dart';
 import 'package:my_fridge/forms/article_form.dart';
 import 'package:my_fridge/forms/category_form.dart';
@@ -40,14 +41,9 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
   }
 
   void _addCookingRecipe(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return DialogFullScreen(
-          title: AppLocalizations.of(context)!.add_article_popup_title,
-          child: CookingRecipeView(insertMode: true),
-        );
-      },
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AddCookingRecipe(), settings: RouteSettings(name: "CookingRecipeDetails")),
     );
   }
 
@@ -157,7 +153,6 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
           )
         ],
       ),
-      //body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
