@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/cooking_recipe/add_ingredient.dart';
 import 'package:my_fridge/cooking_recipe/add_step.dart';
 import 'package:my_fridge/cooking_recipe/search_ingredient.dart';
+import 'package:my_fridge/model/Ingredient.dart';
 import 'package:my_fridge/model/cooking_recipe.dart';
 import 'package:my_fridge/model/meal_type.dart';
 import 'package:my_fridge/model/packing_type.dart';
@@ -48,15 +49,15 @@ class _AddCookingRecipeState extends State<AddCookingRecipe> {
     super.dispose();
   }
 
-  void _addIngredient(ShoppingItem ingredient) {
+  void _addIngredient(Ingredient ingredient) {
     setState(() {
       cookingRecipe.ingredients.add(ingredient);
     });
   }
 
-  void _editIngredient(ShoppingItem ingredient) {
+  void _editIngredient(Ingredient ingredient) {
     setState(() {
-      for (ShoppingItem item in cookingRecipe.ingredients) {
+      for (Ingredient item in cookingRecipe.ingredients) {
         if (item.name == ingredient.name) {
           cookingRecipe.ingredients.remove(item);
         }

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:my_fridge/model/Ingredient.dart';
 import 'package:my_fridge/model/meal_type.dart';
-import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/model/user.dart';
 import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/utils/utils.dart';
@@ -34,7 +34,7 @@ class CookingRecipe {
 
   int restTime;
 
-  List<ShoppingItem> ingredients;
+  List<Ingredient> ingredients;
 
   MealType get quantityUnit => MealType.values[mealType];
 
@@ -53,8 +53,8 @@ class CookingRecipe {
         name: data['name'],
         steps: List<String>.from(data['steps']),
         mealType: data['meal_type'],
-        ingredients: List<ShoppingItem>.from(
-                data['ingredients'].map((e) => ShoppingItem.fromMap(e)))
+        ingredients: List<Ingredient>.from(
+                data['ingredients'].map((e) => Ingredient.fromMap(e)))
             .toList(),
         cookingTime: data['cooking_time'],
         preparationTime: data['preparation_time'],

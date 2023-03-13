@@ -7,19 +7,14 @@ import 'package:my_fridge/model/storage.dart';
 import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/utils/utils.dart';
 
-class ShoppingItem {
-  ShoppingItem(
+class Ingredient {
+  Ingredient(
       {this.id,
-      required this.name,
-      required this.unit,
-      required this.quantity,
-      required this.perishable,
-      required this.createdAt,
-      required this.createdBy,
-      required this.storage,
-      this.category = "",
-      this.isBought = false,
-      this.note = ""});
+        required this.name,
+        required this.unit,
+        required this.quantity,
+        required this.createdAt,
+        required this.createdBy});
 
   String? id;
 
@@ -28,18 +23,6 @@ class ShoppingItem {
   int unit;
 
   int quantity;
-
-  bool perishable;
-
-  String category;
-
-  int storage;
-
-  Storage get defaultStoragePlace => Storage.values[storage];
-
-  String note;
-
-  bool isBought;
 
   DateTime createdAt;
 
@@ -53,47 +36,34 @@ class ShoppingItem {
     unit = packingType.index;
   }
 
-  static ShoppingItem fromItem(Item item, int quantity, BuildContext context) {
-    return ShoppingItem(
+  static Ingredient fromItem(Item item, int quantity, BuildContext context) {
+    return Ingredient(
         name: item.name,
         unit: item.unit,
         quantity: quantity,
-        perishable: item.perishable,
-        category: item.category,
-        storage: item.storage,
         createdAt: DateTime.now(),
         createdBy: UserService.currentUserId(context));
   }
 
-  static ShoppingItem fromMap(Map<String, dynamic> map) {
-    return ShoppingItem(
+  static Ingredient fromMap(Map<String, dynamic> map) {
+    return Ingredient(
         name: map['name'],
         unit: map['unit'],
         quantity: map['quantity'],
-        perishable: map['perishable'],
-        category: map['category'],
-        note: map['note'],
         createdAt: Utils.timestampToDateTime(map['created_at'])!,
-        createdBy: map['created_by'],
-        isBought: map['is_bought'],
-        storage: map['storage']);
+        createdBy: map['created_by']);
   }
 
-  static ShoppingItem fromDocument(DocumentSnapshot document) {
+  static Ingredient fromDocument(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
 
-    return ShoppingItem(
+    return Ingredient(
         id: document.id,
         name: data['name'],
         unit: data['unit'],
         quantity: data['quantity'],
-        perishable: data["perishable"],
-        note: data['note'],
-        category: data['category'],
         createdAt: Utils.timestampToDateTime(data['created_at'])!,
-        createdBy: data['created_by'],
-        isBought: data['is_bought'],
-        storage: data['storage']);
+        createdBy: data['created_by'],);
   }
 
   Map<String, Object?> get asMap {
@@ -101,13 +71,8 @@ class ShoppingItem {
       "name": this.name,
       "unit": this.unit,
       "quantity": this.quantity,
-      "perishable": this.perishable,
-      "category": this.category,
-      "note": this.note,
       "created_by": this.createdBy,
       "created_at": this.createdAt,
-      "storage": this.storage,
-      "is_bought": this.isBought,
     };
   }
 }

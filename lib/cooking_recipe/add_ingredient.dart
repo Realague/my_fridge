@@ -1,21 +1,21 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:my_fridge/model/Ingredient.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/shopping_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddIngredient extends StatefulWidget {
   const AddIngredient({required this.ingredient, required this.addIngredient});
 
-  final ShoppingItem ingredient;
-  final Function(ShoppingItem) addIngredient;
+  final Ingredient ingredient;
+  final Function(Ingredient) addIngredient;
 
   @override
   _AddIngredientItemState createState() => _AddIngredientItemState();
 }
 
 class _AddIngredientItemState extends State<AddIngredient> {
-  late ShoppingItem ingredient;
+  late Ingredient ingredient;
 
   @override
   void initState() {
