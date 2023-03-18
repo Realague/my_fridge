@@ -40,8 +40,15 @@ class ItemService {
     return articles;
   }
 
-
   static Query getByCategory(BuildContext context, final Category category) {
     return collectionInstance.where('category', isEqualTo: category.category);
+  }
+
+  static Future<Item?> getByName(String name) async {
+    QuerySnapshot querySnapshot = await collectionInstance.where("name", isEqualTo: name).get();
+    if (querySnapshot.size != 0) {
+      return Item.fromDocument(querySnapshot.docs[0]);
+    }
+    return null;
   }
 }

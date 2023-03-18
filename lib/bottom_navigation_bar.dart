@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/article_management/article_management.dart';
 import 'package:my_fridge/cooking_recipe/add_cooking_recipe.dart';
-import 'package:my_fridge/cooking_recipe/cooking_recipe_details.dart';
 import 'package:my_fridge/cooking_recipe/cooking_recipe_list.dart';
 import 'package:my_fridge/custom_icons_icons.dart';
 import 'package:my_fridge/forms/article_form.dart';
 import 'package:my_fridge/forms/category_form.dart';
-import 'package:my_fridge/meal_schedule/meal_schedule_view.dart';
+import 'package:my_fridge/meal_list/meal_list.dart';
+import 'package:my_fridge/meal_list/search_meal.dart';
 import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
 import 'package:my_fridge/storage/storage.dart';
@@ -30,8 +30,8 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     ShoppingList(),
     Storage(),
     CookingRecipeList(),
+    MealList(),
     ArticleManagement(),
-    MealScheduleView(),
   ];
 
   void _onItemTapped(int index) {
@@ -77,7 +77,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
         onPressed: () => _addCookingRecipe(context),
         child: Icon(Icons.add),
       );
-    } else if (_selectedIndex == 3) {
+    } else if (_selectedIndex == 4) {
       return ExpandableFab(
         distance: 70.0,
         children: [
@@ -112,11 +112,17 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
   }
 
   void _onFocusChange() {
-    if (_searchBarFocus.hasFocus) {
+    if (_searchBarFocus.hasFocus && _selectedIndex != 3) {
       FocusScope.of(context).unfocus();
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => AddShoppingItem()),
+      );
+    } else if (_searchBarFocus.hasFocus) {
+      FocusScope.of(context).unfocus();
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SearchMeal()),
       );
     }
   }
@@ -143,7 +149,7 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 child: TextField(
                   focusNode: _searchBarFocus,
                   decoration:
-                      InputDecoration(hintText: AppLocalizations.of(context)!.shopping_list_search_hint, prefixIcon: Icon(Icons.search)),
+                  InputDecoration(hintText: _selectedIndex == 3 ? AppLocalizations.of(context)!.add_cooking_recipe_to_meal_list : AppLocalizations.of(context)!.shopping_list_search_hint, prefixIcon: Icon(Icons.search)),
                 ),
               ),
             ),
@@ -171,8 +177,8 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
             backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(CustomIcons.recipe_book),
-            label: 'Coming soon',
+            icon: const Icon(Icons.local_restaurant_outlined),
+            label: AppLocalizations.of(context)!.menu_meals,
             backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(

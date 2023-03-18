@@ -8,7 +8,6 @@ import 'package:my_fridge/model/Ingredient.dart';
 import 'package:my_fridge/model/cooking_recipe.dart';
 import 'package:my_fridge/model/meal_type.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/model/user.dart';
 import 'package:my_fridge/services/cooking_recipe_service.dart';
 import 'package:my_fridge/services/user_service.dart';
@@ -251,7 +250,7 @@ class _CookingRecipeDetailsState extends State<CookingRecipeDetails> {
                       decoration: InputDecoration(contentPadding: const EdgeInsets.symmetric(horizontal: 12), suffixText: "minutes"),
                       initialValue: cookingRecipe.preparationTime.toString(),
                       onChanged: (preparationTime) {
-                          cookingRecipe.preparationTime = int.tryParse(preparationTime) ?? 0;
+                        cookingRecipe.preparationTime = int.tryParse(preparationTime) ?? 0;
                       },
                     ),
                   ),
@@ -272,7 +271,7 @@ class _CookingRecipeDetailsState extends State<CookingRecipeDetails> {
                       decoration: InputDecoration(contentPadding: const EdgeInsets.symmetric(horizontal: 12), suffixText: "minutes"),
                       initialValue: cookingRecipe.cookingTime.toString(),
                       onChanged: (cookingTime) {
-                          cookingRecipe.cookingTime = int.tryParse(cookingTime) ?? 0;
+                        cookingRecipe.cookingTime = int.tryParse(cookingTime) ?? 0;
                       },
                     ),
                   ),
@@ -293,7 +292,7 @@ class _CookingRecipeDetailsState extends State<CookingRecipeDetails> {
                       decoration: InputDecoration(contentPadding: const EdgeInsets.symmetric(horizontal: 12), suffixText: "minutes"),
                       initialValue: cookingRecipe.restTime.toString(),
                       onChanged: (restTime) {
-                          cookingRecipe.restTime = int.tryParse(restTime) ?? 0;
+                        cookingRecipe.restTime = int.tryParse(restTime) ?? 0;
                       },
                     ),
                   ),
@@ -308,97 +307,103 @@ class _CookingRecipeDetailsState extends State<CookingRecipeDetails> {
   }
 
   Widget _buildIngredientList(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: cookingRecipe.ingredients.map<Widget>((ingredient) {
-        return Dismissible(
-          key: Key(ingredient.name),
-          direction: DismissDirection.endToStart,
-          background: Container(
-            color: Colors.red,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.storage_item_delete,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w800,
+    return Container(
+      color: Colors.white,
+      child: ListView(
+        shrinkWrap: true,
+        children: cookingRecipe.ingredients.map<Widget>((ingredient) {
+          return Dismissible(
+            key: Key(ingredient.name),
+            direction: DismissDirection.endToStart,
+            background: Container(
+              color: Colors.red,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.storage_item_delete,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-              ],
+                  SizedBox(
+                    width: 20,
+                  ),
+                ],
+              ),
             ),
-          ),
-          onDismissed: (direction) {
-            cookingRecipe.ingredients.remove(ingredient);
-          },
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddIngredient(ingredient: ingredient, addIngredient: _editIngredient)),
-              );
+            onDismissed: (direction) {
+              cookingRecipe.ingredients.remove(ingredient);
             },
-            child: ListTile(
-              title: Text(ingredient.name),
-              subtitle: Text(ingredient.quantity != 0 && ingredient.packingType != PackingType.NONE
-                  ? '${ingredient.quantity} ${ingredient.packingType.displayTextForListTile(context)}'
-                  : ""),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddIngredient(ingredient: ingredient, addIngredient: _editIngredient)),
+                );
+              },
+              child: ListTile(
+                title: Text(ingredient.name),
+                subtitle: Text(ingredient.quantity != 0 && ingredient.packingType != PackingType.NONE
+                    ? '${ingredient.quantity} ${ingredient.packingType.displayTextForListTile(context)}'
+                    : ""),
+              ),
             ),
-          ),
-        );
-      }).toList(),
+          );
+        }).toList(),
+      ),
     );
   }
 
   Widget _buildSteps(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: cookingRecipe.steps.map<Widget>((step) {
-        return Dismissible(
-          key: Key(step),
-          direction: DismissDirection.endToStart,
-          background: Container(
-            color: Colors.red,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.storage_item_delete,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w800,
+    return Container(
+      color: Colors.white,
+      child: ListView(
+        shrinkWrap: true,
+        children: cookingRecipe.steps.map<Widget>((step) {
+          return Dismissible(
+            key: Key(step),
+            direction: DismissDirection.endToStart,
+            background: Container(
+              color: Colors.red,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.storage_item_delete,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-              ],
+                  SizedBox(
+                    width: 20,
+                  ),
+                ],
+              ),
             ),
-          ),
-          onDismissed: (direction) {
-            cookingRecipe.steps.remove(step);
-          },
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => AddStep(step: step, addStep: _editStep, stepCount: cookingRecipe.steps.indexOf(step))),
-              );
+            onDismissed: (direction) {
+              cookingRecipe.steps.remove(step);
             },
-            child: ListTile(
-              title: Text(AppLocalizations.of(context)!.cooking_recipe_step(cookingRecipe.steps.indexOf(step))),
-              subtitle: Text(step, maxLines: 4),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddStep(step: step, addStep: _editStep, stepCount: cookingRecipe.steps.indexOf(step))),
+                );
+              },
+              child: ListTile(
+                title: Text(AppLocalizations.of(context)!.cooking_recipe_step(cookingRecipe.steps.indexOf(step))),
+                subtitle: Text(step, maxLines: 4),
+              ),
             ),
-          ),
-        );
-      }).toList(),
+          );
+        }).toList(),
+      ),
     );
   }
 

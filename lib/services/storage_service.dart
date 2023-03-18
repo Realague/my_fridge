@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:my_fridge/model/Ingredient.dart';
+import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/model/storage.dart';
 import 'package:my_fridge/model/storage_item.dart';
@@ -86,6 +88,33 @@ class StorageService {
     });
 
     return items;
+  }
+
+  static Future<StorageItem?> getItemByIngredient(BuildContext context, Ingredient ingredient) {
+    return getCollectionInstance(context)
+        .where('name', isEqualTo: ingredient.name)
+        .where('unit', isEqualTo: ingredient.unit)
+        .get()
+        .then((querySnapshot) {
+      if (querySnapshot.docs.length != 1) {
+        return null;
+      }
+      return StorageItem.fromDocument(querySnapshot.docs[0]);
+    });
+  }
+
+  static Future<List<Ingredient>> getMissingIngredients(BuildContext context, List<Ingredient> ingredients) async {
+    for (int i = 0; i != ingredients.length; i++) {
+      StorageItem? storageItem = await getItemByIngredient(context, ingredients[i]);
+      if (storageItem != null && storageItem.quantity < ingredients[i].quantity) {
+        ingredients[i].quantity -= storageItem.quantity;
+      } else if (storageItem != null) {
+        ingredients.removeAt(i);
+        i--;
+      }
+    }
+
+    return ingredients;
   }
 
   static Query getItemsByName(BuildContext context, String name) {

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:my_fridge/model/Ingredient.dart';
 import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
 import 'package:my_fridge/model/storage.dart';
@@ -63,6 +64,10 @@ class ShoppingItem {
         storage: item.storage,
         createdAt: DateTime.now(),
         createdBy: UserService.currentUserId(context));
+  }
+
+  static ShoppingItem fromIngredient(Ingredient ingredient, int quantity, Item item, BuildContext context) {
+    return ShoppingItem(name: ingredient.name, unit: ingredient.unit, quantity: quantity, perishable: item.perishable,category: item.category , createdAt: ingredient.createdAt, createdBy: 'automatic', storage: item.defaultStoragePlace.index);
   }
 
   static ShoppingItem fromMap(Map<String, dynamic> map) {
