@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/storage.dart';
 import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/utils/utils.dart';
 

@@ -1,15 +1,8 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:my_fridge/cooking_recipe/add_ingredient.dart';
-import 'package:my_fridge/cooking_recipe/add_step.dart';
-import 'package:my_fridge/cooking_recipe/search_ingredient.dart';
 import 'package:my_fridge/model/cooking_recipe.dart';
-import 'package:my_fridge/model/meal_type.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/model/user.dart';
-import 'package:my_fridge/services/cooking_recipe_service.dart';
 import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/widget/loader.dart';
 import 'package:my_fridge/my_fridge_icons.dart';

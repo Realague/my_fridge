@@ -8,11 +8,7 @@ import 'package:my_fridge/model/Ingredient.dart';
 import 'package:my_fridge/model/cooking_recipe.dart';
 import 'package:my_fridge/model/meal_type.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/shopping_item.dart';
-import 'package:my_fridge/model/user.dart';
 import 'package:my_fridge/services/cooking_recipe_service.dart';
-import 'package:my_fridge/services/user_service.dart';
-import 'package:my_fridge/widget/loader.dart';
 import 'package:my_fridge/my_fridge_icons.dart';
 
 class AddCookingRecipe extends StatefulWidget {

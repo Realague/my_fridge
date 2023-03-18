@@ -1,6 +1,4 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:my_fridge/model/packing_type.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddStep extends StatefulWidget {
