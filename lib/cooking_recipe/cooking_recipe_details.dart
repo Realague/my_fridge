@@ -92,7 +92,7 @@ class _CookingRecipeDetailsState extends State<CookingRecipeDetails> {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.cooking_recipe_add_title),
+        title: Text(cookingRecipe.name),
         leading: BackButton(onPressed: () {
           Navigator.of(context).pop();
         }),
@@ -107,21 +107,6 @@ class _CookingRecipeDetailsState extends State<CookingRecipeDetails> {
             MyFridgeUser? user = snapshot.data;
             return SingleChildScrollView(
               child: Column(children: [
-                Container(
-                  padding: EdgeInsets.all(16),
-                  margin: EdgeInsets.symmetric(vertical: 4),
-                  color: Colors.white,
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                      labelText: AppLocalizations.of(context)!.form_article_name_label,
-                    ),
-                    initialValue: cookingRecipe.name,
-                    onChanged: (String? value) {
-                      cookingRecipe.name = value!;
-                    },
-                  ),
-                ),
                 Container(
                   padding: EdgeInsets.all(16),
                   margin: EdgeInsets.symmetric(vertical: 4),

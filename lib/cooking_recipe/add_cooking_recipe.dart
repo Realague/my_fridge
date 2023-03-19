@@ -84,13 +84,28 @@ class _AddCookingRecipeState extends State<AddCookingRecipe> {
     return Scaffold(
         backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
-          title: Text(cookingRecipe.name),
+          title: Text(AppLocalizations.of(context)!.cooking_recipe_add_title),
           leading: BackButton(onPressed: () {
             Navigator.of(context).pop();
           }),
         ),
         body: SingleChildScrollView(
           child: Column(children: [
+            Container(
+              padding: EdgeInsets.all(16),
+              margin: EdgeInsets.symmetric(vertical: 4),
+              color: Colors.white,
+              child: TextFormField(
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                  labelText: AppLocalizations.of(context)!.form_article_name_label,
+                ),
+                initialValue: cookingRecipe.name,
+                onChanged: (String? value) {
+                  cookingRecipe.name = value!;
+                },
+              ),
+            ),
             Container(
               padding: EdgeInsets.all(16),
               margin: EdgeInsets.symmetric(vertical: 4),

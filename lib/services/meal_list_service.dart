@@ -21,8 +21,8 @@ class MealListService {
     DatabaseService.update(cookingRecipe.id!, cookingRecipe.asMap(context), getCollectionInstance(context));
   }
 
-  static delete(String userId, BuildContext context) {
-    DatabaseService.delete(userId, getCollectionInstance(context));
+  static delete(String mealId, BuildContext context) {
+    DatabaseService.delete(mealId, getCollectionInstance(context));
   }
 
   static Future<List<CookingRecipe>> get(String? searchFilter, BuildContext context) async {
@@ -46,7 +46,7 @@ class MealListService {
   static Future<List<CookingRecipe>> getByMealType(MealType mealType, BuildContext context) async {
     List<CookingRecipe> meals = [];
 
-    QuerySnapshot querySnapshot = await getCollectionInstance(context).where('meal_type', isEqualTo: mealType.index).get();
+    QuerySnapshot querySnapshot = await getCollectionInstance(context).where('mealType', isEqualTo: mealType.index).get();
     querySnapshot.docs.forEach((document) => meals.add(CookingRecipe.fromDocument(document)));
     return meals;
   }

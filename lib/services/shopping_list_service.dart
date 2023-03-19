@@ -30,7 +30,7 @@ class ShoppingListService {
   }
 
   static Future<ShoppingItem?> getByName(String name, BuildContext context) async {
-    QuerySnapshot querySnapshot = await getCollectionInstance(context).where("name", isEqualTo: name).get();
+    QuerySnapshot querySnapshot = await getCollectionInstance(context).where("name", isEqualTo: name).where("isBought", isEqualTo: false).get();
     if (querySnapshot.size != 0) {
       return ShoppingItem.fromDocument(querySnapshot.docs[0]);
     }
@@ -38,7 +38,7 @@ class ShoppingListService {
   }
 
   static Future<ShoppingItem?> getAutomaticShoppingItemByNameAndUnit(String name, int unit, BuildContext context) async {
-    QuerySnapshot querySnapshot = await getCollectionInstance(context).where("name", isEqualTo: name).where("unit", isEqualTo: unit).where("created_by", isEqualTo: "automatic").get();
+    QuerySnapshot querySnapshot = await getCollectionInstance(context).where("name", isEqualTo: name).where("unit", isEqualTo: unit).where("createdBy", isEqualTo: "automatic").where("isBought", isEqualTo: false).get();
     if (querySnapshot.size != 0) {
       return ShoppingItem.fromDocument(querySnapshot.docs[0]);
     }
@@ -54,11 +54,11 @@ class ShoppingListService {
   }
 
   static Query getByCategory(BuildContext context, Category category) {
-    return getCollectionInstance(context).where('category', isEqualTo: category.category).where('is_bought', isEqualTo: false);
+    return getCollectionInstance(context).where('category', isEqualTo: category.category).where('isBought', isEqualTo: false);
   }
 
   static Query getBoughtItems(BuildContext context) {
-    return getCollectionInstance(context).where('is_bought', isEqualTo: true);
+    return getCollectionInstance(context).where('isBought', isEqualTo: true);
   }
 
   static updateShoppingListForIngredient(BuildContext context, Ingredient ingredient) async {

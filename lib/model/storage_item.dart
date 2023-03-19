@@ -9,16 +9,17 @@ import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/utils/utils.dart';
 
 class StorageItem {
-  StorageItem({this.id,
-    required this.name,
-    required this.unit,
-    this.quantity = 0,
-    required this.perishable,
-    required this.boughtAt,
-    required this.boughtBy,
-    required this.storage,
-    this.note = "",
-    this.expiryDate});
+  StorageItem(
+      {this.id,
+      required this.name,
+      required this.unit,
+      this.quantity = 0,
+      required this.perishable,
+      required this.boughtAt,
+      required this.boughtBy,
+      required this.storage,
+      this.note = "",
+      this.expiryDate});
 
   String? id;
 
@@ -52,11 +53,7 @@ class StorageItem {
 
   Storage get storagePlace => Storage.values[storage];
 
-  int get daysSinceBought =>
-      DateTime
-          .now()
-          .difference(boughtAt)
-          .inDays;
+  int get daysSinceBought => DateTime.now().difference(boughtAt).inDays;
 
   String getBoughtAtDisplayForListTile(BuildContext context) {
     String dateDisplay = "";
@@ -69,12 +66,14 @@ class StorageItem {
   }
 
   static StorageItem fromShoppingItem(ShoppingItem shoppingItem, BuildContext context) {
-    return StorageItem(name: shoppingItem.name,
+    return StorageItem(
+        name: shoppingItem.name,
         unit: shoppingItem.unit,
         perishable: shoppingItem.perishable,
         boughtAt: DateTime.now(),
         boughtBy: UserService.currentUserId(context),
-        storage: shoppingItem.storage);
+        storage: shoppingItem.storage,
+        quantity: shoppingItem.quantity);
   }
 
   static StorageItem fromDocument(DocumentSnapshot document) {

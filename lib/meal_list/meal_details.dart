@@ -3,6 +3,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/cooking_recipe.dart';
 import 'package:my_fridge/model/packing_type.dart';
 import 'package:my_fridge/model/user.dart';
+import 'package:my_fridge/services/meal_list_service.dart';
+import 'package:my_fridge/services/storage_service.dart';
 import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/widget/loader.dart';
 import 'package:my_fridge/my_fridge_icons.dart';
@@ -69,6 +71,23 @@ class _MealDetailsState extends State<MealDetails> {
                 _buildSteps(context),
                 SizedBox(height: 10),
                 _buildLifeCycle(context, user),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    MealListService.delete(meal.id!, context);
+                    StorageService.useIngredientsOfMeal(context, meal);
+                    Navigator.pop(context);
+                  },
+                  child: Text(AppLocalizations.of(context)!.cook_meal),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                    ),
+                  ),
+                ),
               ]),
             );
           }),

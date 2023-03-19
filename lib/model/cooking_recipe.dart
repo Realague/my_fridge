@@ -52,15 +52,15 @@ class CookingRecipe {
         id: document.id,
         name: data['name'],
         steps: List<String>.from(data['steps']),
-        mealType: data['meal_type'],
+        mealType: data['mealType'],
         ingredients: List<Ingredient>.from(
                 data['ingredients'].map((e) => Ingredient.fromMap(e)))
             .toList(),
-        cookingTime: data['cooking_time'],
-        preparationTime: data['preparation_time'],
-        restTime: data['rest_time'],
-        createdBy: data['created_by'],
-        createdAt: Utils.timestampToDateTime(data['created_at']));
+        cookingTime: data['cookingTime'],
+        preparationTime: data['preparationTime'],
+        restTime: data['restTime'],
+        createdBy: data['createdBy'],
+        createdAt: Utils.timestampToDateTime(data['createdAt']));
   }
 
   Map<String, Object> asMap(BuildContext context) {
@@ -69,12 +69,12 @@ class CookingRecipe {
       'name': this.name,
       'steps': this.steps,
       'ingredients': this.ingredients.map((e) => e.asMap).toList(),
-      'meal_type': this.mealType,
-      'preparation_time': this.preparationTime,
-      'cooking_time': this.cookingTime,
-      'rest_time': this.restTime,
-      'created_by': user.id!,
-      'created_at': DateTime.now()
+      'mealType': this.mealType,
+      'preparationTime': this.preparationTime,
+      'cookingTime': this.cookingTime,
+      'restTime': this.restTime,
+      'createdBy': user.id!,
+      'createdAt': DateTime.now()
     };
   }
 }

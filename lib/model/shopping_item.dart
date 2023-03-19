@@ -78,9 +78,9 @@ class ShoppingItem {
         perishable: map['perishable'],
         category: map['category'],
         note: map['note'],
-        createdAt: Utils.timestampToDateTime(map['created_at'])!,
+        createdAt: Utils.timestampToDateTime(map['createdAt'])!,
         createdBy: map['created_by'],
-        isBought: map['is_bought'],
+        isBought: map['isBought'],
         storage: map['storage']);
   }
 
@@ -95,9 +95,9 @@ class ShoppingItem {
         perishable: data["perishable"],
         note: data['note'],
         category: data['category'],
-        createdAt: Utils.timestampToDateTime(data['created_at'])!,
-        createdBy: data['created_by'],
-        isBought: data['is_bought'],
+        createdAt: Utils.timestampToDateTime(data['createdAt'])!,
+        createdBy: data['createdBy'],
+        isBought: data['isBought'],
         storage: data['storage']);
   }
 
@@ -109,10 +109,10 @@ class ShoppingItem {
       "perishable": this.perishable,
       "category": this.category,
       "note": this.note,
-      "created_by": this.createdBy,
-      "created_at": this.createdAt,
+      "createdBy": this.createdBy,
+      "createdAt": this.createdAt,
       "storage": this.storage,
-      "is_bought": this.isBought,
+      "isBought": this.isBought,
     };
   }
 }
