@@ -54,8 +54,8 @@ class Item {
       'perishable': this.perishable,
       'storage': this.storage,
       'category': this.category,
-      "created_by": this.createdBy!,
-      "created_at": this.createdAt!
+      "createdBy": this.createdBy!,
+      "createdAt": this.createdAt!
     };
   }
 }

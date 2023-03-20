@@ -17,6 +17,7 @@
   "menu_shopping_list": "Shopping list",
   "menu_storage": "Storage",
   "menu_recipes": "Recipes",
+  "menu_meals": "Meals",
   "button_add_article_to_shopping_list": "Add to shopping list",
   "button_add_article": "Add article",
   "form_expiry_date_label": "Expiration date",
@@ -182,5 +183,17 @@
   "cooking_recipe_add_ingredient": "Add an ingredient",
   "cooking_recipe_add_the_ingredient": "Add the ingredient",
   "cooking_recipe_add_step": "Add a step",
-  "cooking_recipe_add_the_step": "Add the step"
+  "cooking_recipe_add_the_step": "Add the step",
+
+  "add_cooking_recipe_to_meal_list": "What will you eat?",
+  "meal_added_snack_bar_message": "{itemName} has been added to your meal list.",
+  "@meal_added_snack_bar_message": {
+    "placeholders": {
+      "itemName": {
+        "type": "String",
+        "example": "test"
+      }
+    }
+  },
+  "cook_meal": "Cook"
 }

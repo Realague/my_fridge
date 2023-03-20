@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:my_fridge/cooking_recipe/cooking_recipe_expansion_list.dart';
 import 'package:my_fridge/model/cooking_recipe.dart';
 import 'package:my_fridge/model/expansion_data.dart';
 import 'package:my_fridge/model/meal_type.dart';
-import 'package:my_fridge/services/cooking_recipe_service.dart';
+import 'package:my_fridge/services/meal_list_service.dart';
 import 'package:my_fridge/widget/loader.dart';
+import 'meal_expansion_list.dart';
 
-class CookingRecipeList extends StatefulWidget {
-  const CookingRecipeList() : super();
+class MealList extends StatefulWidget {
+  const MealList() : super();
 
   @override
-  State<StatefulWidget> createState() => _CookingRecipeListState();
+  State<StatefulWidget> createState() => _MealListState();
 }
 
-class _CookingRecipeListState extends State<CookingRecipeList> {
+class _MealListState extends State<MealList> {
 
   List<ExpansionData> listData = [];
 
@@ -27,7 +27,7 @@ class _CookingRecipeListState extends State<CookingRecipeList> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: ExpansionPanelList(
-        children: listData.map<ExpansionPanel>((expansionData) => _buildCookingRecipeListItem(context, expansionData)).toList(),
+        children: listData.map<ExpansionPanel>((expansionData) => _buildMealListItem(context, expansionData)).toList(),
         expansionCallback: (index, isExpanded) {
           setState(
                 () {
@@ -39,7 +39,7 @@ class _CookingRecipeListState extends State<CookingRecipeList> {
     );
   }
 
-  ExpansionPanel _buildCookingRecipeListItem(BuildContext context, ExpansionData expansionData) {
+  ExpansionPanel _buildMealListItem(BuildContext context, ExpansionData expansionData) {
     return ExpansionPanel(
       canTapOnHeader: true,
       isExpanded: expansionData.isExpanded,
@@ -49,12 +49,12 @@ class _CookingRecipeListState extends State<CookingRecipeList> {
         );
       },
       body: FutureBuilder<List<CookingRecipe>>(
-          future: CookingRecipeService.getByMealType(expansionData.data),
+          future: MealListService.getByMealType(expansionData.data, context),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Loader();
             }
-            return CookingRecipeExpansionList(cookingRecipeList: snapshot.data!);
+            return MealExpansionList(mealList: snapshot.data!);
           }),
     );
   }

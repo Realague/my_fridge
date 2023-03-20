@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:my_fridge/cooking_recipe/cooking_recipe_details.dart';
+import 'package:my_fridge/meal_list/meal_details.dart';
 import 'package:my_fridge/model/cooking_recipe.dart';
-import 'package:my_fridge/services/cooking_recipe_service.dart';
+import 'package:my_fridge/services/meal_list_service.dart';
 
-class CookingRecipeListTile extends StatelessWidget {
-  CookingRecipeListTile({required this.cookingRecipe}) : super();
+class MealListTile extends StatelessWidget {
+  MealListTile({required this.meal}) : super();
 
-  final CookingRecipe cookingRecipe;
+  final CookingRecipe meal;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class CookingRecipeListTile extends StatelessWidget {
         ),
       ),
       child: _buildListTile(context),
-      onDismissed: (direction) => CookingRecipeService.delete(cookingRecipe.id!, context),
+      onDismissed: (direction) => MealListService.delete(meal.id!, context),
     );
   }
 
@@ -44,16 +44,15 @@ class CookingRecipeListTile extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CookingRecipeDetails(cookingRecipe: cookingRecipe),
-                  settings: RouteSettings(name: "CookingRecipeDetails")),
+              MaterialPageRoute(builder: (context) => MealDetails(meal: meal)),
             );
           },
           child: Row(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.chevron_right)])),
-      title: Text(cookingRecipe.name),
+      title: Text(meal.name),
       subtitle: Row(
         children: [
           Text(
-            cookingRecipe.restTime.toString(),
+            meal.restTime.toString(),
           ),
         ],
       ),

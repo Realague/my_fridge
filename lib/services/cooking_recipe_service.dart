@@ -40,7 +40,7 @@ class CookingRecipeService {
   static Future<List<CookingRecipe>> getByMealType(MealType mealType) async {
     List<CookingRecipe> cookingRecipes = [];
 
-    QuerySnapshot querySnapshot = await collectionInstance.where('meal_type', isEqualTo: mealType.index).get();
+    QuerySnapshot querySnapshot = await collectionInstance.where('mealType', isEqualTo: mealType.index).get();
     querySnapshot.docs.forEach((document) =>
         cookingRecipes.add(CookingRecipe.fromDocument(document)));
     return cookingRecipes;

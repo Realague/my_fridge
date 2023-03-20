@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:my_fridge/model/Ingredient.dart';
+import 'package:my_fridge/model/cooking_recipe.dart';
 import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/model/storage.dart';
 import 'package:my_fridge/model/storage_item.dart';
@@ -88,7 +90,73 @@ class StorageService {
     return items;
   }
 
+  static Future<int> getItemQuantityByIngredient(BuildContext context, Ingredient ingredient) {
+    int quantity = 0;
+
+    return getCollectionInstance(context)
+        .where('name', isEqualTo: ingredient.name)
+        .where('unit', isEqualTo: ingredient.unit)
+        .get()
+        .then((querySnapshot) {
+
+      for (var document in querySnapshot.docs) {
+        quantity += StorageItem.fromDocument(document).quantity;
+      }
+      return quantity;
+    });
+  }
+
+  static Future<List<Ingredient>> getMissingIngredients(BuildContext context, List<Ingredient> ingredients) async {
+    for (int i = 0; i != ingredients.length; i++) {
+      int quantity = await getItemQuantityByIngredient(context, ingredients[i]);
+      if (quantity < ingredients[i].quantity) {
+        ingredients[i].quantity -= quantity;
+      } else if (quantity != 0) {
+        ingredients.removeAt(i);
+        i--;
+      }
+    }
+
+    return ingredients;
+  }
+
   static Query getItemsByName(BuildContext context, String name) {
     return getCollectionInstance(context).where('name', isEqualTo: name);
+  }
+
+  static useIngredientsOfMeal(BuildContext context, CookingRecipe meal) async {
+    for (Ingredient ingredient in meal.ingredients) {
+      await useIngredient(context, ingredient);
+    }
+  }
+
+  static useIngredient(BuildContext context, Ingredient ingredient) async {
+    List<StorageItem> items = [];
+
+    await getCollectionInstance(context)
+        .where('name', isEqualTo: ingredient.name)
+        .where('unit', isEqualTo: ingredient.unit)
+        .orderBy('expiryDate', descending: false)
+        .get()
+        .then((querySnapshot) {
+
+      for (var document in querySnapshot.docs) {
+        items.add(StorageItem.fromDocument(document));
+      }
+    });
+
+    while (ingredient.quantity > 0) {
+      if (ingredient.quantity < items[0].quantity) {
+        items[0].quantity -= ingredient.quantity;
+        update(items[0], context);
+        ingredient.quantity = 0;
+      }
+      else {
+        ingredient.quantity -= items[0].quantity;
+        delete(items[0].id!, context);
+        items.removeAt(0);
+      }
+    }
+
   }
 }

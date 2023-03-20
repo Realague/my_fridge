@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:my_fridge/model/Ingredient.dart';
 import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
 import 'package:my_fridge/model/storage.dart';
@@ -65,6 +66,10 @@ class ShoppingItem {
         createdBy: UserService.currentUserId(context));
   }
 
+  static ShoppingItem fromIngredient(Ingredient ingredient, int quantity, Item item, BuildContext context) {
+    return ShoppingItem(name: ingredient.name, unit: ingredient.unit, quantity: quantity, perishable: item.perishable,category: item.category , createdAt: ingredient.createdAt, createdBy: 'automatic', storage: item.defaultStoragePlace.index);
+  }
+
   static ShoppingItem fromMap(Map<String, dynamic> map) {
     return ShoppingItem(
         name: map['name'],
@@ -73,9 +78,9 @@ class ShoppingItem {
         perishable: map['perishable'],
         category: map['category'],
         note: map['note'],
-        createdAt: Utils.timestampToDateTime(map['created_at'])!,
+        createdAt: Utils.timestampToDateTime(map['createdAt'])!,
         createdBy: map['created_by'],
-        isBought: map['is_bought'],
+        isBought: map['isBought'],
         storage: map['storage']);
   }
 
@@ -90,9 +95,9 @@ class ShoppingItem {
         perishable: data["perishable"],
         note: data['note'],
         category: data['category'],
-        createdAt: Utils.timestampToDateTime(data['created_at'])!,
-        createdBy: data['created_by'],
-        isBought: data['is_bought'],
+        createdAt: Utils.timestampToDateTime(data['createdAt'])!,
+        createdBy: data['createdBy'],
+        isBought: data['isBought'],
         storage: data['storage']);
   }
 
@@ -104,10 +109,10 @@ class ShoppingItem {
       "perishable": this.perishable,
       "category": this.category,
       "note": this.note,
-      "created_by": this.createdBy,
-      "created_at": this.createdAt,
+      "createdBy": this.createdBy,
+      "createdAt": this.createdAt,
       "storage": this.storage,
-      "is_bought": this.isBought,
+      "isBought": this.isBought,
     };
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/packing_type.dart';
-import 'package:my_fridge/model/storage.dart';
 import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/utils/utils.dart';
 
@@ -50,8 +49,8 @@ class Ingredient {
         name: map['name'],
         unit: map['unit'],
         quantity: map['quantity'],
-        createdAt: Utils.timestampToDateTime(map['created_at'])!,
-        createdBy: map['created_by']);
+        createdAt: Utils.timestampToDateTime(map['createdAt'])!,
+        createdBy: map['createdBy']);
   }
 
   static Ingredient fromDocument(DocumentSnapshot document) {
@@ -62,8 +61,8 @@ class Ingredient {
         name: data['name'],
         unit: data['unit'],
         quantity: data['quantity'],
-        createdAt: Utils.timestampToDateTime(data['created_at'])!,
-        createdBy: data['created_by'],);
+        createdAt: Utils.timestampToDateTime(data['createdAt'])!,
+        createdBy: data['createdBy'],);
   }
 
   Map<String, Object?> get asMap {
@@ -71,8 +70,8 @@ class Ingredient {
       "name": this.name,
       "unit": this.unit,
       "quantity": this.quantity,
-      "created_by": this.createdBy,
-      "created_at": this.createdAt,
+      "createdBy": this.createdBy,
+      "createdAt": this.createdAt,
     };
   }
 }

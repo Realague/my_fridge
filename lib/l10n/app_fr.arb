@@ -16,6 +16,7 @@
   "menu_shopping_list": "Liste de course",
   "menu_storage": "Stockage",
   "menu_recipes": "Recettes",
+  "menu_meals": "Repas",
   "button_add_article_to_shopping_list": "Ajouter à la liste de course",
   "form_quantity_label": "Quantité",
   "form_packing_type_label": "Unité",
@@ -171,5 +172,17 @@
   "meal_type_drink": "Boisson",
   "meal_type_starter": "Entrée",
   "meal_type_appetizer": "Apéritif",
-  "meal_type_other": "Autre"
+  "meal_type_other": "Autre",
+
+  "add_cooking_recipe_to_meal_list": "Qu'allez-vous mangé?",
+  "meal_added_snack_bar_message": "{itemName} à été ajouté à votre liste de repas.",
+  "@meal_added_snack_bar_message": {
+    "placeholders": {
+      "itemName": {
+        "type": "String",
+        "example": "test"
+      }
+    }
+  },
+  "cook_meal": "Cuisiné"
 }
