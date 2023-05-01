@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/cooking_recipe/add_ingredient.dart';
 import 'package:my_fridge/cooking_recipe/add_step.dart';
 import 'package:my_fridge/cooking_recipe/search_ingredient.dart';
-import 'package:my_fridge/model/Ingredient.dart';
+import 'package:my_fridge/model/ingredient.dart';
 import 'package:my_fridge/model/cooking_recipe.dart';
 import 'package:my_fridge/model/meal_type.dart';
 import 'package:my_fridge/model/packing_type.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_fridge/cooking_recipe/add_ingredient.dart';
-import 'package:my_fridge/model/Ingredient.dart';
+import 'package:my_fridge/cooking_recipe/cooking_recipe_add_item.dart';
+import 'package:my_fridge/model/ingredient.dart';
 import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/services/item_service.dart';
@@ -23,8 +24,18 @@ class _SearchIngredientItemState extends State<SearchIngredient> {
 
   Future<List<dynamic>> getSearchResult(String filter) async {
     List<Item> items = await ItemService.get(filter);
+    bool hasFilterItem = false;
+    for (Item item in items) {
+      if (item.name == filter) {
+        hasFilterItem = true;
+        break;
+      }
+    }
 
     List<dynamic> results = [];
+    if (!hasFilterItem && filter != "" && filter != " ") {
+      results.add(filter);
+    }
     for (Item item in items) {
       bool alreadyInIngredients = false;
       for (Ingredient ingredient in widget.ingredients) {
@@ -100,7 +111,7 @@ class _SearchIngredientItemState extends State<SearchIngredient> {
     } else if (item is String) {
       return InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ShoppingItemAddItem(itemName: item)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => CookingRecipeAddItem(itemName: item, addIngredient: widget.addIngredient)));
         },
         child: ListTile(title: Text(item), trailing: Icon(Icons.add_circle_outline), iconColor: Theme.of(context).primaryColor),
       );

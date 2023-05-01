@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:my_fridge/model/Ingredient.dart';
+import 'package:my_fridge/model/ingredient.dart';
 import 'package:my_fridge/model/meal_type.dart';
 import 'package:my_fridge/model/user.dart';
 import 'package:my_fridge/services/user_service.dart';
