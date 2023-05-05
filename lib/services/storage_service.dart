@@ -96,6 +96,7 @@ class StorageService {
     return getCollectionInstance(context)
         .where('name', isEqualTo: ingredient.name)
         .where('unit', isEqualTo: ingredient.unit)
+        .where('isBought', isEqualTo: false)
         .get()
         .then((querySnapshot) {
 
