@@ -47,6 +47,7 @@ class Menu extends StatelessWidget {
                   children: [
                     Text(user.username, style: TextStyle(fontSize: 25, color: Colors.white)),
                     Text(user.email, style: TextStyle(fontSize: 16, color: Colors.white)),
+                    Text("v1.0.2", style: TextStyle(fontSize: 11, color: Colors.white)),
                   ],
                 ),
                 IconButton(
