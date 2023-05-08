@@ -28,6 +28,8 @@ class _ShoppingItemDetailsState extends State<ShoppingItemDetails> {
 
   TextEditingController expiryDateInput = TextEditingController();
 
+  TextEditingController createdByController = TextEditingController();
+
   late ShoppingItem item;
 
   late Category _category;
@@ -43,6 +45,7 @@ class _ShoppingItemDetailsState extends State<ShoppingItemDetails> {
   @override
   void dispose() {
     expiryDateInput.dispose();
+    createdByController.dispose();
     super.dispose();
   }
 
@@ -57,145 +60,151 @@ class _ShoppingItemDetailsState extends State<ShoppingItemDetails> {
           Navigator.of(context).pop();
         }),
       ),
-      body: FutureBuilder(
-          future: UserService.getUserById(context, item.createdBy),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Loader();
-            }
-
-            MyFridgeUser user = snapshot.data!;
-            return SingleChildScrollView(
-              child: Column(children: [
-                Container(
+      body: SingleChildScrollView(
+        child: Column(children: [
+          Container(
+            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.symmetric(vertical: 4),
+            color: Colors.white,
+            child: DropdownSearch<Storage>(
+                compareFn: (Storage storage, Storage storage2) {
+                  return storage.index == storage2.index;
+                },
+                popupProps: PopupProps.modalBottomSheet(
+                  showSelectedItems: true,
+                  title: ListTile(title: Text(AppLocalizations.of(context)!.shopping_item_storage)),
+                ),
+                dropdownDecoratorProps: DropDownDecoratorProps(
+                  dropdownSearchDecoration: InputDecoration(labelText: AppLocalizations.of(context)!.shopping_item_storage),
+                ),
+                items: HouseholdService
+                    .getSelectedHousehold(context)
+                    .availableStoragesType
+                    .toStorageList,
+                itemAsString: (Storage storage) => storage.displayTitle(context),
+                selectedItem: item.defaultStoragePlace,
+                onChanged: (Storage? storage) {
+                  setState(() {
+                    item.storage = storage!.index;
+                  });
+                }),
+          ),
+          Container(
+            padding: EdgeInsets.all(16),
+            margin: EdgeInsets.symmetric(vertical: 4),
+            color: Colors.white,
+            child: TextFormField(
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                labelText: AppLocalizations.of(context)!.storage_item_details_note,
+              ),
+              initialValue: item.note,
+              onChanged: (note) {
+                setState(() {
+                  item.note = note;
+                });
+              },
+            ),
+          ),
+          _buildQuantity(context),
+          FutureBuilder(
+              future: CategoryService.get(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Loader();
+                }
+                return Container(
                   padding: EdgeInsets.all(16),
                   margin: EdgeInsets.symmetric(vertical: 4),
                   color: Colors.white,
-                  child: DropdownSearch<Storage>(
-                      compareFn: (Storage storage, Storage storage2) {
-                        return storage.index == storage2.index;
+                  child: DropdownSearch<Category>(
+                      compareFn: (Category category, Category category2) {
+                        return category.category == category2.category;
                       },
                       popupProps: PopupProps.modalBottomSheet(
                         showSelectedItems: true,
-                        title: ListTile(title: Text(AppLocalizations.of(context)!.shopping_item_storage)),
+                        title: ListTile(title: Text(AppLocalizations.of(context)!.shopping_item_category)),
                       ),
                       dropdownDecoratorProps: DropDownDecoratorProps(
-                        dropdownSearchDecoration: InputDecoration(labelText: AppLocalizations.of(context)!.shopping_item_storage),
+                        dropdownSearchDecoration: InputDecoration(labelText: AppLocalizations.of(context)!.shopping_item_category),
                       ),
-                      items: HouseholdService.getSelectedHousehold(context).availableStoragesType.toStorageList,
-                      itemAsString: (Storage storage) => storage.displayTitle(context),
-                      selectedItem: item.defaultStoragePlace,
-                      onChanged: (Storage? storage) {
-                        setState(() {
-                          item.storage = storage!.index;
-                        });
-                      }),
+                      items: snapshot.data as List<Category>,
+                      itemAsString: (Category? category) {
+                        if (category != null && category.category == " ") {
+                          return AppLocalizations.of(context)!.category_other;
+                        }
+                        return category!.category;
+                      },
+                      selectedItem: _category,
+                      validator: (category) => Validators.notNull(context, category),
+                      onChanged: (Category? category) => _category = category!),
+                );
+              }),
+          SizedBox(height: 6),
+          _buildLifeCycle(context, item),
+          SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: () {
+              StorageService.delete(item.id!, context);
+              Navigator.pop(context);
+            },
+            child: Text(AppLocalizations.of(context)!.shopping_item_delete),
+            style: ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll<Color>(Colors.red),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
                 ),
-                Container(
-                  padding: EdgeInsets.all(16),
-                  margin: EdgeInsets.symmetric(vertical: 4),
-                  color: Colors.white,
-                  child: TextFormField(
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                      labelText: AppLocalizations.of(context)!.storage_item_details_note,
-                    ),
-                    initialValue: item.note,
-                    onChanged: (note) {
-                      setState(() {
-                        item.note = note;
-                      });
-                    },
-                  ),
-                ),
-                _buildQuantity(context),
-                FutureBuilder(
-                    future: CategoryService.get(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return Loader();
-                      }
-                      return Container(
-                        padding: EdgeInsets.all(16),
-                        margin: EdgeInsets.symmetric(vertical: 4),
-                        color: Colors.white,
-                        child: DropdownSearch<Category>(
-                            compareFn: (Category category, Category category2) {
-                              return category.category == category2.category;
-                            },
-                            popupProps: PopupProps.modalBottomSheet(
-                              showSelectedItems: true,
-                              title: ListTile(title: Text(AppLocalizations.of(context)!.shopping_item_category)),
-                            ),
-                            dropdownDecoratorProps: DropDownDecoratorProps(
-                              dropdownSearchDecoration: InputDecoration(labelText: AppLocalizations.of(context)!.shopping_item_category),
-                            ),
-                            items: snapshot.data as List<Category>,
-                            itemAsString: (Category? category) {
-                              if (category != null && category.category == " ") {
-                                return AppLocalizations.of(context)!.category_other;
-                              }
-                              return category!.category;
-                            },
-                            selectedItem: _category,
-                            validator: (category) => Validators.notNull(context, category),
-                            onChanged: (Category? category) => _category = category!),
-                      );
-                    }),
-                SizedBox(height: 6),
-                _buildLifeCycle(context, user),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    StorageService.delete(item.id!, context);
-                    Navigator.pop(context);
-                  },
-                  child: Text(AppLocalizations.of(context)!.shopping_item_delete),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll<Color>(Colors.red),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                    ),
-                  ),
-                ),
-              ]),
-            );
-          }),
+              ),
+            ),
+          ),
+        ]),
+      ),
     );
   }
 
-  Widget _buildLifeCycle(BuildContext context, MyFridgeUser user) {
-    return Column(children: [
-      Container(
-        color: Colors.white,
-        child: TextFormField(
-          keyboardType: TextInputType.text,
-          initialValue: item.createdAtDisplay,
-          readOnly: true,
-          enabled: false,
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-            labelText: AppLocalizations.of(context)!.shopping_item_created_at,
-          ),
-        ),
-      ),
-      Container(
-        color: Colors.white,
-        child: TextFormField(
-          keyboardType: TextInputType.text,
-          initialValue: user.username,
-          readOnly: true,
-          enabled: false,
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-            labelText: AppLocalizations.of(context)!.shopping_item_created_by,
-          ),
-        ),
-      )
-    ]);
+  Widget _buildLifeCycle(BuildContext context, ShoppingItem item) {
+    return FutureBuilder(
+        future: UserService.getUserById(context, item.createdBy),
+        builder: (context, snapshot) {
+          MyFridgeUser? user = snapshot.data;
+          createdByController.text = "test";
+          if (user == null && item.createdBy == "automatic") {
+            createdByController.text = "automatic";
+          } else if (user != null) {
+            createdByController.text = user.username;
+          }
+
+          return Column(children: [
+            Container(
+              color: Colors.white,
+              child: TextFormField(
+                keyboardType: TextInputType.text,
+                initialValue: item.createdAtDisplay,
+                readOnly: true,
+                enabled: false,
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                  labelText: AppLocalizations.of(context)!.shopping_item_created_at,
+                ),
+              ),
+            ),
+            Container(
+              color: Colors.white,
+              child: TextFormField(
+                keyboardType: TextInputType.text,
+                controller: createdByController,
+                readOnly: true,
+                enabled: false,
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                  labelText: AppLocalizations.of(context)!.shopping_item_created_by,
+                ),
+              ),
+            )
+          ]);
+        });
   }
 
   Widget _buildQuantity(BuildContext context) {

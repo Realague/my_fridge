@@ -49,7 +49,7 @@ class StorageService {
 
   static Future<List<StorageItem>> getOrderBy(String field, BuildContext context) async {
     List<StorageItem> items = [];
-    return getCollectionInstance(context).orderBy(field).get().then((querySnapshot) {
+    return getCollectionInstance(context).orderBy(field, descending: true).get().then((querySnapshot) {
       querySnapshot.docs.forEach((document) => items.add(StorageItem.fromDocument(document)));
       return items;
     });
@@ -75,7 +75,7 @@ class StorageService {
       StorageItem newItem = StorageItem.fromDocument(document);
 
       for (var item in items) {
-        if (item is StorageItem && item.name == item.name) {
+        if (item is StorageItem && item.name == newItem.name) {
           items.remove(item);
           items.add([newItem, item]);
           return;

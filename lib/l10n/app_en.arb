@@ -116,6 +116,8 @@
   "storage_item_details_note": "Note",
   "storage_item_storage_place": "Storage place",
 
+
+  "shopping_list_delete_all_bought_items": "Delete all",
   "shopping_list_bough_shopping_items": "Bought items",
   "shopping_list_search_hint": "What do you need?",
   "shopping_list_go_to_text": "Go to",

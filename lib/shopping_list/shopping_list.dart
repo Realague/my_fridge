@@ -26,29 +26,32 @@ class _ShoppingListState extends State<ShoppingList> {
   }
 
   Widget _buildShoppingItemBought(BuildContext context) {
-    return ExpansionTile(title: Text(AppLocalizations.of(context)!.shopping_list_bough_shopping_items), children: [
-      StreamBuilder(
-        stream: ShoppingListService.getBoughtItems(context).snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Loader();
-          }
-
-          return ListView.builder(
-            primary: false,
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            itemCount: (snapshot.data as QuerySnapshot).docs.length,
-            itemBuilder: (context, index) {
-              ShoppingItem shoppingItem = ShoppingItem.fromDocument((snapshot.data as QuerySnapshot).docs[index]);
-              if (shoppingItem.isBought) {
-                return ShoppingListItemBought(shoppingItem: shoppingItem);
+    return ExpansionTile(
+        title: Text(AppLocalizations.of(context)!.shopping_list_bough_shopping_items),
+        subtitle: InkWell(child: Text(AppLocalizations.of(context)!.shopping_list_delete_all_bought_items), onTap: () {
+          setState(() {
+            ShoppingListService.deleteAllBoughtItems(context);
+          });
+        },),
+        children: [
+          StreamBuilder(
+            stream: ShoppingListService.getBoughtItems(context).snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Loader();
               }
-              return ShoppingListItem(shoppingItem: shoppingItem);
-            }
-          );
-        },
-      ),
-    ]);
+
+              return ListView.builder(
+                  primary: false,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: (snapshot.data as QuerySnapshot).docs.length,
+                  itemBuilder: (context, index) {
+                    ShoppingItem shoppingItem = ShoppingItem.fromDocument((snapshot.data as QuerySnapshot).docs[index]);
+                    return ShoppingListItemBought(shoppingItem: shoppingItem);
+                  });
+            },
+          ),
+        ]);
   }
 }

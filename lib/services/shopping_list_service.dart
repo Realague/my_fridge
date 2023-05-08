@@ -47,7 +47,7 @@ class ShoppingListService {
 
   static Future<List<ShoppingItem>> getOrderBy(String field, BuildContext context) async {
     List<ShoppingItem> articles = [];
-    return getCollectionInstance(context).orderBy(field).get().then((querySnapshot) {
+    return getCollectionInstance(context).orderBy(field, descending: false).get().then((querySnapshot) {
       querySnapshot.docs.forEach((document) => articles.add(ShoppingItem.fromDocument(document)));
       return articles;
     });
@@ -71,5 +71,14 @@ class ShoppingListService {
       Item? item = await ItemService.getByName(ingredient.name);
       create(ShoppingItem.fromIngredient(ingredient, ingredient.quantity, item!, context), context);
     }
+  }
+
+  static deleteAllBoughtItems(BuildContext context) {
+    getBoughtItems(context).get().then((querySnapshot) {
+      querySnapshot.docs.forEach((document) {
+        ShoppingItem boughItem = ShoppingItem.fromDocument(document);
+        ShoppingListService.delete(boughItem.id!, context);
+      });
+    });
   }
 }
