@@ -36,7 +36,7 @@ class _AddIngredientItemState extends State<AddIngredient> {
         children: [
           _buildQuantity(context),
           SizedBox(width: 10),
-          ElevatedButton(
+          FilledButton(
             onPressed: () {
               widget.addIngredient(ingredient);
               Navigator.popUntil(context, (route) => route.settings.name == "CookingRecipeDetails");

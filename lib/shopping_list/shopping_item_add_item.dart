@@ -154,7 +154,7 @@ class _ShoppingItemAddItemState extends State<ShoppingItemAddItem> {
                 );
               }),
           SizedBox(height: 10),
-          ElevatedButton(
+          FilledButton(
             onPressed: () {
               item.category = _category.category;
               item.createdAt = DateTime.now();

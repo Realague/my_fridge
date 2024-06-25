@@ -50,7 +50,7 @@ class _JoinHouseholdState extends State<JoinHousehold> {
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: ElevatedButton(
+              child: FilledButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     HouseholdService.joinHousehold(context, _linkController.text);

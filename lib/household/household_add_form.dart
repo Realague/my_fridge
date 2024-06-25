@@ -124,7 +124,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
+            child: FilledButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   Household household = Household(

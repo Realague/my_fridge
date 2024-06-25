@@ -47,7 +47,7 @@ class _CategoryFormState extends State<CategoryForm> {
               controller: _nameController,
             ),
           ),
-          ElevatedButton.icon(
+          FilledButton.icon(
             icon: const Icon(Icons.add),
             onPressed: () {
               if (_formKey.currentState!.validate()) {

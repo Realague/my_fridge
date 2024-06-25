@@ -89,7 +89,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
           buildMemberSection(context),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
-            child: ElevatedButton(
+            child: FilledButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   household.name = _nameController.text;
@@ -110,7 +110,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
               ),
             ),
           ),
-          ElevatedButton(
+          FilledButton(
             onPressed: () {
               HouseholdService.delete(context, household.id!);
               Navigator.pop(context);
@@ -141,7 +141,7 @@ class _FormEditHouseholdState extends State<FormEditHousehold> {
         buildMembersList(context),
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ElevatedButton(
+          child: FilledButton(
             onPressed: () {
               Share.share("Rejoins mon ménage sur MyFridge!\n" + household.id!);
             },

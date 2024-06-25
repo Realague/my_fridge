@@ -159,38 +159,37 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
           )
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
+      bottomNavigationBar: NavigationBar(
+        destinations: <Widget>[
+          NavigationDestination(
             icon: const Icon(CustomIcons.shopping_list),
             label: AppLocalizations.of(context)!.menu_shopping_list,
-            backgroundColor: Colors.white,
+            //backgroundColor: Colors.white,
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: const Icon(CustomIcons.fridge),
             label: AppLocalizations.of(context)!.menu_storage,
-            backgroundColor: Colors.white,
+            //backgroundColor: Colors.white,
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: const Icon(CustomIcons.recipe_book),
             label: AppLocalizations.of(context)!.menu_recipes,
-            backgroundColor: Colors.white,
+            //backgroundColor: Colors.white,
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: const Icon(Icons.local_restaurant_outlined),
             label: AppLocalizations.of(context)!.menu_meals,
-            backgroundColor: Colors.white,
+            //backgroundColor: Colors.white,
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: const Icon(Icons.schedule),
             label: 'Coming soon',
-            backgroundColor: Colors.white,
+            //backgroundColor: Colors.white,
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Theme.of(context).colorScheme.primary,
-        unselectedItemColor: Colors.black87,
-        onTap: _onItemTapped,
+        onDestinationSelected: _onItemTapped,
+        selectedIndex: _selectedIndex,
+        indicatorColor: Colors.blue,
       ),
       floatingActionButton: _floatingActionButton(),
     );

@@ -143,7 +143,7 @@ class _CookingRecipeDetailsState extends State<CookingRecipeDetails> {
                     Expanded(flex: 4, child: Text(AppLocalizations.of(context)!.cooking_recipe_add_ingredient)),
                     Expanded(
                       flex: 1,
-                      child: ElevatedButton(
+                      child: FilledButton(
                         onPressed: () {
                           Navigator.push(
                               context,
@@ -173,7 +173,7 @@ class _CookingRecipeDetailsState extends State<CookingRecipeDetails> {
                     Expanded(flex: 4, child: Text(AppLocalizations.of(context)!.cooking_recipe_add_step)),
                     Expanded(
                       flex: 1,
-                      child: ElevatedButton(
+                      child: FilledButton(
                         onPressed: () {
                           Navigator.push(
                               context,
@@ -194,7 +194,7 @@ class _CookingRecipeDetailsState extends State<CookingRecipeDetails> {
                 SizedBox(height: 10),
                 _buildLifeCycle(context, user),
                 SizedBox(height: 10),
-                ElevatedButton(
+                FilledButton(
                   onPressed: () {
                     CookingRecipeService.create(cookingRecipe, context);
                     Navigator.pop(context);

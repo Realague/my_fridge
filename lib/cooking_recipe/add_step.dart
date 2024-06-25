@@ -44,7 +44,7 @@ class _AddStepItemState extends State<AddStep> {
 
           ),
           const SizedBox(height: 10),
-          ElevatedButton(
+          FilledButton(
             onPressed: () {
               widget.addStep(stepController.text);
               Navigator.popUntil(context, (route) => route.settings.name == "CookingRecipeDetails");

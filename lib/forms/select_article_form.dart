@@ -82,7 +82,7 @@ class _SelectArticleFormState extends State<SelectArticleForm> {
               ),
               Padding(
                 padding: EdgeInsets.all(8.0),
-                child: ElevatedButton(
+                child: FilledButton(
                     onPressed: () {
                       showDialog(
                         context: context,
@@ -114,7 +114,7 @@ class _SelectArticleFormState extends State<SelectArticleForm> {
           ),
           Padding(
             padding: EdgeInsets.all(8.0),
-            child: ElevatedButton(
+            child: FilledButton(
                 onPressed: () {
                   widget.confirmCallback(_selectedArticle!, int.parse(_quantityController.text));
                 },

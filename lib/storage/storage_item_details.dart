@@ -118,7 +118,7 @@ class _StorageItemDetailsState extends State<StorageItemDetails> {
           SizedBox(height: 6),
           _buildLifeCycle(context, item),
           SizedBox(height: 10),
-          ElevatedButton(
+          FilledButton(
             onPressed: () {
               StorageService.delete(item.id!, context);
               Navigator.pop(context);

@@ -144,7 +144,7 @@ class _ShoppingItemDetailsState extends State<ShoppingItemDetails> {
           SizedBox(height: 6),
           _buildLifeCycle(context, item),
           SizedBox(height: 10),
-          ElevatedButton(
+          FilledButton(
             onPressed: () {
               StorageService.delete(item.id!, context);
               Navigator.pop(context);

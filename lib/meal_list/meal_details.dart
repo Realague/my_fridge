@@ -72,7 +72,7 @@ class _MealDetailsState extends State<MealDetails> {
                 SizedBox(height: 10),
                 _buildLifeCycle(context, user),
                 SizedBox(height: 10),
-                ElevatedButton(
+                FilledButton(
                   onPressed: () {
                     MealListService.delete(meal.id!, context);
                     StorageService.useIngredientsOfMeal(context, meal);
