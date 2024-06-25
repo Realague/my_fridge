@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum Storage { FRIDGE, FREEZER, CELLAR, CUPBOARD, NONE }
 
 extension StorageExtension on Storage {
-  String get name => describeEnum(this);
 
   String displayTitle(BuildContext context) {
     switch (this) {

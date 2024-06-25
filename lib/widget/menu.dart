@@ -78,10 +78,10 @@ class Menu extends StatelessWidget {
         children: [
           FilledButton.icon(
             style: ButtonStyle(
-              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                 EdgeInsets.symmetric(vertical: 30, horizontal: 27),
               ),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
               ),
             ),
@@ -92,10 +92,10 @@ class Menu extends StatelessWidget {
           const SizedBox(height: 12),
           FilledButton.icon(
             style: ButtonStyle(
-              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                 EdgeInsets.symmetric(vertical: 30, horizontal: 50),
               ),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
               ),
             ),

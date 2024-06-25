@@ -153,8 +153,8 @@ class _CookingRecipeDetailsState extends State<CookingRecipeDetails> {
                         },
                         child: Icon(Icons.add),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
-                          shape: MaterialStateProperty.all(
+                          backgroundColor: WidgetStatePropertyAll<Color>(Theme.of(context).primaryColor),
+                          shape: WidgetStateProperty.all(
                             CircleBorder(),
                           ),
                         ),
@@ -182,8 +182,8 @@ class _CookingRecipeDetailsState extends State<CookingRecipeDetails> {
                         },
                         child: Icon(Icons.add),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
-                          shape: MaterialStateProperty.all(
+                          backgroundColor: WidgetStatePropertyAll<Color>(Theme.of(context).primaryColor),
+                          shape: WidgetStateProperty.all(
                             CircleBorder(),
                           ),
                         ),
@@ -201,8 +201,8 @@ class _CookingRecipeDetailsState extends State<CookingRecipeDetails> {
                   },
                   child: Text(AppLocalizations.of(context)!.cooking_recipe_save),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
-                    shape: MaterialStateProperty.all(
+                    backgroundColor: WidgetStatePropertyAll<Color>(Theme.of(context).primaryColor),
+                    shape: WidgetStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40),
                       ),

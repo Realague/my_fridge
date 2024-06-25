@@ -151,8 +151,8 @@ class _ShoppingItemDetailsState extends State<ShoppingItemDetails> {
             },
             child: Text(AppLocalizations.of(context)!.shopping_item_delete),
             style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll<Color>(Colors.red),
-              shape: MaterialStateProperty.all(
+              backgroundColor: WidgetStatePropertyAll<Color>(Colors.red),
+              shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40),
                 ),

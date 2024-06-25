@@ -125,8 +125,8 @@ class _StorageItemDetailsState extends State<StorageItemDetails> {
             },
             child: Text(AppLocalizations.of(context)!.storage_item_delete),
             style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll<Color>(Colors.red),
-              shape: MaterialStateProperty.all(
+              backgroundColor: WidgetStatePropertyAll<Color>(Colors.red),
+              shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40),
                 ),

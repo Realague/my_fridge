@@ -80,8 +80,8 @@ class _MealDetailsState extends State<MealDetails> {
                   },
                   child: Text(AppLocalizations.of(context)!.cook_meal),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
-                    shape: MaterialStateProperty.all(
+                    backgroundColor: WidgetStatePropertyAll<Color>(Theme.of(context).primaryColor),
+                    shape: WidgetStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40),
                       ),

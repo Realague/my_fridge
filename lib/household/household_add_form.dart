@@ -142,7 +142,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
               },
               child: Text(AppLocalizations.of(context)!.household_create),
               style: ButtonStyle(
-                shape: MaterialStateProperty.all(
+                shape: WidgetStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40),
                   ),

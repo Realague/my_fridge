@@ -142,7 +142,7 @@ class AuthenticationWrapper extends StatelessWidget {
           onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FormAddHousehold())),
           child: Text(AppLocalizations.of(context)!.household_create),
           style: ButtonStyle(
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
+            shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
           ),
         ),
       ),
@@ -150,7 +150,7 @@ class AuthenticationWrapper extends StatelessWidget {
         onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => JoinHousehold())),
         child: Text(AppLocalizations.of(context)!.household_join),
         style: ButtonStyle(
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
+          shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
         ),
       ),
     ]);

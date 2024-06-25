@@ -164,8 +164,8 @@ class _ShoppingItemAddItemState extends State<ShoppingItemAddItem> {
             },
             child: Text(AppLocalizations.of(context)!.add_article_popup_title),
             style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).colorScheme.primary),
-              shape: MaterialStateProperty.all(
+              backgroundColor: WidgetStatePropertyAll<Color>(Theme.of(context).colorScheme.primary),
+              shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40),
                 ),

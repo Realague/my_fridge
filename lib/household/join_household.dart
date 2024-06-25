@@ -62,7 +62,7 @@ class _JoinHouseholdState extends State<JoinHousehold> {
                 },
                 child: Text(AppLocalizations.of(context)!.household_join),
                 style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
+                  shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40),
                     ),

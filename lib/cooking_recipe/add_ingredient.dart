@@ -43,8 +43,8 @@ class _AddIngredientItemState extends State<AddIngredient> {
             },
             child: Text(AppLocalizations.of(context)!.cooking_recipe_add_the_ingredient),
             style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
-              shape: MaterialStateProperty.all(
+              backgroundColor: WidgetStatePropertyAll<Color>(Theme.of(context).primaryColor),
+              shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40),
                 ),
