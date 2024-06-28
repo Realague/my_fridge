@@ -35,7 +35,7 @@ class _JoinHouseholdState extends State<JoinHousehold> {
               child: TextFormField(
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                  icon: const Icon(Icons.link),
+                  icon: Icon(Icons.link_outlined, color: Theme.of(context).colorScheme.primary),
                   border: const OutlineInputBorder(),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                   labelText: AppLocalizations.of(context)!.household_join_link,

@@ -30,7 +30,7 @@ class Menu extends StatelessWidget {
 
   Widget buildHeader(final BuildContext context) {
     return Material(
-      color: Theme.of(context).colorScheme.primary,
+      color: Colors.blue,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomRight: Radius.circular(15))),
       child: Container(
         padding: EdgeInsets.only(top: 16 + MediaQuery.of(context).padding.top, bottom: 24, left: 16),

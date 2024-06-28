@@ -76,12 +76,21 @@ class InitializeProviders extends StatelessWidget {
           const Locale('fr', ''),
         ],
         theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.blue,
+              secondary: Colors.green,
+              surface: Colors.white,
+              error: Colors.red,
+              onTertiary: Colors.yellow
+            ),
             useMaterial3: true,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             appBarTheme: AppBarTheme(
-              backgroundColor: Colors.blue,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(15))),
+              color: Colors.blue,
+              shadowColor: Colors.yellow,
+              elevation: 5,
+              foregroundColor: Colors.white,
+              //shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(15))),
             )),
         home: AuthenticationWrapper(),
       ),

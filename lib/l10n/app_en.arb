@@ -139,6 +139,7 @@
       }
     }
   },
+  "shopping_list_copied": "Shopping list copied to clipboard",
 
   "shopping_item_created_by": "Added by",
   "shopping_item_created_at": "Added at",

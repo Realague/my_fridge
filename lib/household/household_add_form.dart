@@ -48,7 +48,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                icon: const Icon(Icons.label),
+                icon: Icon(Icons.label_outline, color: Theme.of(context).colorScheme.primary),
                 border: const OutlineInputBorder(),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                 labelText: AppLocalizations.of(context)!.household_name,
@@ -108,7 +108,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
             child: TextFormField(
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                icon: const Icon(Icons.label),
+                icon: Icon(Icons.label_outline, color: Theme.of(context).colorScheme.primary),
                 border: const OutlineInputBorder(),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                 labelText: AppLocalizations.of(context)!.storage_expired_item_warning_delay_label,

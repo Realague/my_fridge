@@ -31,7 +31,7 @@ class _CookingRecipeListState extends State<CookingRecipeList> {
         expansionCallback: (index, isExpanded) {
           setState(
                 () {
-              listData[index].isExpanded = !isExpanded;
+              listData[index].isExpanded = isExpanded;
             },
           );
         },

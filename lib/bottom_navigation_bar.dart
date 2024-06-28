@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/article_management/article_management.dart';
 import 'package:my_fridge/cooking_recipe/add_cooking_recipe.dart';
@@ -8,6 +9,7 @@ import 'package:my_fridge/forms/article_form.dart';
 import 'package:my_fridge/forms/category_form.dart';
 import 'package:my_fridge/meal_list/meal_list.dart';
 import 'package:my_fridge/meal_list/search_meal.dart';
+import 'package:my_fridge/services/article_category_service.dart';
 import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/shopping_list/shopping_list.dart';
 import 'package:my_fridge/storage/storage.dart';
@@ -71,8 +73,23 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
     );
   }
 
+  _generateShoppingListNotes(BuildContext context) async {
+    Clipboard.setData(ClipboardData(text: await CategoryService.generateShoppingNotes(context)));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.shopping_list_copied),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
+    );
+  }
+  
   Widget? _floatingActionButton() {
-    if (_selectedIndex == 2) {
+    if (_selectedIndex == 0) {
+      return FloatingActionButton(
+        onPressed: () => _generateShoppingListNotes(context),
+        child: Icon(Icons.copy),
+      );
+    } else if (_selectedIndex == 2) {
       return FloatingActionButton(
         onPressed: () => _addCookingRecipe(context),
         child: Icon(Icons.add),
@@ -113,13 +130,13 @@ class _BottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   void _onFocusChange() {
     if (_searchBarFocus.hasFocus && _selectedIndex != 3) {
-      FocusScope.of(context).unfocus();
+      _searchBarFocus.unfocus();
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => AddShoppingItem()),
       );
     } else if (_searchBarFocus.hasFocus) {
-      FocusScope.of(context).unfocus();
+      _searchBarFocus.unfocus();
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => SearchMeal()),

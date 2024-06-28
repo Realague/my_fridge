@@ -31,7 +31,7 @@ class _MealListState extends State<MealList> {
         expansionCallback: (index, isExpanded) {
           setState(
                 () {
-              listData[index].isExpanded = !isExpanded;
+              listData[index].isExpanded = isExpanded;
             },
           );
         },

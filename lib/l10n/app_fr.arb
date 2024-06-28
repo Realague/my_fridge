@@ -67,7 +67,7 @@
   "storage_type_none": "Lieu indéfini",
   "storage_description_fridge": "Peux-tu réfrigérer des provisions ?",
   "storage_description_freezer": "Peux-tu congeler des provisions ?",
-  "storage_description_cellar": "As-tu un emplacement de rangement sec ?\nMyFridge sépare cela en un cellier et un placard de rangement (là où tu garde les produits de nettoyages).",
+  "storage_description_cellar": "As-tu un espace de rangement sec ?\nMyFridge sépare cela en un cellier et\nun placard de rangement\n(pour les produits de nettoyages).",
 
   "storage_expired_item_warning_delay_label": "",
   "storage_expired_item_warning_delay_description": "Combien de jour avant qu'un article périme faut-il vous avertir ?",
@@ -120,6 +120,7 @@
       }
     }
   },
+  "shopping_list_copied": "Liste de course copié dans la presse à papier",
 
   "shopping_item_created_by": "Ajouté par",
   "shopping_item_created_at": "Ajouté le",

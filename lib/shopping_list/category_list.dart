@@ -45,7 +45,7 @@ class _CategoryListState extends State<CategoryList> {
             expansionCallback: (index, isExpanded) {
               setState(
                     () {
-                  _categories[index].isExpanded = !isExpanded;
+                  _categories[index].isExpanded = isExpanded;
                 },
               );
             },
@@ -65,7 +65,7 @@ class _CategoryListState extends State<CategoryList> {
         );
       },
       body: StreamBuilder(
-        stream: ShoppingListService.getByCategory(context, category).snapshots(),
+        stream: ShoppingListService.getByCategoryAsQuery(context, category, false).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Loader();
