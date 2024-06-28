@@ -1,11 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum PackingType { NONE, MILILITRE, LITER, GRAM, KILOGRAM, PIECE, PACKET, BOTTLE, CRATE, BOX, JAR, CAN, TUBE }
 
 extension PackingTypeExtension on PackingType {
-  String get name => describeEnum(this);
 
   String displayText(BuildContext context) {
     switch (this) {

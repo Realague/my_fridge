@@ -5,7 +5,6 @@ import 'package:my_fridge/model/ingredient.dart';
 import 'package:my_fridge/model/item.dart';
 import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/services/item_service.dart';
-import 'package:my_fridge/shopping_list/shopping_item_add_item.dart';
 import 'package:my_fridge/widget/loader.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

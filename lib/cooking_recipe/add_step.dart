@@ -44,15 +44,15 @@ class _AddStepItemState extends State<AddStep> {
 
           ),
           const SizedBox(height: 10),
-          ElevatedButton(
+          FilledButton(
             onPressed: () {
               widget.addStep(stepController.text);
               Navigator.popUntil(context, (route) => route.settings.name == "CookingRecipeDetails");
             },
             child: Text(AppLocalizations.of(context)!.cooking_recipe_add_the_step),
             style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
-              shape: MaterialStateProperty.all(
+              backgroundColor: WidgetStatePropertyAll<Color>(Theme.of(context).primaryColor),
+              shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40),
                 ),

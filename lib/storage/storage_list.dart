@@ -34,7 +34,7 @@ class _StorageListState extends State<StorageList> {
         expansionCallback: (index, isExpanded) {
           setState(
             () {
-              listData[index].isExpanded = !isExpanded;
+              listData[index].isExpanded = isExpanded;
             },
           );
         },

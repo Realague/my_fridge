@@ -20,21 +20,21 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return Drawer(
-      child: Column(
+    return NavigationDrawer(
+      children: [Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[buildHeader(context), buildHouseholdAction(context)],
-      ),
+      )],
     );
   }
 
   Widget buildHeader(final BuildContext context) {
     return Material(
-      color: Theme.of(context).colorScheme.primary,
+      color: Colors.blue,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomRight: Radius.circular(15))),
       child: Container(
         padding: EdgeInsets.only(top: 16 + MediaQuery.of(context).padding.top, bottom: 24, left: 16),
-        child: Column(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CircleAvatar(
               radius: 30,
@@ -42,6 +42,7 @@ class Menu extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
                   children: [
@@ -50,6 +51,7 @@ class Menu extends StatelessWidget {
                     Text("v1.0.2", style: TextStyle(fontSize: 11, color: Colors.white)),
                   ],
                 ),
+                SizedBox(width: 12),
                 IconButton(
                   icon: const Icon(Icons.logout, color: Colors.white),
                   tooltip: AppLocalizations.of(context)!.button_sign_out,
@@ -74,12 +76,12 @@ class Menu extends StatelessWidget {
       padding: EdgeInsets.only(top: 16 + MediaQuery.of(context).padding.top, bottom: 24, left: 16, right: 16),
       child: Column(
         children: [
-          ElevatedButton.icon(
+          FilledButton.icon(
             style: ButtonStyle(
-              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                 EdgeInsets.symmetric(vertical: 30, horizontal: 27),
               ),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
               ),
             ),
@@ -88,12 +90,12 @@ class Menu extends StatelessWidget {
             label: Text(AppLocalizations.of(context)!.household_add),
           ),
           const SizedBox(height: 12),
-          ElevatedButton.icon(
+          FilledButton.icon(
             style: ButtonStyle(
-              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                 EdgeInsets.symmetric(vertical: 30, horizontal: 50),
               ),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
               ),
             ),

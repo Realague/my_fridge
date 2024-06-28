@@ -48,7 +48,7 @@ class _CategoryListState extends State<CategoryList> {
             expansionCallback: (index, isExpanded) {
               setState(
                 () {
-                  categories[index].isExpanded = !isExpanded;
+                  categories[index].isExpanded = isExpanded;
                 },
               );
             },

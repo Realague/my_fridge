@@ -48,7 +48,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
             child: TextFormField(
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                icon: const Icon(Icons.label),
+                icon: Icon(Icons.label_outline, color: Theme.of(context).colorScheme.primary),
                 border: const OutlineInputBorder(),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                 labelText: AppLocalizations.of(context)!.household_name,
@@ -108,7 +108,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
             child: TextFormField(
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                icon: const Icon(Icons.label),
+                icon: Icon(Icons.label_outline, color: Theme.of(context).colorScheme.primary),
                 border: const OutlineInputBorder(),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                 labelText: AppLocalizations.of(context)!.storage_expired_item_warning_delay_label,
@@ -124,7 +124,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
+            child: FilledButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   Household household = Household(
@@ -142,7 +142,7 @@ class _FormAddHouseholdState extends State<FormAddHousehold> {
               },
               child: Text(AppLocalizations.of(context)!.household_create),
               style: ButtonStyle(
-                shape: MaterialStateProperty.all(
+                shape: WidgetStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40),
                   ),

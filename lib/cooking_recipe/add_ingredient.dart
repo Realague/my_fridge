@@ -36,15 +36,15 @@ class _AddIngredientItemState extends State<AddIngredient> {
         children: [
           _buildQuantity(context),
           SizedBox(width: 10),
-          ElevatedButton(
+          FilledButton(
             onPressed: () {
               widget.addIngredient(ingredient);
               Navigator.popUntil(context, (route) => route.settings.name == "CookingRecipeDetails");
             },
             child: Text(AppLocalizations.of(context)!.cooking_recipe_add_the_ingredient),
             style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
-              shape: MaterialStateProperty.all(
+              backgroundColor: WidgetStatePropertyAll<Color>(Theme.of(context).primaryColor),
+              shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40),
                 ),

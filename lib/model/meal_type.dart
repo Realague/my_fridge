@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum MealType { DISH, DRINK, APPETIZER, DESSERT, STARTER, OTHER }
 
 extension MealTypeExtension on MealType {
-  String get name => describeEnum(this);
 
   String display(final BuildContext context) {
     switch (this) {

@@ -111,7 +111,7 @@ class _FormAddArticleState extends State<FormAddArticle> {
             },
             secondary: const Icon(Icons.fastfood_outlined),
           ),
-          ElevatedButton.icon(
+          FilledButton.icon(
             icon: const Icon(Icons.add),
             onPressed: () {
               if (_formKey.currentState!.validate()) {

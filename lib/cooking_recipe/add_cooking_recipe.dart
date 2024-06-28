@@ -142,7 +142,7 @@ class _AddCookingRecipeState extends State<AddCookingRecipe> {
                 Expanded(flex: 4, child: Text(AppLocalizations.of(context)!.cooking_recipe_add_ingredient)),
                 Expanded(
                   flex: 1,
-                  child: ElevatedButton(
+                  child: FilledButton(
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -152,10 +152,10 @@ class _AddCookingRecipeState extends State<AddCookingRecipe> {
                     },
                     child: Icon(Icons.add),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(Theme
+                      backgroundColor: WidgetStatePropertyAll<Color>(Theme
                           .of(context)
                           .primaryColor),
-                      shape: MaterialStateProperty.all(
+                      shape: WidgetStateProperty.all(
                         CircleBorder(),
                       ),
                     ),
@@ -174,7 +174,7 @@ class _AddCookingRecipeState extends State<AddCookingRecipe> {
                 Expanded(flex: 4, child: Text(AppLocalizations.of(context)!.cooking_recipe_add_step)),
                 Expanded(
                   flex: 1,
-                  child: ElevatedButton(
+                  child: FilledButton(
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -183,10 +183,10 @@ class _AddCookingRecipeState extends State<AddCookingRecipe> {
                     },
                     child: Icon(Icons.add),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(Theme
+                      backgroundColor: WidgetStatePropertyAll<Color>(Theme
                           .of(context)
                           .primaryColor),
-                      shape: MaterialStateProperty.all(
+                      shape: WidgetStateProperty.all(
                         CircleBorder(),
                       ),
                     ),
@@ -195,17 +195,17 @@ class _AddCookingRecipeState extends State<AddCookingRecipe> {
               ]),
             ),
             SizedBox(height: 10),
-            ElevatedButton(
+            FilledButton(
               onPressed: () {
                 CookingRecipeService.create(cookingRecipe, context);
                 Navigator.pop(context);
               },
               child: Text(AppLocalizations.of(context)!.cooking_recipe_save),
               style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll<Color>(Theme
+                backgroundColor: WidgetStatePropertyAll<Color>(Theme
                     .of(context)
                     .primaryColor),
-                shape: MaterialStateProperty.all(
+                shape: WidgetStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40),
                   ),

@@ -1,11 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum WeekDay { MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY }
 
 extension WeekDayExtension on WeekDay {
-  String get name => describeEnum(this);
 
   String display(final BuildContext context) {
     switch (this) {

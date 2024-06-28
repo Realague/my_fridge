@@ -72,7 +72,7 @@ class _MealDetailsState extends State<MealDetails> {
                 SizedBox(height: 10),
                 _buildLifeCycle(context, user),
                 SizedBox(height: 10),
-                ElevatedButton(
+                FilledButton(
                   onPressed: () {
                     MealListService.delete(meal.id!, context);
                     StorageService.useIngredientsOfMeal(context, meal);
@@ -80,8 +80,8 @@ class _MealDetailsState extends State<MealDetails> {
                   },
                   child: Text(AppLocalizations.of(context)!.cook_meal),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
-                    shape: MaterialStateProperty.all(
+                    backgroundColor: WidgetStatePropertyAll<Color>(Theme.of(context).primaryColor),
+                    shape: WidgetStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40),
                       ),

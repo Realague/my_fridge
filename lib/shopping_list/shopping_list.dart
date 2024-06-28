@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/services/shopping_list_service.dart';
 import 'package:my_fridge/shopping_list/category_list.dart';
-import 'package:my_fridge/shopping_list/shopping_list_item.dart';
 import 'package:my_fridge/shopping_list/shopping_list_item_bought.dart';
 import 'package:my_fridge/widget/loader.dart';
 

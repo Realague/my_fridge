@@ -53,8 +53,16 @@ class ShoppingListService {
     });
   }
 
-  static Query getByCategory(BuildContext context, Category category) {
-    return getCollectionInstance(context).where('category', isEqualTo: category.category).where('isBought', isEqualTo: false);
+  static Future<List<ShoppingItem>> getByCategory(BuildContext context, Category category, bool isBought) async {
+    List<ShoppingItem> articles = [];
+    return getCollectionInstance(context).where('category', isEqualTo: category.category).where('isBought', isEqualTo: isBought).get().then((querySnapshot) {
+      querySnapshot.docs.forEach((document) => articles.add(ShoppingItem.fromDocument(document)));
+      return articles;
+    });
+  }
+
+  static Query getByCategoryAsQuery(BuildContext context, Category category, bool isBought) {
+    return getCollectionInstance(context).where('category', isEqualTo: category.category).where('isBought', isEqualTo: isBought);
   }
 
   static Query getBoughtItems(BuildContext context) {
