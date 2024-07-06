@@ -34,6 +34,11 @@ class _ShoppingItemDetailsState extends State<ShoppingItemDetails> {
 
   late Category _category;
 
+  void _saveAndQuit() {
+    ShoppingListService.update(item, context);
+    Navigator.of(context).pop();
+  }
+
   @override
   void initState() {
     this.item = widget.item;
@@ -51,14 +56,18 @@ class _ShoppingItemDetailsState extends State<ShoppingItemDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PopScope(
+        canPop: true,
+        onPopInvoked: (bool didPop) {
+          if (!didPop) {
+            _saveAndQuit();
+          }
+        },
+        child: Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         title: Text(item.name),
-        leading: BackButton(onPressed: () {
-          ShoppingListService.update(item, context);
-          Navigator.of(context).pop();
-        }),
+        leading: BackButton(),
       ),
       body: SingleChildScrollView(
         child: Column(children: [
@@ -161,7 +170,7 @@ class _ShoppingItemDetailsState extends State<ShoppingItemDetails> {
           ),
         ]),
       ),
-    );
+    ));
   }
 
   Widget _buildLifeCycle(BuildContext context, ShoppingItem item) {

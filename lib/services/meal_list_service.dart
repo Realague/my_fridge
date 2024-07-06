@@ -28,7 +28,7 @@ class MealListService {
   static Future<List<CookingRecipe>> get(String? searchFilter, BuildContext context) async {
     List<CookingRecipe> meals = [];
     if (searchFilter == null || searchFilter == '') {
-      return getCollectionInstance(context).get().then((querySnapshot) {
+      return getCollectionInstance(context).limit(10).get().then((querySnapshot) {
         querySnapshot.docs.forEach((document) => meals.add(CookingRecipe.fromDocument(document)));
         return meals;
       });
@@ -36,6 +36,7 @@ class MealListService {
     return getCollectionInstance(context)
         .where('name', isGreaterThanOrEqualTo: searchFilter)
         .where('name', isLessThan: searchFilter)
+        .limit(10)
         .get()
         .then((querySnapshot) {
       querySnapshot.docs.forEach((document) => meals.add(CookingRecipe.fromDocument(document)));

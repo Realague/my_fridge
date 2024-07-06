@@ -35,9 +35,7 @@ class _MealDetailsState extends State<MealDetails> {
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         title: Text(meal.name),
-        leading: BackButton(onPressed: () {
-          Navigator.of(context).pop();
-        }),
+        leading: BackButton(),
       ),
       body: FutureBuilder(
           future: UserService.getUserById(context, meal.createdBy!),

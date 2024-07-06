@@ -25,9 +25,7 @@ class _AddStepItemState extends State<AddStep> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Etape "+widget.stepCount.toString()),
-        leading: BackButton(onPressed: () {
-          Navigator.of(context).pop();
-        }),
+        leading: BackButton(),
       ),
       body: Column(
         children: [
@@ -41,7 +39,6 @@ class _AddStepItemState extends State<AddStep> {
                 ),
               label: const Text("Etape")
             ),
-
           ),
           const SizedBox(height: 10),
           FilledButton(

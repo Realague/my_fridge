@@ -5,6 +5,7 @@ import 'package:my_fridge/model/shopping_item.dart';
 import 'package:my_fridge/model/storage.dart';
 import 'package:my_fridge/services/user_service.dart';
 import 'package:my_fridge/utils/utils.dart';
+import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 
 class Item {
   Item(
@@ -19,7 +20,7 @@ class Item {
 
   static Item fromShoppingItem(ShoppingItem item, BuildContext context) {
     return Item(
-        name: item.name,
+        name: toBeginningOfSentenceCase(item.name),
         unit: item.unit,
         perishable: item.perishable,
         category: item.category,
@@ -56,10 +57,10 @@ class Item {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     return Item(
       id: document.id,
-      name: data['name'],
+      name: toBeginningOfSentenceCase(data['name']),
       unit: data['unit'],
       perishable: data['perishable'],
-      category: data['category'],
+      category: toBeginningOfSentenceCase(data['category']),
       storage: data['storage'],
       createdAt: Utils.timestampToDateTime(data['created_at']),
       createdBy: data['created_by'],
@@ -68,11 +69,11 @@ class Item {
 
   Map<String, Object> get asMap {
     return {
-      'name': this.name,
+      'name': this.name.toLowerCase(),
       'unit': this.unit,
       'perishable': this.perishable,
       'storage': this.storage,
-      'category': this.category,
+      'category': this.category.toLowerCase(),
       "createdBy": this.createdBy!,
       "createdAt": this.createdAt!
     };

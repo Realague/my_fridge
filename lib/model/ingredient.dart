@@ -46,7 +46,7 @@ class Ingredient {
 
   static Ingredient fromMap(Map<String, dynamic> map) {
     return Ingredient(
-        name: map['name'],
+        name: toBeginningOfSentenceCase(map['name']),
         unit: map['unit'],
         quantity: map['quantity'],
         createdAt: Utils.timestampToDateTime(map['createdAt'])!,
@@ -58,7 +58,7 @@ class Ingredient {
 
     return Ingredient(
         id: document.id,
-        name: data['name'],
+        name: toBeginningOfSentenceCase(data['name']),
         unit: data['unit'],
         quantity: data['quantity'],
         createdAt: Utils.timestampToDateTime(data['createdAt'])!,
@@ -67,7 +67,7 @@ class Ingredient {
 
   Map<String, Object?> get asMap {
     return {
-      "name": this.name,
+      "name": this.name.toLowerCase(),
       "unit": this.unit,
       "quantity": this.quantity,
       "createdBy": this.createdBy,

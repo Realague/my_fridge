@@ -26,7 +26,7 @@ class ItemService {
   static Future<List<Item>> get(String? searchFilter) async {
     List<Item> articles = [];
 
-    QuerySnapshot querySnapshot = await collectionInstance.get();
+    QuerySnapshot querySnapshot = await collectionInstance.limit(10).get();
     querySnapshot.docs.forEach((document) => articles.add(Item.fromDocument(document)));
     articles = articles.where((item) {
       if (searchFilter == null || searchFilter == "") {

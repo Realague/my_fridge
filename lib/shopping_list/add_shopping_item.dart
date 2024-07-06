@@ -8,6 +8,8 @@ import 'package:my_fridge/shopping_list/shopping_item_details.dart';
 import 'package:my_fridge/widget/loader.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../model/packing_type.dart';
+
 class AddShoppingItem extends StatefulWidget {
   const AddShoppingItem();
 
@@ -85,7 +87,16 @@ class _AddShoppingItemState extends State<AddShoppingItem> {
           );
         },
         child: ListTile(
-            title: Text(item.name),
+            title: Row(children: [
+              Expanded(flex: 2, child: Text(item.name)),
+              Expanded(
+                  flex: 1,
+                  child: Text(
+                      item.quantity != 0 && item.packingType != PackingType.NONE
+                          ? '${item.quantity} ${item.packingType.displayTextForListTile(context)}'
+                          : "",
+                      textAlign: TextAlign.end))
+            ]),
             trailing: Container(
               padding: EdgeInsets.symmetric(horizontal: 8),
               width: 80,
@@ -96,7 +107,7 @@ class _AddShoppingItemState extends State<AddShoppingItem> {
                   Radius.circular(100),
                 ),
               ),
-              child: Row(children: [Text(AppLocalizations.of(context)!.shopping_list_go_to_text),Icon(Icons.edit, size: 15)]),
+              child: Row(children: [Text(AppLocalizations.of(context)!.shopping_list_go_to_text), Icon(Icons.edit, size: 15)]),
             ),),
       );
     } else if (item is Item) {

@@ -85,9 +85,7 @@ class _AddCookingRecipeState extends State<AddCookingRecipe> {
         backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.cooking_recipe_add_title),
-          leading: BackButton(onPressed: () {
-            Navigator.of(context).pop();
-          }),
+          leading: BackButton(),
         ),
         body: SingleChildScrollView(
           child: Column(children: [

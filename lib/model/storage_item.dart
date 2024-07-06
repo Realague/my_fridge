@@ -67,7 +67,7 @@ class StorageItem {
 
   static StorageItem fromShoppingItem(ShoppingItem shoppingItem, BuildContext context) {
     return StorageItem(
-        name: shoppingItem.name,
+        name: toBeginningOfSentenceCase(shoppingItem.name),
         unit: shoppingItem.unit,
         perishable: shoppingItem.perishable,
         boughtAt: DateTime.now(),
@@ -81,7 +81,7 @@ class StorageItem {
 
     return StorageItem(
         id: document.id,
-        name: data['name'],
+        name: toBeginningOfSentenceCase(data['name']),
         unit: data['unit'],
         quantity: data['quantity'],
         perishable: data['perishable'],
@@ -94,7 +94,7 @@ class StorageItem {
 
   Map<String, Object?> get asMap {
     return {
-      "name": this.name,
+      "name": this.name.toLowerCase(),
       "unit": this.unit,
       "quantity": this.quantity,
       "perishable": this.perishable,

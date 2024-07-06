@@ -56,11 +56,11 @@ class ShoppingItem {
 
   static ShoppingItem fromItem(Item item, int quantity, BuildContext context) {
     return ShoppingItem(
-        name: item.name,
+        name: toBeginningOfSentenceCase(item.name),
         unit: item.unit,
         quantity: quantity,
         perishable: item.perishable,
-        category: item.category,
+        category: toBeginningOfSentenceCase(item.category),
         storage: item.storage,
         createdAt: DateTime.now(),
         createdBy: UserService.currentUserId(context));
@@ -72,11 +72,11 @@ class ShoppingItem {
 
   static ShoppingItem fromMap(Map<String, dynamic> map) {
     return ShoppingItem(
-        name: map['name'],
+        name: toBeginningOfSentenceCase(map['name']),
         unit: map['unit'],
         quantity: map['quantity'],
         perishable: map['perishable'],
-        category: map['category'],
+        category: toBeginningOfSentenceCase(map['category']),
         note: map['note'],
         createdAt: Utils.timestampToDateTime(map['createdAt'])!,
         createdBy: map['created_by'],
@@ -89,12 +89,12 @@ class ShoppingItem {
 
     return ShoppingItem(
         id: document.id,
-        name: data['name'],
+        name: toBeginningOfSentenceCase(data['name']),
         unit: data['unit'],
         quantity: data['quantity'],
         perishable: data["perishable"],
         note: data['note'],
-        category: data['category'],
+        category: toBeginningOfSentenceCase(data['category']),
         createdAt: Utils.timestampToDateTime(data['createdAt'])!,
         createdBy: data['createdBy'],
         isBought: data['isBought'],

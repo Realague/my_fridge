@@ -28,9 +28,7 @@ class _AddIngredientItemState extends State<AddIngredient> {
     return Scaffold(
       appBar: AppBar(
         title: Text(ingredient.name),
-        leading: BackButton(onPressed: () {
-          Navigator.of(context).pop();
-        }),
+        leading: BackButton(),
       ),
       body: Column(
         children: [

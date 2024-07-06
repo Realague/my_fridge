@@ -93,9 +93,7 @@ class _CookingRecipeDetailsState extends State<CookingRecipeDetails> {
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         title: Text(cookingRecipe.name),
-        leading: BackButton(onPressed: () {
-          Navigator.of(context).pop();
-        }),
+        leading: BackButton(),
       ),
       body: FutureBuilder(
           future: UserService.getUserById(context, cookingRecipe.createdBy!),

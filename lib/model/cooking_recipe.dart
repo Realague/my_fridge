@@ -50,11 +50,11 @@ class CookingRecipe {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     return CookingRecipe(
         id: document.id,
-        name: data['name'],
+        name: toBeginningOfSentenceCase(data['name']),
         steps: List<String>.from(data['steps']),
         mealType: data['mealType'],
         ingredients: List<Ingredient>.from(
-                data['ingredients'].map((e) => Ingredient.fromMap(e)))
+            data['ingredients'].map((e) => Ingredient.fromMap(e)))
             .toList(),
         cookingTime: data['cookingTime'],
         preparationTime: data['preparationTime'],
@@ -66,7 +66,7 @@ class CookingRecipe {
   Map<String, Object> asMap(BuildContext context) {
     MyFridgeUser user = UserService.getCurrentUser(context);
     return {
-      'name': this.name,
+      'name': this.name.toLowerCase(),
       'steps': this.steps,
       'ingredients': this.ingredients.map((e) => e.asMap).toList(),
       'mealType': this.mealType,

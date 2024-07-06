@@ -39,101 +39,111 @@ class _StorageItemDetailsState extends State<StorageItemDetails> {
     super.dispose();
   }
 
+  void _saveAndQuit() {
+    StorageService.update(item, context);
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey.shade200,
-      appBar: AppBar(
-        title: Text(item.name),
-        leading: BackButton(onPressed: () {
-          StorageService.update(item, context);
-          Navigator.of(context).pop();
-        }),
-      ),
-      body: SingleChildScrollView(
-        child: Column(children: [
-          Container(
-            padding: EdgeInsets.all(16),
-            margin: EdgeInsets.symmetric(vertical: 4),
-            color: Colors.white,
-            child: DropdownSearch<Storage>(
-                compareFn: (Storage storage, Storage storage2) {
-                  return storage.index == storage2.index;
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (bool didPop) {
+        if (!didPop) {
+          _saveAndQuit();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade200,
+        appBar: AppBar(
+          title: Text(item.name),
+          leading: BackButton(),
+        ),
+        body: SingleChildScrollView(
+          child: Column(children: [
+            Container(
+              padding: EdgeInsets.all(16),
+              margin: EdgeInsets.symmetric(vertical: 4),
+              color: Colors.white,
+              child: DropdownSearch<Storage>(
+                  compareFn: (Storage storage, Storage storage2) {
+                    return storage.index == storage2.index;
+                  },
+                  popupProps: PopupProps.modalBottomSheet(
+                    showSelectedItems: true,
+                    title: ListTile(title: Text(AppLocalizations.of(context)!.storage_item_storage_place)),
+                  ),
+                  dropdownDecoratorProps: DropDownDecoratorProps(
+                    dropdownSearchDecoration: InputDecoration(labelText: AppLocalizations.of(context)!.storage_item_storage_place),
+                  ),
+                  items: HouseholdService.getSelectedHousehold(context).availableStoragesType.toStorageList,
+                  itemAsString: (Storage storage) => storage.displayTitle(context),
+                  selectedItem: item.storagePlace,
+                  onChanged: (Storage? storage) {
+                    setState(() {
+                      item.storage = storage!.index;
+                    });
+                  }),
+            ),
+            Container(
+              padding: EdgeInsets.all(16),
+              margin: EdgeInsets.symmetric(vertical: 4),
+              color: Colors.white,
+              child: TextFormField(
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                  labelText: AppLocalizations.of(context)!.storage_item_details_note,
+                ),
+                initialValue: item.note,
+                onChanged: (note) {
+                  setState(() {
+                    item.note = note;
+                  });
                 },
-                popupProps: PopupProps.modalBottomSheet(
-                  showSelectedItems: true,
-                  title: ListTile(title: Text(AppLocalizations.of(context)!.storage_item_storage_place)),
-                ),
-                dropdownDecoratorProps: DropDownDecoratorProps(
-                  dropdownSearchDecoration: InputDecoration(labelText: AppLocalizations.of(context)!.storage_item_storage_place),
-                ),
-                items: HouseholdService.getSelectedHousehold(context).availableStoragesType.toStorageList,
-                itemAsString: (Storage storage) => storage.displayTitle(context),
-                selectedItem: item.storagePlace,
-                onChanged: (Storage? storage) {
-                  setState(() {
-                    item.storage = storage!.index;
-                  });
-                }),
-          ),
-          Container(
-            padding: EdgeInsets.all(16),
-            margin: EdgeInsets.symmetric(vertical: 4),
-            color: Colors.white,
-            child: TextFormField(
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                labelText: AppLocalizations.of(context)!.storage_item_details_note,
               ),
-              initialValue: item.note,
-              onChanged: (note) {
-                setState(() {
-                  item.note = note;
-                });
-              },
             ),
-          ),
-          _buildQuantity(context),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 4),
-            color: Colors.white,
-            child: TextFormField(
-              controller: expiryDateInput,
-              decoration:
-                  InputDecoration(icon: Icon(Icons.calendar_today), labelText: AppLocalizations.of(context)!.form_expiry_date_label),
-              readOnly: true,
-              onTap: () async {
-                DateTime? pickedDate = await showDatePicker(
-                    context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2101));
-                if (pickedDate != null) {
-                  setState(() {
-                    item.expiryDate = pickedDate;
-                    expiryDateInput.text = item.expiryDateDisplay;
-                  });
-                }
-              },
+            _buildQuantity(context),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 4),
+              color: Colors.white,
+              child: TextFormField(
+                controller: expiryDateInput,
+                decoration:
+                    InputDecoration(icon: Icon(Icons.calendar_today), labelText: AppLocalizations.of(context)!.form_expiry_date_label),
+                readOnly: true,
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                      context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2101));
+                  if (pickedDate != null) {
+                    setState(() {
+                      item.expiryDate = pickedDate;
+                      expiryDateInput.text = item.expiryDateDisplay;
+                    });
+                  }
+                },
+              ),
             ),
-          ),
-          SizedBox(height: 6),
-          _buildLifeCycle(context, item),
-          SizedBox(height: 10),
-          FilledButton(
-            onPressed: () {
-              StorageService.delete(item.id!, context);
-              Navigator.pop(context);
-            },
-            child: Text(AppLocalizations.of(context)!.storage_item_delete),
-            style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll<Color>(Colors.red),
-              shape: WidgetStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40),
+            SizedBox(height: 6),
+            _buildLifeCycle(context, item),
+            SizedBox(height: 10),
+            FilledButton(
+              onPressed: () {
+                StorageService.delete(item.id!, context);
+                Navigator.pop(context);
+              },
+              child: Text(AppLocalizations.of(context)!.storage_item_delete),
+              style: ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll<Color>(Colors.red),
+                shape: WidgetStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
+                  ),
                 ),
               ),
             ),
-          ),
-        ]),
+          ]),
+        ),
       ),
     );
   }
